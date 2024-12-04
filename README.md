@@ -1,4 +1,4 @@
-# Homeify Mobile App
+# 🏠Homeify Mobile App
 
 **Homeify Mobile** is an intuitive and user-friendly mobile application designed to simplify the process of finding, renting, and posting home listings. Whether you're a renter searching for the perfect place to live or a landlord looking to rent out your property, **Homeify** makes the entire experience seamless and easy.
 
