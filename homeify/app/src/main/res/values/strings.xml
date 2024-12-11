@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Homiefy</string>
+
+    <string-array name="report_reasons">
+        <item>Misinformation</item>
+        <item>Unreasonable price</item>
+        <item>Room is no longer available</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="payment_methods">
+        <item>Credit card</item>
+        <item>E-wallet</item>
+        <item>Bank transfer</item>
+    </string-array>
+
+
 </resources>

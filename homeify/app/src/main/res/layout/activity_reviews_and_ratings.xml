@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReviewsAndRatings">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <!-- Tiêu đề trang -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reviews and Ratings"
+            android:textSize="24sp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"/>
+
+        <!-- Form Đánh Giá -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Star Rating:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Rating Bar để đánh giá sao -->
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.5"
+            android:rating="0"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Nhận Xét -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comment:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/edtReview"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:hint="Write your review"
+            android:inputType="textMultiLine"
+            android:gravity="top|start"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Nút Gửi Đánh Giá -->
+        <Button
+            android:id="@+id/btnSubmitReview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Review"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="List of reviews:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:id="@+id/reviewListContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
