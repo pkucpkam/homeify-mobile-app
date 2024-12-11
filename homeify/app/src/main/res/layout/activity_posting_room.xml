@@ -108,7 +108,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Utilities:"
+                android:text="Amenities:"
                 android:textSize="18sp"
                 android:layout_marginBottom="8dp"/>
             <LinearLayout

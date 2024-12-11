@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaymentIntegration">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Payment System Integration"
+            android:textSize="24sp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select payment method:"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerPaymentMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter payment information:"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/etCardNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Credit card number"
+            android:inputType="text"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/etCardExpiry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Expiration Date (MM/YY)"
+            android:inputType="text"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/etCardCVV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="CVV"
+            android:inputType="textPassword"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/etEWallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email/E-Wallet ID"
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnConfirmPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Payment Confirmation"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="16dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
