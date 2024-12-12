@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".RoomDetails">
+
+    <!-- ScrollView chứa nội dung chính -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/viewPagerRoomImages"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:srcCompat="@drawable/logo_homeify"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Room details:"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/tvRoomDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Area, equipment, etc."
+                android:textSize="18sp"
+                android:layout_margin="16dp"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Utilities:"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@android:color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/imgWifi"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_wifi"
+                    android:contentDescription="Wi-Fi"
+                    android:layout_marginEnd="16dp"/>
+
+                <ImageView
+                    android:id="@+id/imgAC"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_ac"
+                    android:contentDescription="Air conditioner"
+                    android:layout_marginEnd="16dp"/>
+
+                <ImageView
+                    android:id="@+id/imgParking"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_parking"
+                    android:contentDescription="Parking"
+                    android:layout_marginEnd="16dp"/>
+
+                <ImageView
+                    android:id="@+id/imgFridge"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_fridge"
+                    android:contentDescription="Fridge"
+                    android:layout_marginEnd="16dp"/>
+
+                <ImageView
+                    android:id="@+id/imgWashingMachine"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_wm"
+                    android:contentDescription="Washing Machine"
+                    android:layout_marginEnd="16dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Boarding house rules:"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/tvHouseRules"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No smoking, no pets..."
+                android:textSize="18sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rental price and payment information:"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@android:color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tvRentPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rental price: 5,000,000 VND/month"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/tvDeposit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Deposit: 1,000,000 VND"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/tvOtherFees"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Other expenses: Electricity, water according to reality"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnFavorite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Favourite"
+                android:layout_marginStart="250sp"
+                android:layout_marginEnd="10sp"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#F44336"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contact the owner:"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"/>
+
+                <!-- Nút Contact với chủ nhà -->
+                <Button
+                    android:id="@+id/btnContactOwner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contact"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="#009900"
+                    android:layout_marginStart="16dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvContactInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phone number: 0987 654 321\nEmail: owner@example.com"
+                android:textSize="18sp"
+                android:padding="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@android:color/black"/>
+
+            <Button
+                android:id="@+id/btnScheduleVisit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Book a room viewing"
+                android:textAllCaps="true"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/navBar"
+        layout="@layout/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"/>
+
+</LinearLayout>

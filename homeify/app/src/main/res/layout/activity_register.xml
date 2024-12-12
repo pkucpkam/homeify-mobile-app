@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="60dp"> <!-- Giới hạn độ cao cho ScrollView để footer không che mất -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/logo_homeify" />
+
+            <TextView
+                android:id="@+id/tvRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30sp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="Register Account"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Full Name"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edtFullName"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10sp"
+                android:ems="10"
+                android:hint="Enter your full name"
+                android:inputType="textPersonName"
+                android:minHeight="48dp" />
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Phone Number"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edtPhoneNumber"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10sp"
+                android:ems="10"
+                android:hint="Enter your phone number"
+                android:inputType="phone" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Email"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10sp"
+                android:ems="10"
+                android:hint="Enter your email"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                android:id="@+id/tvPassword"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Password"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10sp"
+                android:ems="10"
+                android:hint="Enter your password"
+                android:inputType="textPassword" />
+
+            <TextView
+                android:id="@+id/tvConfirmPassword"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Confirm Password"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edtConfirmPassword"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20sp"
+                android:ems="10"
+                android:hint="Confirm your password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/registerBtn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Register" />
+
+            <LinearLayout
+                android:id="@+id/footerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="If you have an account yet"
+                    android:textAlignment="textStart" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Login Now"
+                    android:textAlignment="textEnd"
+                    android:textColor="#1D5FD1" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

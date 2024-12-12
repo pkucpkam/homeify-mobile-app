@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PostingRoom">
+
+    <ScrollView
+        android:id="@+id/mainScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Post Room Rental Ads"
+                android:textSize="24sp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Room name:"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+            <EditText
+                android:id="@+id/etRoomName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter the room name"
+                android:inputType="text"
+                android:textSize="20sp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rent:"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+            <EditText
+                android:id="@+id/etRentPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:hint="Enter rental price"
+                android:inputType="numberDecimal"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Acreage:"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+            <EditText
+                android:id="@+id/etArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter area"
+                android:textSize="20sp"
+                android:inputType="numberDecimal"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address:"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+            <EditText
+                android:id="@+id/etAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter the address"
+                android:textSize="20sp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Download room photos:"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+            <Button
+                android:id="@+id/btnUploadImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select photo"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:backgroundTint="#CCCCCC"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Amenities:"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <CheckBox
+                    android:id="@+id/cbWifi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wi-Fi"
+                    android:layout_marginEnd="16dp"/>
+
+                <CheckBox
+                    android:id="@+id/cbAC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Air conditioner"
+                    android:layout_marginEnd="16dp"/>
+
+                <CheckBox
+                    android:id="@+id/cbWashingMachine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Washing machine"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Boarding house rules:"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+            <EditText
+                android:id="@+id/etRules"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="Enter rules (No smoking, no pets,...)"
+                android:inputType="textMultiLine"
+                android:layout_marginBottom="16dp"
+                android:gravity="top|start"
+                android:textSize="18sp"
+                android:scrollbars="vertical"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="Select available time:"
+                android:layout_marginBottom="8dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <EditText
+                    android:id="@+id/etStartDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="From date"
+                    android:textSize="18sp"
+                    android:inputType="date"
+                    android:layout_marginEnd="8dp"/>
+
+                <EditText
+                    android:id="@+id/etEndDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Come day"
+                    android:textSize="18sp"
+                    android:inputType="date"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="Contact information:"
+                android:layout_marginBottom="8dp"/>
+            <EditText
+                android:id="@+id/etContactInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter contact information (Phone number, email...)"
+                android:inputType="text"
+                android:textSize="18sp"
+                android:layout_marginBottom="16dp"/>
+
+            <Button
+                android:id="@+id/btnPostListing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Post Listing"
+                android:textSize="20sp"
+                android:textAllCaps="true"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/navBar"
+        layout="@layout/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true" />
+
+</LinearLayout>

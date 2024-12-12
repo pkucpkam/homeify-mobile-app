@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">Homiefy</string>
+
+    <string-array name="report_reasons">
+        <item>Misinformation</item>
+        <item>Unreasonable price</item>
+        <item>Room is no longer available</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="payment_methods">
+        <item>Credit card</item>
+        <item>E-wallet</item>
+        <item>Bank transfer</item>
+    </string-array>
+
+    <string-array name="issue_types">
+        <item>Broken appliance</item>
+        <item>Problem with landlord</item>
+        <item>Maintenance request</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="support_question_prompt">Have a question? Ask us!</string>
+    <string name="chat_with_support">Chat with Support</string>
+    <string name="submit_request">Submit Request</string>
+    <string name="send_message">Send</string>
+
+
 </resources>

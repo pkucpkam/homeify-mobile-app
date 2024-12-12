@@ -1,22 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:background="@drawable/background_homeify"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <!-- ScrollView để cuộn phần nội dung chính -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/textView"
+        <!-- Nội dung chính sẽ cuộn -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login" />
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Phần thông báo/banner ở đầu trang -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="750dp"
+                android:background="@drawable/background_homeify"
+                android:padding="16dp">
+
+                <!-- Logo nằm trên nền ảnh -->
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/logo_homeify" />
+
+                <!-- TextView thông báo nằm trên logo -->
+                <TextView
+                    android:id="@+id/tvBanner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome to the room rental app!"
+                    android:textColor="#1A1A1A"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
+            </FrameLayout>
+
+            <!-- Phần danh sách phòng trọ -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_rooms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Navbar cố định ở dưới cùng -->
+    <include
+        android:id="@+id/navBar"
+        layout="@layout/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</LinearLayout>
