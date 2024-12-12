@@ -21,21 +21,21 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-<!--                <de.hdodenhof.circleimageview.CircleImageView-->
-<!--                    android:id="@+id/profileImage"-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="100dp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:src="@drawable/default_avatar"-->
-<!--                    app:civ_border_color="#FFFFFF"-->
-<!--                    app:civ_border_width="2dp" />-->
+                <!-- Added Back Button -->
+                <ImageButton
+                    android:id="@+id/btnBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_arrow_back"/>
 
                 <TextView
                     android:id="@+id/tvFullName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
                     android:text="Nguyễn Văn A"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
@@ -61,12 +61,75 @@
                     android:textColor="?attr/colorPrimary" />
             </LinearLayout>
 
+            <!-- Rest of the code remains exactly the same -->
             <!-- Menu Options -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
+
+                <!-- Manage Properties Section -->
+                <LinearLayout
+                    android:id="@+id/layoutManageProperties"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="#D7CBCB"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_favorite" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="Favorites list"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_arrow_right" />
+                </LinearLayout>
+
+                <!-- Contract Section -->
+                <LinearLayout
+                    android:id="@+id/layoutContracts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="#D7CBCB"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_contract" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="Contract management"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_arrow_right" />
+                </LinearLayout>
 
                 <!-- Appointments Section -->
                 <LinearLayout
@@ -90,7 +153,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:text="Lịch hẹn"
+                        android:text="Appointment schedule"
                         android:textSize="16sp" />
 
                     <ImageView
@@ -121,7 +184,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:text="Báo cáo sự cố"
+                        android:text="Report a problem"
                         android:textSize="16sp" />
 
                     <ImageView
@@ -152,7 +215,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:text="Liên hệ hỗ trợ"
+                        android:text="Contact support"
                         android:textSize="16sp" />
 
                     <ImageView
@@ -183,7 +246,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:text="Cài đặt"
+                        android:text="Setting"
                         android:textSize="16sp" />
 
                     <ImageView
@@ -200,7 +263,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
                     android:backgroundTint="#FF0000"
-                    android:text="Đăng xuất"
+                    android:text="Logout"
+                    android:layout_marginBottom="10dp"
                     android:textColor="#FFFFFF" />
 
             </LinearLayout>

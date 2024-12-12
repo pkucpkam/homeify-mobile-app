@@ -45,8 +45,8 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:src="@drawable/ic_favorite"
-        android:contentDescription="Favorite"
+        android:src="@drawable/ic_manage_house"
+        android:contentDescription="Manage House"
         android:padding="8dp"
         android:scaleType="centerInside" />
 
