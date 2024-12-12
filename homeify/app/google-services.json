@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "92431922154",
+    "firebase_url": "https://homeify-3380d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "homeify-3380d",
+    "storage_bucket": "homeify-3380d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:92431922154:android:68feb36ba0daeed7a37893",
+        "android_client_info": {
+          "package_name": "com.app.homiefy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzWqz-YASe-93FAcHGSug5jlo4EOFZruc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
