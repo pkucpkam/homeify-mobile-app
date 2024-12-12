@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -22,12 +24,6 @@
             android:name=".ChatDetail"
             android:exported="false" />
         <activity
-            android:name=".DetailChatActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ChatActivity"
-            android:exported="false" />
-        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
@@ -40,7 +36,7 @@
             android:name=".ReportIssue"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ReviewsAndRatings"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -70,7 +66,7 @@
             android:name=".RoomReport"
             android:exported="false" />
         <activity
-            android:name=".ReviewsAndRatings"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".ConfirmInformation"
@@ -94,7 +90,7 @@
             android:name=".PaymentIntegration"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"

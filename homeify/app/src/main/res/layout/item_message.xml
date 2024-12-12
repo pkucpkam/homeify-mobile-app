@@ -6,7 +6,7 @@
 
     <!-- For sender -->
     <TextView
-        android:id="@+id/messageText"
+        android:id="@+id/tvMess1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="48dp"
@@ -18,7 +18,7 @@
 
     <!-- For receiver -->
     <TextView
-        android:id="@+id/messageText"
+        android:id="@+id/tvMess2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"

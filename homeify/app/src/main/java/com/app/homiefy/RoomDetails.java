@@ -1,8 +1,10 @@
 package com.app.homiefy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +13,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class RoomDetails extends AppCompatActivity {
+
+    private TextView tvRoomId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +27,21 @@ public class RoomDetails extends AppCompatActivity {
             return insets;
         });
 
+        String roomId = getIntent().getStringExtra("ROOM_ID");
+
+//        // Hiển thị ID phòng (nếu bạn muốn)
+//        tvRoomId = findViewById(R.id.tvRoomId); // Giả sử bạn có TextView này trong layout
+//        if (roomId != null) {
+//            tvRoomId.setText("Room ID: " + roomId);
+//        }
+
+
         setupMenuListeners();
+    }
+    public static Intent createIntent(Context context, String roomId) {
+        Intent intent = new Intent(context, RoomDetails.class);
+        intent.putExtra("ROOM_ID", roomId);
+        return intent;
     }
 
     private void setupMenuListeners() {
