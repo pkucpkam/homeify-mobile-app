@@ -1,8 +1,10 @@
 package com.app.homiefy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,7 @@ public class SearchRoom extends AppCompatActivity {
             return insets;
         });
 
+        setupMenuListeners();
         setupBackButton();
     }
 
@@ -34,6 +37,32 @@ public class SearchRoom extends AppCompatActivity {
             public void onClick(View v) {
                 finish();
             }
+        });
+    }
+
+    private void setupMenuListeners() {
+        ImageView ivChat = findViewById(R.id.ivChat);
+        ivChat.setOnClickListener(v -> {
+            Intent intent = new Intent(SearchRoom.this, OnlineSupport.class);
+            startActivity(intent);
+        });
+
+        ImageView ivNotification = findViewById(R.id.ivNotification);
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(SearchRoom.this, NotificationSettings.class);
+            startActivity(intent);
+        });
+
+        ImageView ivFavorite = findViewById(R.id.ivFavorite);
+        ivFavorite.setOnClickListener(v -> {
+            Intent intent = new Intent(SearchRoom.this, FavoriteRooms.class);
+            startActivity(intent);
+        });
+
+        ImageView ivProfile = findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(SearchRoom.this, ProfileActivity.class);
+            startActivity(intent);
         });
     }
 }

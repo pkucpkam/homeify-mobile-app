@@ -81,15 +81,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="16sp" />
 
-                <Button
-                    android:id="@+id/btnEditProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="#FFFFFF"
-                    android:text="Edit Profile"
-                    android:textColor="?attr/colorPrimary" />
+
             </LinearLayout>
 
             <!-- Menu Options Section -->

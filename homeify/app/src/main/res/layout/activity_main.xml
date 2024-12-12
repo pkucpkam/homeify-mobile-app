@@ -136,7 +136,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Navbar cố định ở dưới cùng -->
     <include
         android:id="@+id/navBar"
         layout="@layout/menu_user"

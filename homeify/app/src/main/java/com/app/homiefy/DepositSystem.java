@@ -1,9 +1,11 @@
 package com.app.homiefy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -18,6 +20,8 @@ public class DepositSystem extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deposit_system);
+
+        setupMenuListeners();
 
         Spinner spinnerPaymentMethod = findViewById(R.id.spinnerPaymentMethod);
 
@@ -48,6 +52,32 @@ public class DepositSystem extends AppCompatActivity {
             view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
 
             return insets;
+        });
+    }
+
+    private void setupMenuListeners() {
+        ImageView ivChat = findViewById(R.id.ivChat);
+        ivChat.setOnClickListener(v -> {
+            Intent intent = new Intent(DepositSystem.this, OnlineSupport.class);
+            startActivity(intent);
+        });
+
+        ImageView ivNotification = findViewById(R.id.ivNotification);
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(DepositSystem.this, NotificationSettings.class);
+            startActivity(intent);
+        });
+
+        ImageView ivFavorite = findViewById(R.id.ivFavorite);
+        ivFavorite.setOnClickListener(v -> {
+            Intent intent = new Intent(DepositSystem.this, FavoriteRooms.class);
+            startActivity(intent);
+        });
+
+        ImageView ivProfile = findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(DepositSystem.this, ProfileActivity.class);
+            startActivity(intent);
         });
     }
 }

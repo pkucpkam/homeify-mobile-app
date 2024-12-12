@@ -1,10 +1,12 @@
 package com.app.homiefy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ public class OnlineSupport extends AppCompatActivity {
         setContentView(R.layout.activity_online_support);
 
         setupBackButton();
+        setupMenuListeners();
 
         // Initialize UI elements
         etSupportRequest = findViewById(R.id.etSupportRequest);
@@ -75,6 +78,32 @@ public class OnlineSupport extends AppCompatActivity {
             public void onClick(View v) {
                 finish();
             }
+        });
+    }
+
+    private void setupMenuListeners() {
+        ImageView ivChat = findViewById(R.id.ivChat);
+        ivChat.setOnClickListener(v -> {
+            Intent intent = new Intent(OnlineSupport.this, OnlineSupport.class);
+            startActivity(intent);
+        });
+
+        ImageView ivNotification = findViewById(R.id.ivNotification);
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(OnlineSupport.this, NotificationSettings.class);
+            startActivity(intent);
+        });
+
+        ImageView ivFavorite = findViewById(R.id.ivFavorite);
+        ivFavorite.setOnClickListener(v -> {
+            Intent intent = new Intent(OnlineSupport.this, FavoriteRooms.class);
+            startActivity(intent);
+        });
+
+        ImageView ivProfile = findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(OnlineSupport.this, ProfileActivity.class);
+            startActivity(intent);
         });
     }
 }

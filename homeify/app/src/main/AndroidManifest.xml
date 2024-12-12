@@ -25,8 +25,14 @@
             android:name=".ReportIssue"
             android:exported="false" />
         <activity
-            android:name=".PaymentIntegration"
-            android:exported="false" />
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ContractDetailsActivity"
             android:exported="false" />
@@ -43,14 +49,8 @@
             android:name=".FavoriteRooms"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".DepositSystem"
+            android:exported="false"></activity>
         <activity
             android:name=".RoomReport"
             android:exported="false" />
@@ -76,7 +76,7 @@
             android:name=".PostingRoom"
             android:exported="false" />
         <activity
-            android:name=".DepositSystem"
+            android:name=".PaymentIntegration"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

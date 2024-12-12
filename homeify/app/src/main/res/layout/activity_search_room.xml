@@ -209,7 +209,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Search Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSearch"
                 android:layout_width="match_parent"

@@ -1,6 +1,8 @@
 package com.app.homiefy;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +28,8 @@ public class AreaInformation extends AppCompatActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_area_information);
+
+        setupMenuListeners();
 
         amenitiesList = findViewById(R.id.amenitiesList);
 
@@ -64,5 +68,31 @@ public class AreaInformation extends AppCompatActivity implements OnMapReadyCall
         mMap.addMarker(new MarkerOptions().position(supermarketLocation).title("Nearby Supermarket"));
 
         // You can add more markers for other amenities similarly
+    }
+
+    private void setupMenuListeners() {
+        ImageView ivChat = findViewById(R.id.ivChat);
+        ivChat.setOnClickListener(v -> {
+            Intent intent = new Intent(AreaInformation.this, OnlineSupport.class);
+            startActivity(intent);
+        });
+
+        ImageView ivNotification = findViewById(R.id.ivNotification);
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(AreaInformation.this, NotificationSettings.class);
+            startActivity(intent);
+        });
+
+        ImageView ivFavorite = findViewById(R.id.ivFavorite);
+        ivFavorite.setOnClickListener(v -> {
+            Intent intent = new Intent(AreaInformation.this, FavoriteRooms.class);
+            startActivity(intent);
+        });
+
+        ImageView ivProfile = findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(AreaInformation.this, ProfileActivity.class);
+            startActivity(intent);
+        });
     }
 }

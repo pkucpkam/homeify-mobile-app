@@ -3,6 +3,7 @@ package com.app.homiefy;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,32 @@ public class ContractDetailsActivity extends AppCompatActivity {
 
         btnDownloadContract.setOnClickListener(v -> {
             Toast.makeText(this, "Download PDF Contract", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void setupMenuListeners() {
+        ImageView ivChat = findViewById(R.id.ivChat);
+        ivChat.setOnClickListener(v -> {
+            Intent intent = new Intent(ContractDetailsActivity.this, OnlineSupport.class);
+            startActivity(intent);
+        });
+
+        ImageView ivNotification = findViewById(R.id.ivNotification);
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(ContractDetailsActivity.this, NotificationSettings.class);
+            startActivity(intent);
+        });
+
+        ImageView ivFavorite = findViewById(R.id.ivFavorite);
+        ivFavorite.setOnClickListener(v -> {
+            Intent intent = new Intent(ContractDetailsActivity.this, FavoriteRooms.class);
+            startActivity(intent);
+        });
+
+        ImageView ivProfile = findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(ContractDetailsActivity.this, ProfileActivity.class);
+            startActivity(intent);
         });
     }
 }
