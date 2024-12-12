@@ -216,7 +216,7 @@
 
     <include
         android:id="@+id/navBar"
-        layout="@layout/navbar"
+        layout="@layout/menu_user"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true" />

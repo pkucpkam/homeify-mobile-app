@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Header Profile Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+<!--                <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                    android:id="@+id/profileImage"-->
+<!--                    android:layout_width="100dp"-->
+<!--                    android:layout_height="100dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:src="@drawable/default_avatar"-->
+<!--                    app:civ_border_color="#FFFFFF"-->
+<!--                    app:civ_border_width="2dp" />-->
+
+                <TextView
+                    android:id="@+id/tvFullName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="Nguyễn Văn A"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="example@email.com"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnEditProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:text="Edit Profile"
+                    android:textColor="?attr/colorPrimary" />
+            </LinearLayout>
+
+            <!-- Menu Options -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Appointments Section -->
+                <LinearLayout
+                    android:id="@+id/layoutAppointments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="#D7CBCB"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_calendar" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="Lịch hẹn"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_arrow_right" />
+                </LinearLayout>
+
+                <!-- Report Issues Section -->
+                <LinearLayout
+                    android:id="@+id/layoutReportIssue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="#D7CBCB"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_warning" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="Báo cáo sự cố"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_arrow_right" />
+                </LinearLayout>
+
+                <!-- Support Section -->
+                <LinearLayout
+                    android:id="@+id/layoutSupport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="#D7CBCB"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_support" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="Liên hệ hỗ trợ"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_arrow_right" />
+                </LinearLayout>
+
+                <!-- Settings Section -->
+                <LinearLayout
+                    android:id="@+id/layoutSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="#D7CBCB"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_settings" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="Cài đặt"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_arrow_right" />
+                </LinearLayout>
+
+                <!-- Logout Button -->
+                <Button
+                    android:id="@+id/btnLogout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="#FF0000"
+                    android:text="Đăng xuất"
+                    android:textColor="#FFFFFF" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/navBar"
+        layout="@layout/menu_user"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

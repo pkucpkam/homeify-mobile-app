@@ -8,52 +8,87 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!-- ScrollView để cuộn phần nội dung chính -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <!-- Nội dung chính sẽ cuộn -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-            <!-- Phần thông báo/banner ở đầu trang -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="750dp"
-                android:background="@drawable/background_homeify"
-                android:padding="16dp">
+            <!-- Mô tả chức năng ứng dụng -->
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="140dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/logo_homeify" />
 
-                <!-- Logo nằm trên nền ảnh -->
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:src="@drawable/logo_homeify" />
-
-                <!-- TextView thông báo nằm trên logo -->
-                <TextView
-                    android:id="@+id/tvBanner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Welcome to the room rental app!"
-                    android:textColor="#1A1A1A"
-                    android:textStyle="bold"
-                    android:textSize="24sp"
-                    android:gravity="center"
-                    android:layout_gravity="center" />
-            </FrameLayout>
-
-            <!-- Phần danh sách phòng trọ -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_rooms"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"/>
+                android:layout_margin="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chào mừng đến với Homeify!"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="• Tìm kiếm nhà thuê phù hợp với nhu cầu của bạn\n• Xem thông tin chi tiết và hình ảnh về từng căn nhà\n• Liên hệ trực tiếp với chủ nhà\n• Lưu lại những căn nhà yêu thích\n• Nhận thông báo về nhà mới phù hợp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- Nhà nổi bật -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="Nhà nổi bật"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFeatured"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <!-- Nhà đã quan tâm -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="Nhà đã quan tâm"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFavorites"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </LinearLayout>
     </ScrollView>
@@ -61,11 +96,8 @@
     <!-- Navbar cố định ở dưới cùng -->
     <include
         android:id="@+id/navBar"
-        layout="@layout/navbar"
+        layout="@layout/menu_user"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_height="56dp" />
 
 </LinearLayout>

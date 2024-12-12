@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Homiefy"
         tools:targetApi="31">
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".AreaInformation"
             android:exported="false" />
         <activity
@@ -40,7 +43,7 @@
             android:name=".FavoriteRooms"
             android:exported="false" />
         <activity
-            android:name=".DepositSystem"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -73,7 +76,7 @@
             android:name=".PostingRoom"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".DepositSystem"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
