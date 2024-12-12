@@ -1,8 +1,10 @@
 package com.app.homiefy;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,8 @@ public class OnlineSupport extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_online_support);
+
+        setupBackButton();
 
         // Initialize UI elements
         etSupportRequest = findViewById(R.id.etSupportRequest);
@@ -60,6 +64,16 @@ public class OnlineSupport extends AppCompatActivity {
 
                 // Simulate a response from support (can be replaced with backend interaction)
                 tvChatMessages.append("\nSupport: Thank you for your message. How can I assist you?");
+            }
+        });
+    }
+
+    private void setupBackButton() {
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

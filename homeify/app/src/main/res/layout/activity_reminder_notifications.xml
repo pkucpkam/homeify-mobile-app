@@ -90,4 +90,10 @@
 
     </ScrollView>
 
+    <include
+        android:id="@+id/navBar"
+        layout="@layout/menu_user"
+        android:layout_width="match_parent"
+        android:layout_height="56dp" />
+
 </LinearLayout>

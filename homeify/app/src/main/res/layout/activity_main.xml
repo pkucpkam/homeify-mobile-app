@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Mô tả chức năng ứng dụng -->
             <ImageView
                 android:id="@+id/ivLogo"
                 android:layout_width="140dp"
@@ -45,7 +44,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Chào mừng đến với Homeify!"
+                        android:text="Welcome to Homeify!"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -53,11 +52,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="• Tìm kiếm nhà thuê phù hợp với nhu cầu của bạn\n• Xem thông tin chi tiết và hình ảnh về từng căn nhà\n• Liên hệ trực tiếp với chủ nhà\n• Lưu lại những căn nhà yêu thích\n• Nhận thông báo về nhà mới phù hợp" />
+                        android:text="• Find a rental home that fits your needs\n• View detailed information and photos of each home\n• Contact the owner directly\n• Save your favorite homes\n• Get notified about new homes that fit your needs" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Section tìm kiếm -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,7 +73,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bạn đang tìm nhà?"
+                        android:text="Looking for a home?"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -83,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Tìm kiếm căn nhà phù hợp với nhu cầu của bạn" />
+                        android:text="Find the home that fits your needs" />
 
                     <Button
                         android:id="@+id/btnGoToSearch"
@@ -92,23 +90,24 @@
                         android:layout_marginTop="8dp"
                         android:drawableEnd="@drawable/ic_search"
                         android:drawablePadding="8dp"
-                        android:text="Tìm kiếm ngay"
+                        android:text="Search now"
                         android:textColor="#070707" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Nhà nổi bật -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Nhà nổi bật"
+                android:text="Featured House"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvFeatured"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -120,7 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Nhà đã quan tâm"
+                android:text="The house has been interested"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -130,6 +129,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </LinearLayout>

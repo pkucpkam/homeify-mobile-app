@@ -29,16 +29,13 @@ public class AreaInformation extends AppCompatActivity implements OnMapReadyCall
 
         amenitiesList = findViewById(R.id.amenitiesList);
 
-        // Initialize map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapContainer);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
 
-        // List of nearby amenities
         String[] amenities = {"Hospital", "Supermarket", "School", "Public Transport", "Park"};
 
-        // Display each amenity in the layout
         for (String amenity : amenities) {
             TextView amenityTextView = new TextView(this);
             amenityTextView.setText(amenity);
