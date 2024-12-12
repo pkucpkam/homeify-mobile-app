@@ -8,11 +8,38 @@
     android:orientation="vertical"
     tools:context=".SearchRoom">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Search"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
     <ScrollView
         android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+
         >
 
         <LinearLayout
@@ -20,18 +47,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
-
-            <!-- Tiêu đề -->
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Search Room"
-                android:textSize="24sp"
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp"
-                android:gravity="center"/>
 
             <!-- Trường nhập tìm kiếm và biểu tượng kính lúp -->
             <LinearLayout
@@ -177,20 +192,32 @@
                 android:text="Other requirements:"
                 android:textSize="18sp"
                 android:layout_marginBottom="8dp"/>
-            <EditText
-                android:id="@+id/etOtherRequirements"
+            <!-- Other Requirements -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:hint="For example: Pets allowed, close to schools, etc."
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:hint="Other requirements"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <Button
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOtherRequirements"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Search Button -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Filter and Search" />
+                android:text="Search"
+                android:textSize="16sp"
+                app:cornerRadius="8dp"
+                android:padding="12dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewRooms"
