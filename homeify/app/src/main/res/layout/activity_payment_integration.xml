@@ -1,92 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".PaymentIntegration">
 
-    <LinearLayout
+    <!-- AppBarLayout chứa Toolbar -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="wrap_content">
 
-        <TextView
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp">
+
+            <!-- Button quay lại -->
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/white" />
+
+            <!-- Tiêu đề của Toolbar -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Payment System Integration"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-medium" />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- ScrollView để chứa nội dung thanh toán -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Payment System Integration"
-            android:textSize="24sp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="16dp"/>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Select payment method:"
-            android:textSize="20sp"
-            android:layout_marginBottom="8dp"/>
+            <!-- Hướng dẫn chọn phương thức thanh toán -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select payment method:"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"/>
 
-        <Spinner
-            android:id="@+id/spinnerPaymentMethod"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+            <!-- Spinner để chọn phương thức thanh toán -->
+            <Spinner
+                android:id="@+id/spinnerPaymentMethod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enter payment information:"
-            android:textSize="20sp"
-            android:layout_marginBottom="8dp"/>
+            <!-- Hướng dẫn nhập thông tin thanh toán -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter payment information:"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"/>
 
-        <EditText
-            android:id="@+id/etCardNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Credit card number"
-            android:inputType="text"
-            android:layout_marginBottom="16dp"/>
+            <!-- Nhập số thẻ tín dụng -->
+            <EditText
+                android:id="@+id/etCardNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Credit card number"
+                android:inputType="text"
+                android:layout_marginBottom="16dp"/>
 
-        <EditText
-            android:id="@+id/etCardExpiry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Expiration Date (MM/YY)"
-            android:inputType="text"
-            android:layout_marginBottom="16dp"/>
+            <!-- Nhập ngày hết hạn thẻ -->
+            <EditText
+                android:id="@+id/etCardExpiry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Expiration Date (MM/YY)"
+                android:inputType="text"
+                android:layout_marginBottom="16dp"/>
 
-        <EditText
-            android:id="@+id/etCardCVV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="CVV"
-            android:inputType="textPassword"
-            android:layout_marginBottom="16dp"/>
+            <!-- Nhập mã CVV -->
+            <EditText
+                android:id="@+id/etCardCVV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="CVV"
+                android:inputType="textPassword"
+                android:layout_marginBottom="16dp"/>
 
-        <EditText
-            android:id="@+id/etEWallet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email/E-Wallet ID"
-            android:inputType="textEmailAddress"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone"/>
+            <!-- Nhập email hoặc ID ví điện tử (ẩn khi không cần) -->
+            <EditText
+                android:id="@+id/etEWallet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email/E-Wallet ID"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/btnConfirmPayment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Payment Confirmation"
-            android:textAllCaps="true"
-            android:textSize="20sp"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="16dp"/>
+            <!-- Nút xác nhận thanh toán -->
+            <Button
+                android:id="@+id/btnConfirmPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Payment Confirmation"
+                android:textAllCaps="true"
+                android:textSize="20sp"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="16dp"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
-</ScrollView>
+    </ScrollView>
+
+</LinearLayout>

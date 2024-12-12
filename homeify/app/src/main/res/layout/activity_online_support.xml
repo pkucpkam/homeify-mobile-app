@@ -1,104 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".OnlineSupport">
 
-    <LinearLayout
+    <!-- AppBarLayout chứa Toolbar -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="wrap_content">
 
-        <TextView
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Online Support"
-            android:textSize="24sp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="16dp"/>
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Have a question? Ask us!"
-            android:textSize="20sp"
-            android:layout_marginBottom="8dp"/>
+            <!-- Button quay lại -->
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/white" />
 
-        <!-- Form for Support Requests -->
-        <EditText
-            android:id="@+id/etSupportRequest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Type your question or support request"
-            android:inputType="textMultiLine"
-            android:layout_marginBottom="16dp"
-            android:minHeight="120dp"/>
+            <!-- Tiêu đề của Toolbar -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Online Support"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-medium" />
+        </androidx.appcompat.widget.Toolbar>
 
-        <Button
-            android:id="@+id/btnSubmitRequest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Submit Request"
-            android:textAllCaps="true"
-            android:textSize="20sp"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="16dp"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <!-- Chat Support Section -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Chat with Support"
-            android:textSize="20sp"
-            android:layout_marginBottom="8dp"/>
+    <!-- ScrollView chứa nội dung hỗ trợ trực tuyến -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
-            android:id="@+id/llChat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:background="@drawable/chat_box_bg"
-            android:layout_marginBottom="16dp">
+            android:padding="16dp">
 
-            <!-- Placeholder for Chat messages -->
             <TextView
-                android:id="@+id/tvChatMessages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Start chatting with support!"
-                android:textSize="18sp"
-                android:textColor="@android:color/darker_gray"
+                android:text="Have a question? Ask us!"
+                android:textSize="20sp"
                 android:layout_marginBottom="8dp"/>
 
-            <!-- User's message input -->
             <EditText
-                android:id="@+id/etChatMessage"
+                android:id="@+id/etSupportRequest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Type a message..."
-                android:inputType="text"
-                android:layout_marginBottom="8dp"/>
+                android:hint="Type your question or support request"
+                android:inputType="textMultiLine"
+                android:layout_marginBottom="16dp"
+                android:minHeight="120dp"/>
 
             <Button
-                android:id="@+id/btnSendMessage"
+                android:id="@+id/btnSubmitRequest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Send"
+                android:text="Submit Request"
                 android:textAllCaps="true"
                 android:textSize="20sp"
                 android:backgroundTint="@color/colorPrimary"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chat with Support"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:id="@+id/llChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/chat_box_bg"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/tvChatMessages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Start chatting with support!"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_marginBottom="8dp"/>
+
+                <EditText
+                    android:id="@+id/etChatMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Type a message..."
+                    android:inputType="text"
+                    android:layout_marginBottom="8dp"/>
+
+                <Button
+                    android:id="@+id/btnSendMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Send"
+                    android:textAllCaps="true"
+                    android:textSize="20sp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:textColor="@android:color/white"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+</LinearLayout>

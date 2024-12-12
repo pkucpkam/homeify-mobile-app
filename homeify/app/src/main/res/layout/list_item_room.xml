@@ -11,7 +11,7 @@
         android:id="@+id/tvRoomName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:text="Room Name"
         android:textStyle="bold"
         android:layout_marginBottom="8dp"/>
@@ -20,7 +20,7 @@
         android:id="@+id/tvRoomPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:text="Room Price"
         android:layout_marginBottom="4dp"/>
 
@@ -28,7 +28,7 @@
         android:id="@+id/tvRoomAmenities"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="18sp"
         android:text="Amenities"
         android:layout_marginBottom="4dp"/>
 
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Location"
-        android:textSize="14sp"
+        android:textSize="18sp"
         android:layout_marginBottom="4dp"/>
 
     <TextView
