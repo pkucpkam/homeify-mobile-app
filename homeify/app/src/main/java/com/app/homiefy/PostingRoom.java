@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat;
 import com.app.homiefy.room.Room;
 import com.app.homiefy.utils.SessionManager;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -26,7 +28,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -36,7 +40,9 @@ public class PostingRoom extends AppCompatActivity {
     private static final int STORAGE_PERMISSION_CODE = 2;
 
     private TextInputEditText etRoomName, etRentPrice, etArea, etAddress, etRules, etStartDate, etEndDate, etContactInfo;
+    private TextInputEditText etDeposit, etOtherFees, etDescription;
     private MaterialButton btnUploadImages, btnPostListing;
+    private ChipGroup chipGroupAmenities;
 
     private Uri imageUri;
     private StorageReference storageRef;
@@ -64,6 +70,10 @@ public class PostingRoom extends AppCompatActivity {
         etStartDate = findViewById(R.id.etStartDate);
         etEndDate = findViewById(R.id.etEndDate);
         etContactInfo = findViewById(R.id.etContactInfo);
+        etDeposit = findViewById(R.id.etDeposit);
+        etOtherFees = findViewById(R.id.etOtherFees);
+        etDescription = findViewById(R.id.etDescription);
+        chipGroupAmenities = findViewById(R.id.chipGroupAmenities);
         btnUploadImages = findViewById(R.id.btnUploadImages);
         btnPostListing = findViewById(R.id.btnPostListing);
 
@@ -108,6 +118,17 @@ public class PostingRoom extends AppCompatActivity {
         }
     }
 
+    private List<String> getSelectedAmenities() {
+        List<String> selectedAmenities = new ArrayList<>();
+        for (int i = 0; i < chipGroupAmenities.getChildCount(); i++) {
+            Chip chip = (Chip) chipGroupAmenities.getChildAt(i);
+            if (chip.isChecked()) {
+                selectedAmenities.add(chip.getText().toString());
+            }
+        }
+        return selectedAmenities;
+    }
+
     private void postRoom() {
         String userId = sessionManager.getUserId();
         if (userId == null) {
@@ -123,8 +144,13 @@ public class PostingRoom extends AppCompatActivity {
         String startDate = etStartDate.getText().toString().trim();
         String endDate = etEndDate.getText().toString().trim();
         String contactInfo = etContactInfo.getText().toString().trim();
+        String deposit = etDeposit.getText().toString().trim();
+        String otherFees = etOtherFees.getText().toString().trim();
+        String description = etDescription.getText().toString().trim();
+        List<String> amenities = getSelectedAmenities();
 
-        if (roomName.isEmpty() || rentPrice.isEmpty() || area.isEmpty() || address.isEmpty() || contactInfo.isEmpty() || imageUri == null) {
+        if (roomName.isEmpty() || rentPrice.isEmpty() || area.isEmpty() || address.isEmpty() || contactInfo.isEmpty() ||
+                deposit.isEmpty() || otherFees.isEmpty() || description.isEmpty() || imageUri == null || amenities.isEmpty()) {
             Toast.makeText(this, "Please fill all fields and upload an image", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -151,6 +177,10 @@ public class PostingRoom extends AppCompatActivity {
                 roomData.put("startDate", startDate);
                 roomData.put("endDate", endDate);
                 roomData.put("contactInfo", contactInfo);
+                roomData.put("deposit", deposit);
+                roomData.put("otherFees", otherFees);
+                roomData.put("description", description);
+                roomData.put("amenities", amenities); // Add amenities here
                 roomData.put("imageUrl", imageUrl);
                 roomData.put("createdAt", System.currentTimeMillis());
 

@@ -1,47 +1,173 @@
 package com.app.homiefy;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.app.homiefy.room.Room;
+import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.List;
+import java.util.Locale;
 
 public class RoomDetails extends AppCompatActivity {
 
-    private TextView tvRoomId;
+    private TextView tvRentPrice, tvRoomDescription, tvHouseRules,
+            tvDeposit, tvOtherFees, tvContactInfo, tvArea, tvAddress;
+    private ImageView ivRoomImage;
+    private MaterialButton btnMessage, btnScheduleVisit;
+    private ChipGroup chipGroupAmenities;
+
+    private FirebaseFirestore db;
+    private String roomId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_room_details);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        // Initialize Firestore
+        db = FirebaseFirestore.getInstance("homeify");
+
+        // Initialize UI components
+        initializeUI();
+
+        // Get roomId from intent
+        roomId = getIntent().getStringExtra("roomId");
+
+        if (roomId == null || roomId.isEmpty()) {
+            Toast.makeText(this, "Room ID not provided!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        fetchRoomDetails();
+        setupBackButton();
+    }
+
+    private void initializeUI() {
+        tvRentPrice = findViewById(R.id.tvRentPrice);
+        tvRoomDescription = findViewById(R.id.tvRoomDescription);
+        tvHouseRules = findViewById(R.id.tvHouseRules);
+        tvDeposit = findViewById(R.id.tvDeposit);
+        tvOtherFees = findViewById(R.id.tvOtherFees);
+        tvContactInfo = findViewById(R.id.tvContactInfo);
+        tvArea = findViewById(R.id.tvArea);
+        tvAddress = findViewById(R.id.tvAddress); // Address TextView
+        ivRoomImage = findViewById(R.id.ivRoomImage);
+        chipGroupAmenities = findViewById(R.id.chipGroupAmenities); // For amenities
+
+        btnMessage = findViewById(R.id.btnMessage);
+        btnScheduleVisit = findViewById(R.id.btnScheduleVisit);
+
+        btnMessage.setOnClickListener(v -> {
+            Toast.makeText(this, "Messaging feature is not implemented yet!",
+                    Toast.LENGTH_SHORT).show();
         });
 
-        String roomId = getIntent().getStringExtra("ROOM_ID");
-
-//        // Hiển thị ID phòng (nếu bạn muốn)
-//        tvRoomId = findViewById(R.id.tvRoomId); // Giả sử bạn có TextView này trong layout
-//        if (roomId != null) {
-//            tvRoomId.setText("Room ID: " + roomId);
-//        }
-
-
-        setupMenuListeners();
+        btnScheduleVisit.setOnClickListener(v -> {
+            Toast.makeText(this, "Schedule visit feature is not implemented yet!",
+                    Toast.LENGTH_SHORT).show();
+        });
     }
-    public static Intent createIntent(Context context, String roomId) {
-        Intent intent = new Intent(context, RoomDetails.class);
-        intent.putExtra("ROOM_ID", roomId);
-        return intent;
+
+    private void fetchRoomDetails() {
+        db.collection("rooms").document(roomId).get().
+                addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Room room = documentSnapshot.toObject(Room.class);
+
+                        if (room != null) {
+                            tvRentPrice.setText(formatCurrency(room.getRentPrice()) + "/month");
+                            tvRoomDescription.setText(room.getDescription() != null ?
+                                    room.getDescription() : "No description available");
+                            tvHouseRules.setText(room.getRules() != null ?
+                                    room.getRules() : "No rules specified");
+                            tvDeposit.setText("Deposit: " + formatCurrency(room.getDeposit()));
+                            tvOtherFees.setText("Other expenses: " + (room.getOtherFees() != null ?
+                                    room.getOtherFees() : "Not specified"));
+                            tvContactInfo.setText("Contact: " + room.getContactInfo());
+                            tvArea.setText(room.getArea() != null ? room.getArea() + " m²" : "Area not specified");
+                            tvAddress.setText(room.getAddress() != null ? room.getAddress() : "Address not specified");
+
+                            if (room.getImageUrl() != null && !room.getImageUrl().isEmpty()) {
+                                Glide.with(this)
+                                        .load(room.getImageUrl())
+                                        .placeholder(R.drawable.placeholder_image)
+                                        .into(ivRoomImage);
+                            }
+
+                            // Update ChipGroup for amenities
+                            updateAmenities(room.getAmenities());
+                        }
+                    } else {
+                        Toast.makeText(this, "Room not found!", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(e -> Toast.makeText(this,
+                        "Failed to fetch room details: " + e.getMessage(),
+                        Toast.LENGTH_SHORT).show());
+    }
+
+    private void updateAmenities(List<String> amenities) {
+        // Clear all existing chips
+        chipGroupAmenities.removeAllViews();
+
+        if (amenities == null || amenities.isEmpty()) {
+            Toast.makeText(this, "No amenities found!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Dynamically create chips for amenities from the database
+        for (String amenity : amenities) {
+            Chip chip = new Chip(this);
+            chip.setText(amenity);
+            chip.setCheckable(false); // Optional: Make chips non-checkable for display purposes
+            chip.setChipBackgroundColorResource(R.color.chip_background); // Customize as needed
+            chip.setTextColor(getResources().getColor(R.color.black)); // Customize as needed
+            chip.setChipIconResource(getAmenityIcon(amenity)); // Set icon dynamically if applicable
+            chip.setIconStartPadding(8f);
+            chipGroupAmenities.addView(chip);
+        }
+    }
+
+    private int getAmenityIcon(String amenity) {
+        switch (amenity.toLowerCase()) {
+            case "wi-fi":
+                return R.drawable.ic_wifi;
+            case "air conditioner":
+                return R.drawable.ic_ac;
+            case "parking":
+                return R.drawable.ic_parking;
+            case "fridge":
+                return R.drawable.ic_fridge;
+            case "washing machine":
+                return R.drawable.ic_wm;
+            default:
+                return R.drawable.ic_placeholder; // Default icon for unknown amenities
+        }
+    }
+
+    private String formatCurrency(String price) {
+        try {
+            double priceValue = Double.parseDouble(price);
+            return String.format(Locale.US, "%,.0f VND", priceValue);
+        } catch (NumberFormatException e) {
+            return price + " VND";
+        }
+    }
+
+    private void setupBackButton() {
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
     }
 
     private void setupMenuListeners() {

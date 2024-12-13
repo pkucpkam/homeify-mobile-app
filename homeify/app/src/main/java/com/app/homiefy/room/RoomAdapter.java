@@ -1,15 +1,20 @@
 package com.app.homiefy.room;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.homiefy.PostingRoom;
 import com.app.homiefy.R;
+import com.app.homiefy.RoomDetails;
 import com.bumptech.glide.Glide;
 
 import java.text.NumberFormat;
@@ -62,9 +67,19 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
                     .placeholder(R.drawable.placeholder_image)
                     .into(holder.ivRoomImage);
         }
+
+        // Handle View Details button click
+        holder.btnViewDetails.setOnClickListener(v -> {
+            if (room.getId() != null) {
+                Intent intent = new Intent(v.getContext(), RoomDetails.class);
+                intent.putExtra("roomId", room.getId());
+                v.getContext().startActivity(intent);
+            } else {
+                Toast.makeText(v.getContext(), "Room ID is missing!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -74,6 +89,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
     static class RoomViewHolder extends RecyclerView.ViewHolder {
         ImageView ivRoomImage;
         TextView tvRoomName, tvRoomPrice, tvRoomArea, tvRoomAddress;
+        Button btnViewDetails; // Button for viewing room details
 
         public RoomViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +98,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
             tvRoomPrice = itemView.findViewById(R.id.tvRoomPrice);
             tvRoomArea = itemView.findViewById(R.id.tvRoomArea);
             tvRoomAddress = itemView.findViewById(R.id.tvRoomAddress);
+            btnViewDetails = itemView.findViewById(R.id.btnViewDetails); // Initialize button
         }
     }
 }

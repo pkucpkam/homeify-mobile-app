@@ -56,19 +56,14 @@
             android:orientation="vertical">
 
             <!-- ViewPager cho hình ảnh phòng -->
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPagerRoomImages"
+            <ImageView
+                android:id="@+id/ivRoomImage"
                 android:layout_width="match_parent"
-                android:layout_height="250dp" />
-
-<!--            &lt;!&ndash; Indicator cho ViewPager &ndash;&gt;-->
-<!--            <com.google.android.material.tabs.TabLayout-->
-<!--                android:id="@+id/tabLayoutIndicator"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:tabBackground="@drawable/tab_selector"-->
-<!--                app:tabGravity="center"-->
-<!--                app:tabIndicatorHeight="0dp" />-->
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Room Image"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/placeholder_image" />
 
             <!-- Giá phòng -->
             <TextView
@@ -98,11 +93,12 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Utilities"
+                        android:text="Amenities"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupAmenities"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp">
@@ -158,6 +154,68 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="Address"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Address"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Area"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Area"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="Room Details"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -167,7 +225,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Area, equipment, etc."
+                        android:text="Equipment, etc."
                         android:textSize="16sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -293,7 +351,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Nút đặt lịch xem phòng -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnScheduleVisit"
                 android:layout_width="match_parent"

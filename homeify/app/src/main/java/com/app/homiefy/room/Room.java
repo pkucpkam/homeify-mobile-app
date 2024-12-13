@@ -7,6 +7,8 @@ public class Room {
     private String userId;
     private String roomName;
     private String rentPrice;
+    private String deposit;
+    private String otherFees;
     private String area;
     private String address;
     private String rules;
@@ -15,11 +17,7 @@ public class Room {
     private String contactInfo;
     private String imageUrl;
     private long createdAt;
-
-    // Mô tả chi tiết phòng
     private String description;
-
-    // Danh sách tiện ích
     private List<String> amenities;
 
     public Room() {}
@@ -39,6 +37,12 @@ public class Room {
 
     public String getArea() { return area; }
     public void setArea(String area) { this.area = area; }
+
+    public String getDeposit() { return deposit; }
+    public void setDeposit(String deposit) { this.deposit = deposit; }
+
+    public String getOtherFees() { return otherFees; }
+    public void setOtherFees(String otherFees) { this.otherFees = otherFees; }
 
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
