@@ -1,5 +1,7 @@
 package com.app.homiefy.room;
 
+import java.util.List;
+
 public class Room {
     private String id;
     private String userId;
@@ -14,8 +16,15 @@ public class Room {
     private String imageUrl;
     private long createdAt;
 
+    // Mô tả chi tiết phòng
+    private String description;
+
+    // Danh sách tiện ích
+    private List<String> amenities;
+
     public Room() {}
 
+    // Getters và Setters hiện tại
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -51,4 +60,11 @@ public class Room {
 
     public long getCreatedAt() { return createdAt; }
     public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
+
+    // Getters và Setters mới thêm
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public List<String> getAmenities() { return amenities; }
+    public void setAmenities(List<String> amenities) { this.amenities = amenities; }
 }

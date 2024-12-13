@@ -48,6 +48,13 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location:"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"/>
+
             <!-- Trường nhập tìm kiếm và biểu tượng kính lúp -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -58,7 +65,7 @@
 
                 <!-- Trường nhập tìm kiếm -->
                 <EditText
-                    android:id="@+id/etSearch"
+                    android:id="@+id/etLocation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -70,38 +77,15 @@
                     android:padding="10dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/search_edittext_background"/>
-
-                <!-- Nút tìm kiếm (kính lúp) -->
-                <ImageView
-                    android:id="@+id/btnSearchIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_search"
-                    android:contentDescription="Search"
-                    android:padding="8dp"
-                    android:background="@drawable/circular_button_background"/>
             </LinearLayout>
 
-            <!-- Các trường và bộ lọc khác -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Location:"
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp"/>
-            <Spinner
-                android:id="@+id/spinnerLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:text="Price:"
                 android:textSize="20sp"
-                android:layout_marginBottom="16dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Rent:"
-                android:textSize="18sp"
                 android:layout_marginBottom="8dp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,8 +96,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="From"
+                    android:hint="From (VND)"
                     android:textSize="18sp"
+                    android:padding="10dp"
+                    android:background="@drawable/search_edittext_background"
                     android:inputType="numberDecimal"
                     android:layout_marginEnd="8dp"/>
                 <EditText
@@ -121,7 +107,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="To"
+                    android:hint="To (VND)"
+                    android:padding="10dp"
+                    android:background="@drawable/search_edittext_background"
                     android:textSize="18sp"
                     android:inputType="numberDecimal"/>
             </LinearLayout>
@@ -129,8 +117,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Acreage:"
-                android:textSize="18sp"
+                android:text="Area:"
+                android:textSize="20sp"
                 android:layout_marginBottom="8dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -143,6 +131,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="From (m²)"
+                    android:padding="10dp"
+                    android:background="@drawable/search_edittext_background"
                     android:textSize="18sp"
                     android:inputType="numberDecimal"
                     android:layout_marginEnd="8dp"/>
@@ -152,6 +142,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="To (m²)"
+                    android:padding="10dp"
+                    android:background="@drawable/search_edittext_background"
                     android:textSize="18sp"
                     android:inputType="numberDecimal"/>
             </LinearLayout>
@@ -160,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Amenities:"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:layout_marginBottom="8dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -190,7 +182,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Other requirements:"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:layout_marginBottom="8dp"/>
             <!-- Other Requirements -->
             <com.google.android.material.textfield.TextInputLayout

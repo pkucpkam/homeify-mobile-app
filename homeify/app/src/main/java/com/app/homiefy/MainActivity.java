@@ -3,6 +3,7 @@ package com.app.homiefy;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,13 +30,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Setup UI and RecyclerView
-        setupMenuListeners();
-        setupRecyclerViews();
-
         sessionManager = new SessionManager(this);
 
-        // Fetch data from Firestore
+        setupMenuListeners();
+        setupRecyclerViews();
         fetchRoomsFromFirestore();
     }
 
@@ -58,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
     private void fetchRoomsFromFirestore() {
         FirebaseFirestore db = FirebaseFirestore.getInstance("homeify");
 
-        // Lấy phòng nổi bật (ví dụ: 5 phòng mới nhất)
+        // Query to fetch the latest 3 featured rooms
         db.collection("rooms")
-                .orderBy("createdAt", Query.Direction.DESCENDING)
-                .limit(5)
+                .orderBy("createdAt", Query.Direction.DESCENDING) // Sort by newest
+                .limit(3) // Limit to 3 rooms
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -71,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        // Lấy phòng yêu thích (có thể là phòng của người dùng hiện tại)
+        // Query to fetch rooms for favorites (e.g., user-specific rooms)
         db.collection("rooms")
-                .whereEqualTo("userId", sessionManager.getUserId())
+                .whereEqualTo("userId", sessionManager.getUserId()) // Filter by user ID
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -84,25 +82,31 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+
     private void handleFeaturedRooms(QuerySnapshot querySnapshot) {
         if (querySnapshot != null) {
-            // Làm mới danh sách phòng nổi bật
-            List<Room> featuredRooms = new ArrayList<>();
+            // Clear the current list before adding new rooms
+            roomList.clear();
+
+            // Iterate through Firestore documents and add to list
             for (DocumentSnapshot document : querySnapshot) {
                 Room room = document.toObject(Room.class);
                 if (room != null) {
-                    // Đảm bảo set ID của document
-                    room.setId(document.getId());
-                    featuredRooms.add(room);
+                    room.setId(document.getId()); // Set Firestore document ID
+                    roomList.add(room);
                 }
             }
 
-            // Cập nhật adapter cho RecyclerView nổi bật
-            RoomAdapter featuredAdapter = new RoomAdapter(featuredRooms);
-            rvFeatured.setAdapter(featuredAdapter);
-            featuredAdapter.notifyDataSetChanged();
+            // Notify the adapter to update the RecyclerView
+            roomAdapter.notifyDataSetChanged();
+
+            // Log if no rooms found
+            if (roomList.isEmpty()) {
+                Log.d("MainActivity", "No featured rooms found.");
+            }
         }
     }
+
 
     private void handleFirestoreError(Exception e) {
         Log.e("FirestoreError", "Error fetching rooms: ", e);
@@ -161,6 +165,12 @@ public class MainActivity extends AppCompatActivity {
         ivProfile.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this,
                     ProfileActivity.class);
+            startActivity(intent);
+        });
+
+        Button btnGoToSearch = findViewById(R.id.btnGoToSearch);
+        btnGoToSearch.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SearchRoom.class);
             startActivity(intent);
         });
     }
