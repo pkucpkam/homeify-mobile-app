@@ -56,7 +56,14 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Nearby Amenities Title -->
+            <!-- Bản đồ -->
+            <FrameLayout
+                android:id="@+id/mapContainer"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Danh sách tiện ích -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,39 +71,15 @@
                 android:textSize="20sp"
                 android:layout_marginBottom="8dp"/>
 
-            <!-- Container for the map of the area -->
-            <FrameLayout
-                android:id="@+id/mapContainer"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- List of nearby amenities -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nearby Amenities:"
-                android:textSize="20sp"
-                android:layout_marginBottom="8dp"/>
-
-            <!-- Dynamically filled list for amenities -->
             <LinearLayout
                 android:id="@+id/amenitiesList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-                <!-- Items will be dynamically added here -->
+                android:orientation="vertical">
+                <!-- Các tiện ích sẽ được thêm động -->
             </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
-
-    <include
-        android:id="@+id/navBar"
-        layout="@layout/menu_user"
-        android:layout_width="match_parent"
-        android:layout_height="56dp" />
-
 </LinearLayout>

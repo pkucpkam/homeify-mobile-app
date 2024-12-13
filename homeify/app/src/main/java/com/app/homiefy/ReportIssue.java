@@ -3,7 +3,6 @@ package com.app.homiefy;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,16 +13,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.app.homiefy.utils.SessionManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -39,8 +34,8 @@ public class ReportIssue extends AppCompatActivity {
     private Button btnSubmitReport;
     private ImageButton btnBack;
 
-    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +43,9 @@ public class ReportIssue extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_report_issue);
 
-        // Initialize Firebase
-        mAuth = FirebaseAuth.getInstance();
+        // Initialize Firebase Firestore and Session Manager
         db = FirebaseFirestore.getInstance("homeify");
+        sessionManager = new SessionManager(this);
 
         // Initialize UI elements
         spinnerIssueType = findViewById(R.id.spinnerIssueType);
@@ -82,11 +77,12 @@ public class ReportIssue extends AppCompatActivity {
     }
 
     private void submitIssueReport() {
-        // Get current logged-in user
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) {
+        // Get current logged-in user from session
+        String userId = sessionManager.getUserId();
+
+        if (userId == null) {
             Toast.makeText(this, "Please log in to submit a report", Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "User not logged in.");
+            Log.e(TAG, "User session not found.");
             return;
         }
 
@@ -103,8 +99,7 @@ public class ReportIssue extends AppCompatActivity {
 
         // Prepare issue report data
         Map<String, Object> issueReport = new HashMap<>();
-        issueReport.put("userId", currentUser.getUid());
-        issueReport.put("userEmail", currentUser.getEmail());
+        issueReport.put("userId", userId);
         issueReport.put("issueType", issueType);
         issueReport.put("description", issueDescription);
         issueReport.put("status", "OPEN");
@@ -121,14 +116,14 @@ public class ReportIssue extends AppCompatActivity {
                 .set(issueReport)
                 .addOnSuccessListener(aVoid -> {
                     Log.d(TAG, "Issue report submitted successfully.");
-                    runOnUiThread(() -> Toast.makeText(ReportIssue.this, "Issue report submitted successfully.", Toast.LENGTH_SHORT).show());
+                    Toast.makeText(ReportIssue.this, "Issue report submitted successfully.", Toast.LENGTH_SHORT).show();
                     // Reset form
                     etIssueDescription.setText("");
                     spinnerIssueType.setSelection(0);
                 })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Failed to submit issue report.", e);
-                    runOnUiThread(() -> Toast.makeText(ReportIssue.this, "Failed to submit issue report: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    Toast.makeText(ReportIssue.this, "Failed to submit issue report: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 

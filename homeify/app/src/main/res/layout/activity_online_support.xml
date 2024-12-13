@@ -68,7 +68,7 @@
                 android:id="@+id/tvAdminName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name: Admin Name"
+                android:text="Name: Admin"
                 android:textSize="16sp"
                 android:layout_marginBottom="8dp" />
 
@@ -76,7 +76,7 @@
                 android:id="@+id/tvAdminPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Phone: +123456789"
+                android:text="Phone: +099999999"
                 android:textSize="16sp"
                 android:layout_marginBottom="8dp" />
 
@@ -84,7 +84,7 @@
                 android:id="@+id/tvAdminEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Email: admin@example.com"
+                android:text="Email: admin@support.com"
                 android:textSize="16sp"
                 android:layout_marginBottom="16dp" />
 

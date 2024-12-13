@@ -38,13 +38,12 @@ public class OnlineSupport extends AppCompatActivity {
         setupMenuListeners();
 
         // Set admin contact details
-        tvAdminName.setText("Name: John Doe");
-        tvAdminPhone.setText("Phone: +123456789");
-        tvAdminEmail.setText("Email: admin@example.com");
+        tvAdminName.setText("Name: Admin");
+        tvAdminPhone.setText("Phone: +0999998686");
+        tvAdminEmail.setText("Email: admin@support.com");
 
-        // Call Now button functionality
         btnCallNow.setOnClickListener(v -> {
-            String phoneNumber = "+123456789"; // Admin phone number
+            String phoneNumber = "0999998686"; // Admin phone number
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + phoneNumber));
             try {
