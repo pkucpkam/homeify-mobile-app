@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.google.gms.google.services)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -33,6 +33,8 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.gms:play-services-base:18.3.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
     implementation("com.google.android.gms:play-services-maps:17.0.0")
     implementation("com.google.android.gms:play-services-location:17.0.0")
     implementation(libs.appcompat)

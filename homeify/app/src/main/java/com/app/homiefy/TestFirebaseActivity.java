@@ -1,71 +1,96 @@
 package com.app.homiefy;
 
+import static android.content.ContentValues.TAG;
+
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class TestFirebaseActivity extends AppCompatActivity {
-
     private static final String TAG = "FirebaseTest";
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_firebase);
 
-        FirebaseOptions options1 = new FirebaseOptions.Builder()
-                .setProjectId("homeify-3380d")
-                .setApplicationId("1:92431922154:android:68feb36ba0daeed7a37893")
-                .setApiKey("AIzaSyBaZLVk7kkw3svm0EaHMxF2MJqFgzHHs0k")
-                .build();
+        // Check Google Play Services
+        if (checkPlayServices()) {
+            initFirebase();
+        } else {
+            Log.e(TAG, "Google Play Services not available");
+            // Show dialog to install/update Google Play Services
+            showPlayServicesDialog();
+        }
+    }
 
-        FirebaseApp.initializeApp(this, options1, "DB_PROD");
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            }
+            return false;
+        }
+        return true;
+    }
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance(FirebaseApp.getInstance("DB_PROD"));
+    private void showPlayServicesDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Google Play Services Required")
+                .setMessage("This app requires Google Play Services to function. Please install or update Google Play Services.")
+                .setPositiveButton("Install", (dialog, which) -> {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                Uri.parse("market://details?id=com.google.android.gms")));
+                    } catch (ActivityNotFoundException e) {
+                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.gms")));
+                    }
+                })
+                .setNegativeButton("Exit", (dialog, which) -> finish())
+                .setCancelable(false)
+                .show();
+    }
 
+    private void initFirebase() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance("homeify");
 
         Map<String, Object> user = new HashMap<>();
-        user.put("first", "Phuc");
-        user.put("last", "Lovelace");
-        user.put("born", 1815);
+        user.put("first", "Test");
+        user.put("last", "User");
+        user.put("timestamp", FieldValue.serverTimestamp());
 
-        // Thêm document mới
-        db.collection("users").add(user)
-                .addOnSuccessListener(documentReference -> {
-                    Log.d(TAG, "Document added with ID: " + documentReference.getId());
-                })
-                .addOnFailureListener(e -> {
-                    Log.w(TAG, "Error adding document", e);
-                });
-
-        // Đọc dữ liệu
         db.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
+                .add(user)
+                .addOnSuccessListener(documentReference ->
+                        Log.d(TAG, "Success: " + documentReference.getId()))
+                .addOnFailureListener(e ->
+                        Log.e(TAG, "Error: " + e.getMessage()));
     }
 }
