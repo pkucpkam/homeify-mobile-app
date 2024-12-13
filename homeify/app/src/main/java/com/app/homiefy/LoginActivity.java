@@ -2,6 +2,7 @@ package com.app.homiefy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,12 +14,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.app.homiefy.utils.SessionManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
     // FirebaseAuth instance
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance("homeify");
+        sessionManager = new SessionManager(this);
 
         // Find views in the layout
         EditText edtEmail = findViewById(R.id.edtEmail);
@@ -50,16 +59,40 @@ public class LoginActivity extends AppCompatActivity {
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
-                            // If login is successful, navigate to MainActivity
-                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();  // Close LoginActivity
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                String uid = user.getUid();
+
+                                db.collection("users").document(uid)
+                                        .get()
+                                        .addOnCompleteListener(task1 -> {
+                                            if (task1.isSuccessful()) {
+                                                DocumentSnapshot document = task1.getResult();
+                                                if (document.exists()) {
+                                                    String role = document.getString("role");
+
+                                                    // Save UID and role to session
+                                                    sessionManager.createLoginSession(uid, role);
+
+                                                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(LoginActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
+                                                }
+                                            } else {
+                                                Toast.makeText(LoginActivity.this, "Error getting user data: " + task1.getException().getMessage(),
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
                         } else {
-                            // If login fails, show error message
-                            Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     });
+
         });
 
         // Handle register link click event
