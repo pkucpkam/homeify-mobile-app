@@ -1,6 +1,8 @@
 package com.app.homiefy.room;
 
 public class Room {
+    private String id;
+    private String userId;
     private String roomName;
     private String rentPrice;
     private String area;
@@ -10,23 +12,16 @@ public class Room {
     private String endDate;
     private String contactInfo;
     private String imageUrl;
+    private long createdAt;
 
-    public Room() {
-    }
+    public Room() {}
 
-    public Room(String roomName, String rentPrice, String area, String address, String rules, String startDate, String endDate, String contactInfo, String imageUrl) {
-        this.roomName = roomName;
-        this.rentPrice = rentPrice;
-        this.area = area;
-        this.address = address;
-        this.rules = rules;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.contactInfo = contactInfo;
-        this.imageUrl = imageUrl;
-    }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    // Getters and Setters
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
+
     public String getRoomName() { return roomName; }
     public void setRoomName(String roomName) { this.roomName = roomName; }
 
@@ -53,4 +48,7 @@ public class Room {
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public long getCreatedAt() { return createdAt; }
+    public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
 }
