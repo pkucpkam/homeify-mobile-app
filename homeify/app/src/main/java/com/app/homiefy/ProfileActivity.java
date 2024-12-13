@@ -146,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity {
         // Navigate to Appointment schedule
         LinearLayout layoutAppointments = findViewById(R.id.layoutAppointments);
         layoutAppointments.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, AppCompatActivity.class);
+            Intent intent = new Intent(ProfileActivity.this, RoomViewingAppointment.class);
             startActivity(intent);
         });
 
