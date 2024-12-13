@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,27 +64,21 @@ public class ProfileActivity extends AppCompatActivity {
 
             // Retrieve user data from Firestore
             db.collection("users").document(userId).get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (documentSnapshot.exists()) {
-                                // Retrieve full name and email from Firestore
-                                String fullName = documentSnapshot.getString("fullName");
-                                String email = documentSnapshot.getString("email");
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Retrieve full name and email from Firestore
+                            String fullName = documentSnapshot.getString("fullName");
+                            String email = documentSnapshot.getString("email");
 
-                                // Update TextViews
-                                tvFullName.setText(fullName != null ? fullName : "");
-                                tvEmail.setText(email != null ? email : currentUser.getEmail());
-                            }
+                            // Update TextViews
+                            tvFullName.setText(fullName != null ? fullName : "");
+                            tvEmail.setText(email != null ? email : currentUser.getEmail());
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // If retrieval fails, set email from FirebaseUser
-                            tvEmail.setText(currentUser.getEmail());
-                            Toast.makeText(ProfileActivity.this, "Failed to load profile data", Toast.LENGTH_SHORT).show();
-                        }
+                    .addOnFailureListener(e -> {
+                        // If retrieval fails, set email from FirebaseUser
+                        tvEmail.setText(currentUser.getEmail());
+                        Toast.makeText(ProfileActivity.this, "Failed to load profile data", Toast.LENGTH_SHORT).show();
                     });
         }
     }
@@ -104,24 +99,26 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void setupBackButton() {
         ImageButton btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        btnBack.setOnClickListener(v -> finish());
     }
 
     private void setupMenuListeners() {
+
         ImageView ivChat = findViewById(R.id.ivChat);
         ivChat.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, OnlineSupport.class);
+            Intent intent = new Intent(ProfileActivity.this, ChatListActivity.class);
             startActivity(intent);
         });
 
         ImageView ivNotification = findViewById(R.id.ivNotification);
         ivNotification.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, NotificationsActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivLogo = findViewById(R.id.ivLogo);
+        ivLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
@@ -136,5 +133,41 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
             startActivity(intent);
         });
+
+        // Navigate to Favorites list
+        LinearLayout layoutFavorites = findViewById(R.id.layoutManageProperties);
+        layoutFavorites.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, FavoriteRooms.class);
+            startActivity(intent);
+        });
+
+        // Navigate to Contract management
+        LinearLayout layoutContracts = findViewById(R.id.layoutContracts);
+        layoutContracts.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, ContractManagement.class);
+            startActivity(intent);
+        });
+
+        // Navigate to Appointment schedule
+        LinearLayout layoutAppointments = findViewById(R.id.layoutAppointments);
+        layoutAppointments.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, AppCompatActivity.class);
+            startActivity(intent);
+        });
+
+        // Navigate to Report a problem
+        LinearLayout layoutReportIssue = findViewById(R.id.layoutReportIssue);
+        layoutReportIssue.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, ReportIssue.class);
+            startActivity(intent);
+        });
+
+        // Navigate to Support
+        LinearLayout layoutSupport = findViewById(R.id.layoutSupport);
+        layoutSupport.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, OnlineSupport.class);
+            startActivity(intent);
+        });
+
     }
 }

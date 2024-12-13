@@ -10,7 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="60dp"> <!-- Giới hạn độ cao cho ScrollView để footer không che mất -->
+        android:layout_marginBottom="60dp">
 
         <LinearLayout
             android:layout_width="match_parent"
