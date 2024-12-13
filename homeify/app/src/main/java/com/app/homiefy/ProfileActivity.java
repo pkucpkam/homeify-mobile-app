@@ -15,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.app.homiefy.utils.SessionManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,6 +24,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvFullName, tvEmail;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private SessionManager sessionManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +35,19 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth and Firestore
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance("homeify");
+        sessionManager = new SessionManager(this);
 
         // Initialize TextViews
         tvFullName = findViewById(R.id.tvFullName);
         tvEmail = findViewById(R.id.tvEmail);
+        Button btnLogout = findViewById(R.id.btnLogout);
+
+        // Get UID from session
+        String uid = sessionManager.getUserId();
 
         // Load user profile data
-        loadUserProfile();
+        loadUserProfile(uid);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -47,44 +55,36 @@ public class ProfileActivity extends AppCompatActivity {
             return insets;
         });
 
+
         setupMenuListeners();
         setupBackButton();
         setupLogoutButton();
     }
 
-    private void loadUserProfile() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            String userId = currentUser.getUid();
-
-            // Retrieve user data from Firestore
-            db.collection("users").document(userId).get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            // Retrieve full name and email from Firestore
-                            String fullName = documentSnapshot.getString("fullName");
-                            String email = documentSnapshot.getString("email");
-
-                            // Update TextViews
-                            tvFullName.setText(fullName != null ? fullName : "");
-                            tvEmail.setText(email != null ? email : currentUser.getEmail());
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        // If retrieval fails, set email from FirebaseUser
-                        tvEmail.setText(currentUser.getEmail());
-                        Toast.makeText(ProfileActivity.this, "Failed to load profile data", Toast.LENGTH_SHORT).show();
-                    });
-        }
+    private void loadUserProfile(String uid) {
+        db.collection("users").document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String name = documentSnapshot.getString("name");
+                        String email = documentSnapshot.getString("email");
+                        // Update UI with user data
+                        tvFullName.setText(name);
+                        tvEmail.setText(email);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Handle any errors
+                    tvFullName.setText("Error loading data");
+                    tvEmail.setText("Error loading data");
+                });
     }
 
     private void setupLogoutButton() {
         Button btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v -> {
-            // Sign out from Firebase
+            sessionManager.logout();
             mAuth.signOut();
-
-            // Redirect to Login Activity
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
