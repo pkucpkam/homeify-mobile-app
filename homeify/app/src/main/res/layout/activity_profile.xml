@@ -79,7 +79,7 @@
                     android:layout_gravity="center"
                     android:text="example@email.com"
                     android:textColor="#FFFFFF"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
 
             </LinearLayout>
