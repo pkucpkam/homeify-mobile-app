@@ -26,48 +26,49 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        // Khởi tạo FirebaseAuth
+        // Initialize FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
 
-        // Tìm các View trong layout
+        // Find views in the layout
         EditText edtEmail = findViewById(R.id.edtEmail);
         EditText edtPassword = findViewById(R.id.edtPassword);
         Button loginBtn = findViewById(R.id.loginBtn);
         TextView tvRegister = findViewById(R.id.tvRegister);
 
-        // Xử lý sự kiện khi người dùng nhấn nút đăng nhập
+        // Handle login button click event
         loginBtn.setOnClickListener(v -> {
             String email = edtEmail.getText().toString();
             String password = edtPassword.getText().toString();
 
-            // Kiểm tra xem email và password có trống không
+            // Check if email or password is empty
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Email và mật khẩu không được để trống", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Email and password cannot be empty", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Đăng nhập với email và password
+            // Attempt to log in with email and password
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
-                            // Nếu đăng nhập thành công, chuyển đến MainActivity
+                            // If login is successful, navigate to MainActivity
+                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-                            finish();  // Đóng LoginActivity
+                            finish();  // Close LoginActivity
                         } else {
-                            // Nếu đăng nhập thất bại, thông báo lỗi
-                            Toast.makeText(LoginActivity.this, "Đăng nhập thất bại: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            // If login fails, show error message
+                            Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         });
 
-        // Xử lý sự kiện khi nhấn vào TextView đăng ký
+        // Handle register link click event
         tvRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
 
-        // Đảm bảo giao diện không bị che khuất bởi system bars (nếu cần)
+        // Ensure the interface is not obstructed by system bars (if needed)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

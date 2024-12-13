@@ -75,38 +75,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupMenuListeners() {
-        findViewById(R.id.btnGoToSearch).setOnClickListener(v -> navigateToSearch());
-
         ImageView ivChat = findViewById(R.id.ivChat);
-        ivChat.setOnClickListener(v -> navigateToOnlineSupport());
+        ivChat.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, OnlineSupport.class);
+            startActivity(intent);
+        });
 
         ImageView ivNotification = findViewById(R.id.ivNotification);
-        ivNotification.setOnClickListener(v -> navigateToNotificationSettings());
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, NotificationsActivity.class);
+            startActivity(intent);
+        });
 
         ImageView ivFavorite = findViewById(R.id.ivFavorite);
-        ivFavorite.setOnClickListener(v -> navigateToFavoriteRooms());
+        ivFavorite.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, FavoriteRooms.class);
+            startActivity(intent);
+        });
 
         ImageView ivProfile = findViewById(R.id.ivProfile);
-        ivProfile.setOnClickListener(v -> navigateToProfile());
-    }
-
-    private void navigateToSearch() {
-        startActivity(new Intent(MainActivity.this, SearchRoom.class));
-    }
-
-    private void navigateToOnlineSupport() {
-        startActivity(new Intent(MainActivity.this, OnlineSupport.class));
-    }
-
-    private void navigateToNotificationSettings() {
-        startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
-    }
-
-    private void navigateToFavoriteRooms() {
-        startActivity(new Intent(MainActivity.this, FavoriteRooms.class));
-    }
-
-    private void navigateToProfile() {
-        startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+        ivProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        });
     }
 }

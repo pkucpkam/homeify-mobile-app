@@ -33,16 +33,16 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance("homeify");
 
-        // Tìm các View trong layout
+        // Find views in the layout
         EditText edtFullName = findViewById(R.id.edtFullName);
         EditText edtPhoneNumber = findViewById(R.id.edtPhoneNumber);
         EditText edtEmail = findViewById(R.id.edtEmail);
         EditText edtPassword = findViewById(R.id.edtPassword);
         EditText edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         Button registerBtn = findViewById(R.id.registerBtn);
-        TextView tvLogin = findViewById(R.id.tvRegister); // TextView để chuyển về LoginActivity
+        TextView tvLogin = findViewById(R.id.tvRegister); // TextView for redirecting to LoginActivity
 
-        // Xử lý sự kiện khi nhấn nút đăng ký
+        // Handle click event when registering
         registerBtn.setOnClickListener(v -> {
             String fullName = edtFullName.getText().toString();
             String phoneNumber = edtPhoneNumber.getText().toString();
@@ -50,22 +50,22 @@ public class RegisterActivity extends AppCompatActivity {
             String password = edtPassword.getText().toString();
             String confirmPassword = edtConfirmPassword.getText().toString();
 
-            // Kiểm tra thông tin nhập vào
+            // Check if all fields are filled
             if (fullName.isEmpty() || phoneNumber.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(RegisterActivity.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (!password.equals(confirmPassword)) {
-                Toast.makeText(RegisterActivity.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Đăng ký người dùng mới
+            // Register the new user
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
-                            // Lưu thông tin người dùng vào Firestore
+                            // Save user information in Firestore
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
                                 String userId = user.getUid();
@@ -79,29 +79,29 @@ public class RegisterActivity extends AppCompatActivity {
                                 userData.put("updatedAt", System.currentTimeMillis());
                                 userData.put("status", "ACTIVE");
 
-                                // Lưu vào Firestore
+                                // Save to Firestore
                                 db.collection("users").document(userId)
                                         .set(userData)
                                         .addOnSuccessListener(aVoid -> {
-                                            Toast.makeText(RegisterActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                                            finish(); // Đóng RegisterActivity
+                                            Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                                            finish(); // Close RegisterActivity
                                         })
                                         .addOnFailureListener(e -> {
-                                            Toast.makeText(RegisterActivity.this, "Lỗi lưu thông tin: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(RegisterActivity.this, "Error saving user information: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                         });
                             }
                         } else {
-                            Toast.makeText(RegisterActivity.this, "Đăng ký thất bại: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
         });
 
-        // Xử lý sự kiện khi nhấn vào TextView để quay lại LoginActivity
+        // Handle event when clicking TextView to go back to LoginActivity
         tvLogin.setOnClickListener(v -> {
-            finish(); // Đóng RegisterActivity
+            finish(); // Close RegisterActivity
         });
 
-        // Đảm bảo giao diện không bị che khuất bởi system bars
+        // Ensure the interface is not obstructed by system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
