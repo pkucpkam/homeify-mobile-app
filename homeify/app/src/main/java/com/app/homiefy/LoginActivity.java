@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText edtEmail = findViewById(R.id.edtEmail);
         EditText edtPassword = findViewById(R.id.edtPassword);
         Button loginBtn = findViewById(R.id.loginBtn);
+        TextView tvRegister = findViewById(R.id.tvRegister);
 
         // Xử lý sự kiện khi người dùng nhấn nút đăng nhập
         loginBtn.setOnClickListener(v -> {
@@ -57,6 +59,12 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Đăng nhập thất bại: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
+        });
+
+        // Xử lý sự kiện khi nhấn vào TextView đăng ký
+        tvRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
 
         // Đảm bảo giao diện không bị che khuất bởi system bars (nếu cần)

@@ -39,7 +39,7 @@
             android:name=".ReportIssue"
             android:exported="false" />
         <activity
-            android:name=".TestFirebaseActivity"
+            android:name=".LoginActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -87,7 +87,7 @@
             android:name=".PaymentIntegration"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".TestFirebaseActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
