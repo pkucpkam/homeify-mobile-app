@@ -35,7 +35,7 @@ public class RoomViewingAppointment extends AppCompatActivity {
 
         ImageView ivNotification = findViewById(R.id.ivNotification);
         ivNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(RoomViewingAppointment.this, NotificationSettings.class);
+            Intent intent = new Intent(RoomViewingAppointment.this, NotificationsActivity.class);
             startActivity(intent);
         });
 

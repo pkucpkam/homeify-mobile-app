@@ -49,7 +49,7 @@ public class FavoriteRooms extends AppCompatActivity {
 
         ImageView ivNotification = findViewById(R.id.ivNotification);
         ivNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(FavoriteRooms.this, NotificationSettings.class);
+            Intent intent = new Intent(FavoriteRooms.this, NotificationsActivity.class);
             startActivity(intent);
         });
 

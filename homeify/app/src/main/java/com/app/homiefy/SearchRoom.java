@@ -49,7 +49,7 @@ public class SearchRoom extends AppCompatActivity {
 
         ImageView ivNotification = findViewById(R.id.ivNotification);
         ivNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(SearchRoom.this, NotificationSettings.class);
+            Intent intent = new Intent(SearchRoom.this, NotificationsActivity.class);
             startActivity(intent);
         });
 

@@ -90,7 +90,7 @@ public class OnlineSupport extends AppCompatActivity {
 
         ImageView ivNotification = findViewById(R.id.ivNotification);
         ivNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(OnlineSupport.this, NotificationSettings.class);
+            Intent intent = new Intent(OnlineSupport.this, NotificationsActivity.class);
             startActivity(intent);
         });
 

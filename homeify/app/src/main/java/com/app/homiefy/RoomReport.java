@@ -35,7 +35,7 @@ public class RoomReport extends AppCompatActivity {
 
         ImageView ivNotification = findViewById(R.id.ivNotification);
         ivNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(RoomReport.this, NotificationSettings.class);
+            Intent intent = new Intent(RoomReport.this, NotificationsActivity.class);
             startActivity(intent);
         });
 

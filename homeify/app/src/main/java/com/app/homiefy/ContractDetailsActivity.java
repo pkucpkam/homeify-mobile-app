@@ -51,7 +51,7 @@ public class ContractDetailsActivity extends AppCompatActivity {
 
         ImageView ivNotification = findViewById(R.id.ivNotification);
         ivNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(ContractDetailsActivity.this, NotificationSettings.class);
+            Intent intent = new Intent(ContractDetailsActivity.this, NotificationsActivity.class);
             startActivity(intent);
         });
 

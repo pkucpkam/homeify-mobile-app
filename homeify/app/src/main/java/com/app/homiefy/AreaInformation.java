@@ -79,7 +79,7 @@ public class AreaInformation extends AppCompatActivity implements OnMapReadyCall
 
         ImageView ivNotification = findViewById(R.id.ivNotification);
         ivNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(AreaInformation.this, NotificationSettings.class);
+            Intent intent = new Intent(AreaInformation.this, NotificationsActivity.class);
             startActivity(intent);
         });
 

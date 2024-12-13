@@ -104,7 +104,7 @@ public class PaymentIntegration extends AppCompatActivity {
 
         ImageView ivNotification = findViewById(R.id.ivNotification);
         ivNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(PaymentIntegration.this, NotificationSettings.class);
+            Intent intent = new Intent(PaymentIntegration.this, NotificationsActivity.class);
             startActivity(intent);
         });
 

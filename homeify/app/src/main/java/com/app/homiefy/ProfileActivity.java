@@ -49,7 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         ImageView ivNotification = findViewById(R.id.ivNotification);
         ivNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, NotificationSettings.class);
+            Intent intent = new Intent(ProfileActivity.this, NotificationsActivity.class);
             startActivity(intent);
         });
 
