@@ -5,39 +5,91 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.app.homiefy.favorite.FavoriteRoomsAdapter;
+import com.app.homiefy.room.Room;
+import com.app.homiefy.utils.SessionManager;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FavoriteRooms extends AppCompatActivity {
+
+    private RecyclerView rvFavoriteRooms;
+    private TextView tvEmptyList;
+    private FirebaseFirestore db;
+    private SessionManager sessionManager;
+    private FavoriteRoomsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_favorite_rooms);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        // Initialize Firestore and Session Manager
+        db = FirebaseFirestore.getInstance("homeify");
+        sessionManager = new SessionManager(this);
+
+        // Initialize UI components
+        rvFavoriteRooms = findViewById(R.id.rvFavoriteRooms);
+        tvEmptyList = findViewById(R.id.tvEmptyList);
+
+        rvFavoriteRooms.setLayoutManager(new LinearLayoutManager(this));
 
         setupBackButton();
-
         setupMenuListeners();
+        fetchFavoriteRooms();
+    }
+
+    private void fetchFavoriteRooms() {
+        String userId = sessionManager.getUserId();
+        if (userId == null) {
+            Toast.makeText(this, "Please log in to view favorites!", Toast.LENGTH_SHORT).show();
+            tvEmptyList.setVisibility(View.VISIBLE);
+            rvFavoriteRooms.setVisibility(View.GONE);
+            return;
+        }
+
+        db.collection("users").document(userId)
+                .get(Source.CACHE)
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists() && documentSnapshot.contains("favorites")) {
+                        List<String> favoriteRoomIds = (List<String>) documentSnapshot.get("favorites");
+
+                        if (favoriteRoomIds != null && !favoriteRoomIds.isEmpty()) {
+                            // Create adapter with room IDs
+                            FavoriteRoomsAdapter adapter = new FavoriteRoomsAdapter(favoriteRoomIds, this);
+                            rvFavoriteRooms.setAdapter(adapter);
+
+                            tvEmptyList.setVisibility(View.GONE);
+                            rvFavoriteRooms.setVisibility(View.VISIBLE);
+                        } else {
+                            tvEmptyList.setVisibility(View.VISIBLE);
+                            rvFavoriteRooms.setVisibility(View.GONE);
+                        }
+                    } else {
+                        tvEmptyList.setVisibility(View.VISIBLE);
+                        rvFavoriteRooms.setVisibility(View.GONE);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to fetch favorites: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    tvEmptyList.setVisibility(View.VISIBLE);
+                    rvFavoriteRooms.setVisibility(View.GONE);
+                });
     }
 
     private void setupBackButton() {
         ImageButton btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        btnBack.setOnClickListener(v -> finish());
     }
 
     private void setupMenuListeners() {

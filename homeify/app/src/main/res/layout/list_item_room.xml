@@ -61,6 +61,7 @@
         android:layout_height="wrap_content"
         android:text="View Details"
         android:textSize="18dp"
+        android:textAllCaps="true"
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white"
         android:padding="12dp"

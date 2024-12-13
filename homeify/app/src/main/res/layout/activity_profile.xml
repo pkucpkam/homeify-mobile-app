@@ -92,6 +92,8 @@
                 android:padding="16dp">
 
                 <!-- Manage Properties Section -->
+
+                <!-- Contract Section -->
                 <LinearLayout
                     android:id="@+id/layoutManageProperties"
                     android:layout_width="match_parent"
@@ -106,7 +108,7 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_favorite" />
+                        android:src="@drawable/ic_favorite_filled" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -122,7 +124,6 @@
                         android:src="@drawable/ic_arrow_right" />
                 </LinearLayout>
 
-                <!-- Contract Section -->
                 <LinearLayout
                     android:id="@+id/layoutContracts"
                     android:layout_width="match_parent"

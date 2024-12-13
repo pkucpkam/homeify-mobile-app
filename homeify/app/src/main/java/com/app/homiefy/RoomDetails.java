@@ -10,10 +10,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.homiefy.room.Room;
+import com.app.homiefy.utils.SessionManager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class RoomDetails extends AppCompatActivity {
     private ImageView ivRoomImage;
     private MaterialButton btnMessage, btnScheduleVisit;
     private ChipGroup chipGroupAmenities;
+    private SessionManager sessionManager; // Declare the instance
 
     private FirebaseFirestore db;
     private String roomId;
@@ -49,9 +52,11 @@ public class RoomDetails extends AppCompatActivity {
             finish();
             return;
         }
+        sessionManager = new SessionManager(this);
 
         fetchRoomDetails();
         setupBackButton();
+        setupFavoriteButton();
     }
 
     private void initializeUI() {
@@ -78,6 +83,69 @@ public class RoomDetails extends AppCompatActivity {
             Toast.makeText(this, "Schedule visit feature is not implemented yet!",
                     Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void setupFavoriteButton() {
+        ImageButton btnFavorite = findViewById(R.id.btnFavorite);
+
+        // Check if user is logged in
+        String userId = sessionManager.getUserId();
+        if (userId == null) {
+            btnFavorite.setOnClickListener(v -> {
+                Toast.makeText(this, "Please log in to add favorites!", Toast.LENGTH_SHORT).show();
+            });
+            return;
+        }
+
+        // Check if room is already in favorites
+        db.collection("users").document(userId).get()
+                .addOnSuccessListener(userDocument -> {
+                    List<String> favorites = (List<String>) userDocument.get("favorites");
+                    boolean isAlreadyFavorite = favorites != null && favorites.contains(roomId);
+
+                    // Update button state and click listener based on current favorite status
+                    updateFavoriteButtonState(btnFavorite, isAlreadyFavorite);
+
+                    btnFavorite.setOnClickListener(v -> {
+                        if (isAlreadyFavorite) {
+                            // Remove from favorites
+                            db.collection("users").document(userId)
+                                    .update("favorites", FieldValue.arrayRemove(roomId))
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(this, "Removed from favorites!", Toast.LENGTH_SHORT).show();
+                                        updateFavoriteButtonState(btnFavorite, false);
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(this, "Failed to remove from favorites: " + e.getMessage(),
+                                                Toast.LENGTH_SHORT).show();
+                                    });
+                        } else {
+                            // Add to favorites
+                            db.collection("users").document(userId)
+                                    .update("favorites", FieldValue.arrayUnion(roomId))
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(this, "Added to favorites!", Toast.LENGTH_SHORT).show();
+                                        updateFavoriteButtonState(btnFavorite, true);
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(this, "Failed to add to favorites: " + e.getMessage(),
+                                                Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+                    });
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error checking favorites: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void updateFavoriteButtonState(ImageButton btnFavorite, boolean isFavorite) {
+        if (isFavorite) {
+            btnFavorite.setImageResource(R.drawable.ic_favorite_filled);
+        } else {
+            btnFavorite.setImageResource(R.drawable.ic_favorite_outline);
+        }
     }
 
     private void fetchRoomDetails() {
