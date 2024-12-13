@@ -88,31 +88,33 @@ public class ReviewsAndRatings extends AppCompatActivity {
 
     private void setupMenuListeners() {
         ImageView ivChat = findViewById(R.id.ivChat);
-        ivChat.setOnClickListener(v -> navigateToOnlineSupport());
+        ivChat.setOnClickListener(v -> {
+            Intent intent = new Intent(ReviewsAndRatings.this, ChatListActivity.class);
+            startActivity(intent);
+        });
 
         ImageView ivNotification = findViewById(R.id.ivNotification);
-        ivNotification.setOnClickListener(v -> navigateToNotificationSettings());
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(ReviewsAndRatings.this, NotificationsActivity.class);
+            startActivity(intent);
+        });
 
-        ImageView ivFavorite = findViewById(R.id.ivFavorite);
-        ivFavorite.setOnClickListener(v -> navigateToFavoriteRooms());
+        ImageView ivLogo = findViewById(R.id.ivLogo);
+        ivLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(ReviewsAndRatings.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivPostRoom = findViewById(R.id.ivPostRoom);
+        ivPostRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(ReviewsAndRatings.this, PostingRoom.class);
+            startActivity(intent);
+        });
 
         ImageView ivProfile = findViewById(R.id.ivProfile);
-        ivProfile.setOnClickListener(v -> navigateToProfile());
-    }
-
-    private void navigateToOnlineSupport() {
-        // Add your navigation logic here
-    }
-
-    private void navigateToNotificationSettings() {
-        // Add your navigation logic here
-    }
-
-    private void navigateToFavoriteRooms() {
-        // Add your navigation logic here
-    }
-
-    private void navigateToProfile() {
-        // Add your navigation logic here
+        ivProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(ReviewsAndRatings.this, ProfileActivity.class);
+            startActivity(intent);
+        });
     }
 }

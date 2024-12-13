@@ -27,7 +27,7 @@ public class ConfirmInformation extends AppCompatActivity {
     private void setupMenuListeners() {
         ImageView ivChat = findViewById(R.id.ivChat);
         ivChat.setOnClickListener(v -> {
-            Intent intent = new Intent(ConfirmInformation.this, OnlineSupport.class);
+            Intent intent = new Intent(ConfirmInformation.this, ChatListActivity.class);
             startActivity(intent);
         });
 
@@ -37,9 +37,15 @@ public class ConfirmInformation extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ImageView ivFavorite = findViewById(R.id.ivFavorite);
-        ivFavorite.setOnClickListener(v -> {
-            Intent intent = new Intent(ConfirmInformation.this, FavoriteRooms.class);
+        ImageView ivLogo = findViewById(R.id.ivLogo);
+        ivLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(ConfirmInformation.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivPostRoom = findViewById(R.id.ivPostRoom);
+        ivPostRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(ConfirmInformation.this, PostingRoom.class);
             startActivity(intent);
         });
 

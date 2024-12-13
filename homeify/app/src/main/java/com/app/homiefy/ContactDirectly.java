@@ -29,7 +29,7 @@ public class ContactDirectly extends AppCompatActivity {
     private void setupMenuListeners() {
         ImageView ivChat = findViewById(R.id.ivChat);
         ivChat.setOnClickListener(v -> {
-            Intent intent = new Intent(ContactDirectly.this, OnlineSupport.class);
+            Intent intent = new Intent(ContactDirectly.this, ChatListActivity.class);
             startActivity(intent);
         });
 
@@ -39,9 +39,15 @@ public class ContactDirectly extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ImageView ivFavorite = findViewById(R.id.ivFavorite);
-        ivFavorite.setOnClickListener(v -> {
-            Intent intent = new Intent(ContactDirectly.this, FavoriteRooms.class);
+        ImageView ivLogo = findViewById(R.id.ivLogo);
+        ivLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(ContactDirectly.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivPostRoom = findViewById(R.id.ivPostRoom);
+        ivPostRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(ContactDirectly.this, PostingRoom.class);
             startActivity(intent);
         });
 

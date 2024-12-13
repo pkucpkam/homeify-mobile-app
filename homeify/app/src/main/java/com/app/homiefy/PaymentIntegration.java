@@ -98,7 +98,7 @@ public class PaymentIntegration extends AppCompatActivity {
     private void setupMenuListeners() {
         ImageView ivChat = findViewById(R.id.ivChat);
         ivChat.setOnClickListener(v -> {
-            Intent intent = new Intent(PaymentIntegration.this, OnlineSupport.class);
+            Intent intent = new Intent(PaymentIntegration.this, ChatListActivity.class);
             startActivity(intent);
         });
 
@@ -108,9 +108,15 @@ public class PaymentIntegration extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ImageView ivFavorite = findViewById(R.id.ivFavorite);
-        ivFavorite.setOnClickListener(v -> {
-            Intent intent = new Intent(PaymentIntegration.this, FavoriteRooms.class);
+        ImageView ivLogo = findViewById(R.id.ivLogo);
+        ivLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(PaymentIntegration.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivPostRoom = findViewById(R.id.ivPostRoom);
+        ivPostRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(PaymentIntegration.this, PostingRoom.class);
             startActivity(intent);
         });
 

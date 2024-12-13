@@ -58,7 +58,7 @@ public class DepositSystem extends AppCompatActivity {
     private void setupMenuListeners() {
         ImageView ivChat = findViewById(R.id.ivChat);
         ivChat.setOnClickListener(v -> {
-            Intent intent = new Intent(DepositSystem.this, OnlineSupport.class);
+            Intent intent = new Intent(DepositSystem.this, ChatListActivity.class);
             startActivity(intent);
         });
 
@@ -68,9 +68,15 @@ public class DepositSystem extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ImageView ivFavorite = findViewById(R.id.ivFavorite);
-        ivFavorite.setOnClickListener(v -> {
-            Intent intent = new Intent(DepositSystem.this, FavoriteRooms.class);
+        ImageView ivLogo = findViewById(R.id.ivLogo);
+        ivLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(DepositSystem.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivPostRoom = findViewById(R.id.ivPostRoom);
+        ivPostRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(DepositSystem.this, PostingRoom.class);
             startActivity(intent);
         });
 

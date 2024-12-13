@@ -29,7 +29,7 @@ public class RoomViewingAppointment extends AppCompatActivity {
     private void setupMenuListeners() {
         ImageView ivChat = findViewById(R.id.ivChat);
         ivChat.setOnClickListener(v -> {
-            Intent intent = new Intent(RoomViewingAppointment.this, OnlineSupport.class);
+            Intent intent = new Intent(RoomViewingAppointment.this, ChatListActivity.class);
             startActivity(intent);
         });
 
@@ -39,9 +39,15 @@ public class RoomViewingAppointment extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ImageView ivFavorite = findViewById(R.id.ivFavorite);
-        ivFavorite.setOnClickListener(v -> {
-            Intent intent = new Intent(RoomViewingAppointment.this, FavoriteRooms.class);
+        ImageView ivLogo = findViewById(R.id.ivLogo);
+        ivLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(RoomViewingAppointment.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivPostRoom = findViewById(R.id.ivPostRoom);
+        ivPostRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(RoomViewingAppointment.this, PostingRoom.class);
             startActivity(intent);
         });
 

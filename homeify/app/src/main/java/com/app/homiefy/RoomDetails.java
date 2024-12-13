@@ -47,7 +47,7 @@ public class RoomDetails extends AppCompatActivity {
     private void setupMenuListeners() {
         ImageView ivChat = findViewById(R.id.ivChat);
         ivChat.setOnClickListener(v -> {
-            Intent intent = new Intent(RoomDetails.this, OnlineSupport.class);
+            Intent intent = new Intent(RoomDetails.this, ChatListActivity.class);
             startActivity(intent);
         });
 
@@ -57,9 +57,15 @@ public class RoomDetails extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ImageView ivFavorite = findViewById(R.id.ivFavorite);
-        ivFavorite.setOnClickListener(v -> {
-            Intent intent = new Intent(RoomDetails.this, FavoriteRooms.class);
+        ImageView ivLogo = findViewById(R.id.ivLogo);
+        ivLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(RoomDetails.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivPostRoom = findViewById(R.id.ivPostRoom);
+        ivPostRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(RoomDetails.this, PostingRoom.class);
             startActivity(intent);
         });
 

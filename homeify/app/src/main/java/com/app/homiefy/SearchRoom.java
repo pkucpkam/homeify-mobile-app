@@ -43,7 +43,7 @@ public class SearchRoom extends AppCompatActivity {
     private void setupMenuListeners() {
         ImageView ivChat = findViewById(R.id.ivChat);
         ivChat.setOnClickListener(v -> {
-            Intent intent = new Intent(SearchRoom.this, OnlineSupport.class);
+            Intent intent = new Intent(SearchRoom.this, ChatListActivity.class);
             startActivity(intent);
         });
 
@@ -53,9 +53,15 @@ public class SearchRoom extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ImageView ivFavorite = findViewById(R.id.ivFavorite);
-        ivFavorite.setOnClickListener(v -> {
-            Intent intent = new Intent(SearchRoom.this, FavoriteRooms.class);
+        ImageView ivLogo = findViewById(R.id.ivLogo);
+        ivLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(SearchRoom.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivPostRoom = findViewById(R.id.ivPostRoom);
+        ivPostRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(SearchRoom.this, PostingRoom.class);
             startActivity(intent);
         });
 

@@ -43,7 +43,7 @@
 
     <!-- Icon Yêu thích -->
     <ImageView
-        android:id="@+id/ivFavorite"
+        android:id="@+id/ivPostRoom"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
