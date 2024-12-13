@@ -2,6 +2,7 @@ package com.app.homiefy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,6 +32,8 @@ import java.util.UUID;
 
 public class ReportIssue extends AppCompatActivity {
 
+    private static final String TAG = "ReportIssue";
+
     private Spinner spinnerIssueType;
     private EditText etIssueDescription;
     private Button btnSubmitReport;
@@ -47,7 +50,7 @@ public class ReportIssue extends AppCompatActivity {
 
         // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance("homeify");
 
         // Initialize UI elements
         spinnerIssueType = findViewById(R.id.spinnerIssueType);
@@ -83,6 +86,7 @@ public class ReportIssue extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
             Toast.makeText(this, "Please log in to submit a report", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "User not logged in.");
             return;
         }
 
@@ -93,6 +97,7 @@ public class ReportIssue extends AppCompatActivity {
         // Validate input
         if (issueDescription.isEmpty()) {
             Toast.makeText(this, "Please provide a detailed description of the issue.", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "Issue description is empty.");
             return;
         }
 
@@ -109,23 +114,21 @@ public class ReportIssue extends AppCompatActivity {
         // Generate a unique report ID
         String reportId = UUID.randomUUID().toString();
 
+        Log.d(TAG, "Submitting issue report with ID: " + reportId);
+
         // Submit to Firestore
         db.collection("issue_reports").document(reportId)
                 .set(issueReport)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(ReportIssue.this, "Issue report submitted successfully.", Toast.LENGTH_SHORT).show();
-                        // Reset form
-                        etIssueDescription.setText("");
-                        spinnerIssueType.setSelection(0);
-                    }
+                .addOnSuccessListener(aVoid -> {
+                    Log.d(TAG, "Issue report submitted successfully.");
+                    runOnUiThread(() -> Toast.makeText(ReportIssue.this, "Issue report submitted successfully.", Toast.LENGTH_SHORT).show());
+                    // Reset form
+                    etIssueDescription.setText("");
+                    spinnerIssueType.setSelection(0);
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ReportIssue.this, "Failed to submit issue report: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Failed to submit issue report.", e);
+                    runOnUiThread(() -> Toast.makeText(ReportIssue.this, "Failed to submit issue report: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                 });
     }
 
