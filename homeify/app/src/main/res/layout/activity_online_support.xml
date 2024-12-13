@@ -9,7 +9,6 @@
     android:background="@color/white"
     tools:context=".OnlineSupport">
 
-    <!-- AppBarLayout chứa Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -35,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Online Support"
+                android:text="Admin Contact"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:fontFamily="sans-serif-medium" />
@@ -43,12 +42,14 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- ScrollView chứa nội dung hỗ trợ trực tuyến -->
     <ScrollView
+        android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
+
+        <!-- Admin contact information -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,85 +57,57 @@
             android:padding="16dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Have a question? Ask us!"
-                android:textSize="20sp"
-                android:layout_marginBottom="8dp"/>
-
-            <EditText
-                android:id="@+id/etSupportRequest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Type your question or support request"
-                android:inputType="textMultiLine"
-                android:layout_marginBottom="16dp"
-                android:minHeight="120dp"/>
-
-            <Button
-                android:id="@+id/btnSubmitRequest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Submit Request"
-                android:textAllCaps="true"
-                android:textSize="20sp"
-                android:backgroundTint="@color/colorPrimary"
-                android:textColor="@android:color/white"
-                android:layout_marginBottom="16dp"/>
+                android:text="Admin Contact Information"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
 
             <TextView
+                android:id="@+id/tvAdminName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Chat with Support"
-                android:textSize="20sp"
-                android:layout_marginBottom="8dp"/>
+                android:text="Name: Admin Name"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
 
-            <LinearLayout
-                android:id="@+id/llChat"
+            <TextView
+                android:id="@+id/tvAdminPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:background="@drawable/chat_box_bg"
-                android:layout_marginBottom="16dp">
+                android:text="Phone: +123456789"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
 
-                <TextView
-                    android:id="@+id/tvChatMessages"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Start chatting with support!"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_marginBottom="8dp"/>
+            <TextView
+                android:id="@+id/tvAdminEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email: admin@example.com"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
 
-                <EditText
-                    android:id="@+id/etChatMessage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Type a message..."
-                    android:inputType="text"
-                    android:layout_marginBottom="8dp"/>
-
-                <Button
-                    android:id="@+id/btnSendMessage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Send"
-                    android:textAllCaps="true"
-                    android:textSize="20sp"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:textColor="@android:color/white"/>
-
-            </LinearLayout>
-
+            <!-- Call Now button -->
+            <Button
+                android:id="@+id/btnCallNow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Call Now"
+                android:textAllCaps="true"
+                android:textSize="18sp"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="16dp" />
         </LinearLayout>
-
     </ScrollView>
+
+
 
     <include
         android:id="@+id/navBar"
         layout="@layout/menu_user"
         android:layout_width="match_parent"
-        android:layout_height="56dp" />
-
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"/>
 </LinearLayout>
