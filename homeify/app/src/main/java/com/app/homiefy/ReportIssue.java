@@ -1,10 +1,12 @@
 package com.app.homiefy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -56,6 +58,34 @@ public class ReportIssue extends AppCompatActivity {
                 // Optionally, you can reset the form after submitting the report
                 etIssueDescription.setText("");
             }
+        });
+
+        setupMenuListeners();
+    }
+
+    private void setupMenuListeners() {
+        ImageView ivChat = findViewById(R.id.ivChat);
+        ivChat.setOnClickListener(v -> {
+            Intent intent = new Intent(ReportIssue.this, OnlineSupport.class);
+            startActivity(intent);
+        });
+
+        ImageView ivNotification = findViewById(R.id.ivNotification);
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(ReportIssue.this, NotificationsActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivFavorite = findViewById(R.id.ivFavorite);
+        ivFavorite.setOnClickListener(v -> {
+            Intent intent = new Intent(ReportIssue.this, FavoriteRooms.class);
+            startActivity(intent);
+        });
+
+        ImageView ivProfile = findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(ReportIssue.this, ProfileActivity.class);
+            startActivity(intent);
         });
     }
 }

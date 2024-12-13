@@ -1,6 +1,8 @@
 package com.app.homiefy;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,18 +29,17 @@ public class AreaInformation extends AppCompatActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_area_information);
 
+        setupMenuListeners();
+
         amenitiesList = findViewById(R.id.amenitiesList);
 
-        // Initialize map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapContainer);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
 
-        // List of nearby amenities
         String[] amenities = {"Hospital", "Supermarket", "School", "Public Transport", "Park"};
 
-        // Display each amenity in the layout
         for (String amenity : amenities) {
             TextView amenityTextView = new TextView(this);
             amenityTextView.setText(amenity);
@@ -67,5 +68,31 @@ public class AreaInformation extends AppCompatActivity implements OnMapReadyCall
         mMap.addMarker(new MarkerOptions().position(supermarketLocation).title("Nearby Supermarket"));
 
         // You can add more markers for other amenities similarly
+    }
+
+    private void setupMenuListeners() {
+        ImageView ivChat = findViewById(R.id.ivChat);
+        ivChat.setOnClickListener(v -> {
+            Intent intent = new Intent(AreaInformation.this, OnlineSupport.class);
+            startActivity(intent);
+        });
+
+        ImageView ivNotification = findViewById(R.id.ivNotification);
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(AreaInformation.this, NotificationsActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivFavorite = findViewById(R.id.ivFavorite);
+        ivFavorite.setOnClickListener(v -> {
+            Intent intent = new Intent(AreaInformation.this, FavoriteRooms.class);
+            startActivity(intent);
+        });
+
+        ImageView ivProfile = findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(AreaInformation.this, ProfileActivity.class);
+            startActivity(intent);
+        });
     }
 }

@@ -1,10 +1,12 @@
 package com.app.homiefy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ public class PaymentIntegration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_integration);
+        setupMenuListeners();
 
         // Initialize UI elements
         spinnerPaymentMethod = findViewById(R.id.spinnerPaymentMethod);
@@ -89,6 +92,32 @@ public class PaymentIntegration extends AppCompatActivity {
                 // Simulate bank transfer payment
                 Toast.makeText(this, "Bank transfer successful", Toast.LENGTH_SHORT).show();
             }
+        });
+    }
+
+    private void setupMenuListeners() {
+        ImageView ivChat = findViewById(R.id.ivChat);
+        ivChat.setOnClickListener(v -> {
+            Intent intent = new Intent(PaymentIntegration.this, OnlineSupport.class);
+            startActivity(intent);
+        });
+
+        ImageView ivNotification = findViewById(R.id.ivNotification);
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(PaymentIntegration.this, NotificationsActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivFavorite = findViewById(R.id.ivFavorite);
+        ivFavorite.setOnClickListener(v -> {
+            Intent intent = new Intent(PaymentIntegration.this, FavoriteRooms.class);
+            startActivity(intent);
+        });
+
+        ImageView ivProfile = findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(PaymentIntegration.this, ProfileActivity.class);
+            startActivity(intent);
         });
     }
 }

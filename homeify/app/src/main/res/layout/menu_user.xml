@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_height="56dp"
+    android:orientation="horizontal"
+    android:background="?attr/colorPrimary"
+    android:gravity="center"
+    tools:context=".Menu">
+
+    <ImageView
+        android:id="@+id/ivChat"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@drawable/ic_chat"
+        android:contentDescription="Chat"
+        android:padding="8dp"
+        android:scaleType="centerInside" />
+
+    <!-- Icon Thông báo -->
+    <ImageView
+        android:id="@+id/ivNotification"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@drawable/ic_notifications_24"
+        android:contentDescription="Notification"
+        android:padding="8dp"
+        android:scaleType="centerInside" />
+
+    <!-- Logo ở giữa -->
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@drawable/logo_homeify_black"
+        android:contentDescription="Logo"
+        android:padding="8dp"
+        android:scaleType="centerInside" />
+
+    <!-- Icon Yêu thích -->
+    <ImageView
+        android:id="@+id/ivFavorite"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@drawable/ic_manage_house"
+        android:contentDescription="Manage House"
+        android:padding="8dp"
+        android:scaleType="centerInside" />
+
+    <!-- Icon Thông tin cá nhân -->
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@drawable/ic_profile"
+        android:contentDescription="Profile"
+        android:padding="8dp"
+        android:scaleType="centerInside" />
+</LinearLayout>

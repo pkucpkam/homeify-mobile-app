@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +13,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Homiefy"
-        tools:targetApi="31">
+        tools:targetApi="31" >
+        <activity
+            android:name=".ReviewsAndRatings"
+            android:exported="false" />
+        <activity
+            android:name=".NotificationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatDetail"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".AreaInformation"
             android:exported="false" />
@@ -22,26 +39,8 @@
             android:name=".ReportIssue"
             android:exported="false" />
         <activity
-            android:name=".PaymentIntegration"
-            android:exported="false" />
-        <activity
-            android:name=".ContractDetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ContractManagement"
-            android:exported="false" />
-        <activity
-            android:name=".ReminderNotifications"
-            android:exported="false" />
-        <activity
-            android:name=".NotificationSettings"
-            android:exported="false" />
-        <activity
-            android:name=".FavoriteRooms"
-            android:exported="false" />
-        <activity
-            android:name=".DepositSystem"
-            android:exported="true">
+            android:name=".TestFirebaseActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,10 +48,22 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ContractDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ContractManagement"
+            android:exported="false" />
+        <activity
+            android:name=".FavoriteRooms"
+            android:exported="false" />
+        <activity
+            android:name=".DepositSystem"
+            android:exported="false" />
+        <activity
             android:name=".RoomReport"
             android:exported="false" />
         <activity
-            android:name=".ReviewsAndRatings"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".ConfirmInformation"
@@ -73,7 +84,7 @@
             android:name=".PostingRoom"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".PaymentIntegration"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
@@ -81,6 +92,7 @@
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
+
     </application>
 
 </manifest>
