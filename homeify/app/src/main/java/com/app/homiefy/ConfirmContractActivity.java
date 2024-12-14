@@ -77,7 +77,7 @@ public class ConfirmContractActivity extends AppCompatActivity {
                     }
                 })
                 .addOnFailureListener(e ->
-                        Toast.makeText(this, "Lỗi khi tải thông tin hợp đồng", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Error loading contract information", Toast.LENGTH_SHORT).show()
                 );
     }
 
@@ -108,24 +108,24 @@ public class ConfirmContractActivity extends AppCompatActivity {
                         } catch (NumberFormatException e) {
                             // Xử lý trường hợp chuỗi không phải số
                             Toast.makeText(ConfirmContractActivity.this,
-                                    "Lỗi định dạng số", Toast.LENGTH_SHORT).show();
+                                    "Number format error", Toast.LENGTH_SHORT).show();
                         }
 
                         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
-                        tvRoomName.setText("Tên phòng: " + (roomName != null ? roomName : ""));
-                        tvRoomAddress.setText("Địa chỉ: " + (address != null ? address : ""));
-                        tvRoomDeposit.setText("Tiền cọc: " + currencyFormat.format(deposit));
+                        tvRoomName.setText("Room name: " + (roomName != null ? roomName : ""));
+                        tvRoomAddress.setText("Address: " + (address != null ? address : ""));
+                        tvRoomDeposit.setText("Deposit: " + currencyFormat.format(deposit));
                         tvRoomPrice.setText("Giá thuê: " + currencyFormat.format(price));
 
                     } catch (Exception e) {
                         Toast.makeText(ConfirmContractActivity.this,
-                                "Lỗi khi xử lý thông tin phòng", Toast.LENGTH_SHORT).show();
+                                "Error processing room information", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(ConfirmContractActivity.this,
-                                "Không thể tải thông tin phòng", Toast.LENGTH_SHORT).show()
+                                "Room information could not be loaded.", Toast.LENGTH_SHORT).show()
                 );
     }
 
@@ -138,21 +138,21 @@ public class ConfirmContractActivity extends AppCompatActivity {
                     String phone = documentSnapshot.getString("phone");
 
                     if (isOwner) {
-                        tvOwnerName.setText("Họ tên: " + name);
-                        tvOwnerPhone.setText("Số điện thoại: " + phone);
+                        tvOwnerName.setText("Full name: " + name);
+                        tvOwnerPhone.setText("Phone number: " + phone);
                     } else {
-                        tvRenterName.setText("Họ tên: " + name);
-                        tvRenterPhone.setText("Số điện thoại: " + phone);
+                        tvRenterName.setText("Full name: " + name);
+                        tvRenterPhone.setText("Phone number: " + phone);
                     }
                 });
     }
 
     private void updateConfirmationStatus() {
-        String ownerStatus = contract.isOwnerConfirmed() ? "Đã xác nhận" : "Chưa xác nhận";
-        String renterStatus = contract.isRenterConfirmed() ? "Đã xác nhận" : "Chưa xác nhận";
+        String ownerStatus = contract.isOwnerConfirmed() ? "Confirmed" : "Not confirmed";
+        String renterStatus = contract.isRenterConfirmed() ? "Confirmed" : "Not confirmed";
 
-        tvOwnerConfirmStatus.setText("Trạng thái: " + ownerStatus);
-        tvRenterConfirmStatus.setText("Trạng thái: " + renterStatus);
+        tvOwnerConfirmStatus.setText("Status: " + ownerStatus);
+        tvRenterConfirmStatus.setText("Status: " + renterStatus);
     }
 
     private void updateConfirmButton() {
@@ -161,10 +161,10 @@ public class ConfirmContractActivity extends AppCompatActivity {
 
         if (hasConfirmed) {
             btnConfirm.setEnabled(false);
-            btnConfirm.setText("Đã xác nhận hợp đồng");
+            btnConfirm.setText("Contract confirmed");
         } else {
             btnConfirm.setEnabled(true);
-            btnConfirm.setText("Xác nhận hợp đồng");
+            btnConfirm.setText("Confirm contract");
         }
     }
 
@@ -182,11 +182,11 @@ public class ConfirmContractActivity extends AppCompatActivity {
                 .document(contractId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Đã xác nhận hợp đồng thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Contract confirmed successfully", Toast.LENGTH_SHORT).show();
                     loadContractDetails();
                 })
                 .addOnFailureListener(e ->
-                        Toast.makeText(this, "Lỗi khi xác nhận hợp đồng", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Error while confirming contract", Toast.LENGTH_SHORT).show()
                 );
     }
 }

@@ -62,24 +62,24 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
 
         if (isOwner) {
             if (!contract.isOwnerConfirmed()) {
-                status = "Chờ xác nhận";
+                status = "Waiting for confirmation";
                 statusColor = Color.parseColor("#FFA500"); // Orange
             } else if (contract.isOwnerConfirmed() && !contract.isRenterConfirmed()) {
-                status = "Chờ người thuê xác nhận";
+                status = "Waiting for tenant confirmation";
                 statusColor = Color.parseColor("#2196F3"); // Blue
             } else {
-                status = "Đã hoàn thành";
+                status = "Completed";
                 statusColor = Color.parseColor("#4CAF50"); // Green
             }
         } else {
             if (!contract.isRenterConfirmed()) {
-                status = "Chờ xác nhận";
+                status = "Waiting for confirmation";
                 statusColor = Color.parseColor("#FFA500"); // Orange
             } else if (contract.isRenterConfirmed() && !contract.isOwnerConfirmed()) {
-                status = "Chờ chủ nhà xác nhận";
+                status = "Waiting for host confirmation";
                 statusColor = Color.parseColor("#2196F3"); // Blue
             } else {
-                status = "Đã hoàn thành";
+                status = "Completed";
                 statusColor = Color.parseColor("#4CAF50"); // Green
             }
         }

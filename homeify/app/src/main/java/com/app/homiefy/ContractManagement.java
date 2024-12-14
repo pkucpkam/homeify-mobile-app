@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class ContractManagement extends AppCompatActivity {
         setupRecyclerView();
         loadContracts();
         loadOwnerContracts();
+        setupBackButton();
     }
 
     private void initViews() {
@@ -85,7 +87,7 @@ public class ContractManagement extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     showLoading(false);
-                    showError("Không thể tải danh sách hợp đồng: " + e.getMessage());
+                    showError("Unable to load contract list: " + e.getMessage());
                 });
     }
 
@@ -108,7 +110,7 @@ public class ContractManagement extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     showLoading(false);
-                    showError("Không thể tải danh sách hợp đồng chủ nhà: " + e.getMessage());
+                    showError("Unable to load landlord contract list: " + e.getMessage());
                 });
     }
 
@@ -137,5 +139,10 @@ public class ContractManagement extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupBackButton() {
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
     }
 }

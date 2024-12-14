@@ -47,15 +47,15 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         // Set status text and color
         switch (appointment.getStatus()) {
             case Appointment.STATUS_PENDING:
-                holder.tvStatus.setText("Đang chờ");
+                holder.tvStatus.setText("Waiting");
                 holder.tvStatus.setTextColor(context.getColor(R.color.pending));
                 break;
             case Appointment.STATUS_ACCEPTED:
-                holder.tvStatus.setText("Đã hẹn");
+                holder.tvStatus.setText("Appointed");
                 holder.tvStatus.setTextColor(context.getColor(R.color.accepted));
                 break;
             case Appointment.STATUS_REJECTED:
-                holder.tvStatus.setText("Đã từ chối");
+                holder.tvStatus.setText("Refused");
                 holder.tvStatus.setTextColor(context.getColor(R.color.rejected));
                 break;
         }
@@ -92,10 +92,10 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                             break;
                         }
                     }
-                    Toast.makeText(context, "Cập nhật trạng thái thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Status update successful", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(context, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
