@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ChatDetail">
+    tools:context=".ChatDetailActivity">
 
     <!-- AppBar -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -31,10 +31,11 @@
                 app:tint="@color/white" />
 
             <TextView
+                android:id="@+id/tvUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="User Profile"
+                android:text="Chat"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:fontFamily="sans-serif-medium" />
@@ -44,17 +45,19 @@
 
     <!-- Chat Messages -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/messageRecyclerView"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="8dp"
-        tools:listitem="@layout/item_message" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/inputLayout"
+        android:layout_below="@id/appBarLayout"
+        android:padding="8dp"/>
 
     <!-- Input Message Area -->
     <LinearLayout
+        android:id="@+id/inputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:padding="8dp"
         android:background="@android:color/white"
@@ -72,7 +75,7 @@
             android:inputType="text" />
 
         <ImageButton
-            android:id="@+id/sendButton"
+            android:id="@+id/btnSend"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
@@ -80,4 +83,4 @@
             android:src="@drawable/ic_send" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

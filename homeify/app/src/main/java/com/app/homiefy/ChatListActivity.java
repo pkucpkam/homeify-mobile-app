@@ -1,5 +1,6 @@
 package com.app.homiefy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,10 +40,19 @@ public class ChatListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.chatListRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatList = new ArrayList<>();
-        chatAdapter = new ChatAdapter(chatList, currentUserId);
         recyclerView.setAdapter(chatAdapter);
 
-        loadChats(); // Gọi phương thức để tải chat
+        // Tạo interface để xử lý click event
+        ChatAdapter.OnItemClickListener listener = chatId -> {
+            Intent intent = new Intent(ChatListActivity.this, ChatDetailActivity.class);
+            intent.putExtra("chatId", chatId);
+            startActivity(intent);
+        };
+
+        chatAdapter = new ChatAdapter(chatList, currentUserId, listener);
+        recyclerView.setAdapter(chatAdapter);
+
+        loadChats();
     }
 
     private void loadChats() {

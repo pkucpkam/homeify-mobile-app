@@ -12,15 +12,22 @@ import com.app.homiefy.R;
 
 import java.util.List;
 
+// ChatAdapter.java
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
     private List<Chat> chatList;
     private String currentUserId;
+    private OnItemClickListener listener; // Added this line
 
+    // Interface để xử lý click event
+    public interface OnItemClickListener {
+        void onItemClick(String chatId);
+    }
 
-    public ChatAdapter(List<Chat> chatList, String currentUserId) {
+    public ChatAdapter(List<Chat> chatList, String currentUserId, OnItemClickListener listener) {
         this.chatList = chatList;
         this.currentUserId = currentUserId;
+        this.listener = listener;
     }
 
     @NonNull
@@ -43,6 +50,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         }
         holder.chatLastMessage.setText(lastMessage);
         holder.chatTimestamp.setText(chat.getLastMessageTimestamp());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(chat.getChatId());
+            }
+        });
     }
 
     @Override

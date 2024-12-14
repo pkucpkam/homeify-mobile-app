@@ -34,7 +34,7 @@
             android:name=".ChatListActivity"
             android:exported="false" />
         <activity
-            android:name=".ChatDetail"
+            android:name=".ChatDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"

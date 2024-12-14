@@ -4,18 +4,15 @@
 
     <!-- Bo góc để tạo hiệu ứng bong bóng -->
     <corners
-        android:topLeftRadius="16dp"
-        android:topRightRadius="16dp"
-        android:bottomLeftRadius="4dp"
-        android:bottomRightRadius="16dp" />
+        android:topLeftRadius="20dp"
+        android:topRightRadius="20dp"
+        android:bottomLeftRadius="20dp"
+        android:bottomRightRadius="20dp" />
 
     <!-- Màu nền của bong bóng -->
-    <solid android:color="@android:color/holo_green_light" />
+    <solid android:color="@android:color/holo_purple" />
 
     <!-- Viền của bong bóng -->
-    <stroke
-        android:width="1dp"
-        android:color="@android:color/darker_gray" />
 
     <!-- Padding bên trong -->
     <padding
