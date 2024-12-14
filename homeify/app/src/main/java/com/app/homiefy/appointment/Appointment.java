@@ -12,7 +12,7 @@ public class Appointment {
     private String dateTime;
     private String userId; // người đặt lịch
     private String ownerId; // chủ nhà
-    private String propertyId; // id của phòng/nhà
+    private String roomName; // id của phòng/nhà
     private String status;
     private long createdAt;
 
@@ -72,12 +72,12 @@ public class Appointment {
         this.ownerId = ownerId;
     }
 
-    public String getPropertyId() {
-        return propertyId;
+    public String getRoomName() {
+        return roomName;
     }
 
-    public void setPropertyId(String propertyId) {
-        this.propertyId = propertyId;
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
     public String getStatus() {

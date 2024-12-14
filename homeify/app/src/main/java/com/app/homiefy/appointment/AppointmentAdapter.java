@@ -27,7 +27,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         this.context = context;
         this.appointments = appointments;
         this.isOwner = isOwner;
-        this.db = FirebaseFirestore.getInstance();
+        this.db = FirebaseFirestore.getInstance("homeify");
     }
 
     @NonNull
@@ -41,8 +41,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Appointment appointment = appointments.get(position);
-
-        holder.tvName.setText(appointment.getName());
+        holder.tvName.setText(appointment.getRoomName());
         holder.tvDateTime.setText(appointment.getDateTime());
 
         // Set status text and color
@@ -84,12 +83,22 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 .document(appointmentId)
                 .update("status", status)
                 .addOnSuccessListener(aVoid -> {
+                    // Cập nhật trạng thái trong danh sách local
+                    for (Appointment appointment : appointments) {
+                        if (appointment.getId().equals(appointmentId)) {
+                            appointment.setStatus(status);
+                            // Thông báo adapter cập nhật lại UI
+                            notifyDataSetChanged();
+                            break;
+                        }
+                    }
                     Toast.makeText(context, "Cập nhật trạng thái thành công", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(context, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
 
     @Override
     public int getItemCount() {

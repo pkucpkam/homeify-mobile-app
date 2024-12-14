@@ -45,7 +45,7 @@ public class RoomViewingAppointment extends AppCompatActivity {
     private Button btnConfirmAppointment;
     private LinearLayout dateTimePickerContainer;
     private Calendar selectedDateTime;
-    private String roomId, ownerId;
+    private String roomId, ownerId, roomName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class RoomViewingAppointment extends AppCompatActivity {
         // Get roomId
         roomId = getIntent().getStringExtra("roomId");
         ownerId = getIntent().getStringExtra("ownerId");
+        roomName = getIntent().getStringExtra("roomName");
 
         // Find views
         datePicker = findViewById(R.id.datePicker);
@@ -175,6 +176,8 @@ public class RoomViewingAppointment extends AppCompatActivity {
         appointment.put("dateTime", dateTime);
         appointment.put("roomId", roomId);
         appointment.put("ownerId", ownerId);
+        appointment.put("status","pending" );
+        appointment.put("roomName", roomName);
         appointment.put("userId", mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : "guest");
         appointment.put("createdAt", System.currentTimeMillis());
 

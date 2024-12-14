@@ -14,13 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.homiefy.appointment.Appointment;
 import com.app.homiefy.appointment.AppointmentAdapter;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AppointmentListActivity extends AppCompatActivity {
@@ -29,53 +33,64 @@ public class AppointmentListActivity extends AppCompatActivity {
     private List<Appointment> appointments;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
-    private boolean isOwner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_list);
 
-        db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance("homeify");
         mAuth = FirebaseAuth.getInstance();
         appointments = new ArrayList<>();
 
-        // Determine if current user is owner
-        isOwner = getIntent().getBooleanExtra("isOwner", false);
-
         recyclerView = findViewById(R.id.rvAppointments);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new AppointmentAdapter(this, appointments, isOwner);
-        recyclerView.setAdapter(adapter);
-
         loadAppointments();
     }
 
     private void loadAppointments() {
-        String userId = mAuth.getCurrentUser().getUid();
-        Query query;
+        String currentUserId = mAuth.getCurrentUser().getUid();
 
-        if (isOwner) {
-            query = db.collection("room_appointments")
-                    .whereEqualTo("ownerId", userId);
-        } else {
-            query = db.collection("room_appointments")
-                    .whereEqualTo("userId", userId);
-        }
 
-        query.addSnapshotListener((value, error) -> {
-            if (error != null) {
-                Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                return;
-            }
 
-            appointments.clear();
-            for (DocumentSnapshot doc : value.getDocuments()) {
-                Appointment appointment = doc.toObject(Appointment.class);
-                appointment.setId(doc.getId());
-                appointments.add(appointment);
-            }
-            adapter.notifyDataSetChanged();
-        });
+        db.collection("room_appointments")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    appointments.clear();
+                    boolean isOwner = false;
+                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                        String userId = doc.getString("userId");
+                        String ownerId = doc.getString("ownerId");
+
+                        // Kiểm tra nếu currentUserId trùng với userId hoặc ownerId
+                        if (currentUserId.equals(userId)) {
+                            isOwner = false;
+                            Appointment appointment = doc.toObject(Appointment.class);
+                            if (appointment != null) {
+                                appointment.setId(doc.getId());
+                                appointments.add(appointment);
+                            }
+                        }
+                        else if (currentUserId.equals(ownerId)) {
+                            isOwner = true;
+                            Appointment appointment = doc.toObject(Appointment.class);
+                            if (appointment != null) {
+                                appointment.setId(doc.getId());
+                                appointments.add(appointment);
+                            }
+                        }
+                    }
+
+                    // Cập nhật RecyclerView
+                    if (adapter == null) {
+                        adapter = new AppointmentAdapter(this, appointments, isOwner);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 }

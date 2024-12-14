@@ -23,7 +23,7 @@ import java.util.Locale;
 
 public class RoomDetails extends AppCompatActivity {
 
-    private TextView tvRentPrice, tvRoomDescription, tvHouseRules,
+    private TextView tvRoomName, tvRentPrice, tvRoomDescription, tvHouseRules,
             tvDeposit, tvOtherFees, tvContactInfo, tvArea, tvAddress;
     private ImageView ivRoomImage;
     private MaterialButton btnMessage, btnScheduleVisit, btnRateRoom, btnRentRoom, btnReport;
@@ -63,6 +63,7 @@ public class RoomDetails extends AppCompatActivity {
     }
 
     private void initializeUI() {
+        tvRoomName = findViewById(R.id.tvRoomName);
         tvRentPrice = findViewById(R.id.tvRentPrice);
         tvRoomDescription = findViewById(R.id.tvRoomDescription);
         tvHouseRules = findViewById(R.id.tvHouseRules);
@@ -88,8 +89,10 @@ public class RoomDetails extends AppCompatActivity {
         btnScheduleVisit.setOnClickListener(v -> {
             String roomAddress = tvAddress.getText().toString();
             String roomPrice = tvRentPrice.getText().toString();
+            String roomName = tvRoomName.getText().toString();
             Intent intent = new Intent(RoomDetails.this, RoomViewingAppointment.class);
             intent.putExtra("roomId", roomId);
+            intent.putExtra("roomName", roomName);
             intent.putExtra("ownerId", ownerId);
             intent.putExtra("roomAddress", roomAddress);
             intent.putExtra("roomRentPrice", roomPrice);
@@ -192,6 +195,7 @@ public class RoomDetails extends AppCompatActivity {
                         Room room = documentSnapshot.toObject(Room.class);
 
                         if (room != null) {
+                            tvRoomName.setText(room.getRoomName());
                             tvRentPrice.setText(formatCurrency(room.getRentPrice()) + "/month");
                             tvRoomDescription.setText(room.getDescription() != null ?
                                     room.getDescription() : "No description available");
