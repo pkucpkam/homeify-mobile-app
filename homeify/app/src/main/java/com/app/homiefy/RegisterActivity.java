@@ -1,5 +1,6 @@
 package com.app.homiefy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -97,8 +98,10 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         // Handle event when clicking TextView to go back to LoginActivity
+
         tvLogin.setOnClickListener(v -> {
-            finish(); // Close RegisterActivity
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
         });
 
         // Ensure the interface is not obstructed by system bars
