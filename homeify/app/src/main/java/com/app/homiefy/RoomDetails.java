@@ -26,7 +26,7 @@ public class RoomDetails extends AppCompatActivity {
     private TextView tvRentPrice, tvRoomDescription, tvHouseRules,
             tvDeposit, tvOtherFees, tvContactInfo, tvArea, tvAddress;
     private ImageView ivRoomImage;
-    private MaterialButton btnMessage, btnScheduleVisit;
+    private MaterialButton btnMessage, btnScheduleVisit, btnRateRoom, btnRentRoom;
     private ChipGroup chipGroupAmenities;
     private SessionManager sessionManager; // Declare the instance
 
@@ -59,6 +59,7 @@ public class RoomDetails extends AppCompatActivity {
         setupBackButton();
         setupMenuListeners();
         setupFavoriteButton();
+        setupActionButtons();
     }
 
     private void initializeUI() {
@@ -75,13 +76,14 @@ public class RoomDetails extends AppCompatActivity {
 
         btnMessage = findViewById(R.id.btnMessage);
         btnScheduleVisit = findViewById(R.id.btnScheduleVisit);
+        btnRateRoom = findViewById(R.id.btnRateRoom);
+        btnRentRoom = findViewById(R.id.btnRentRoom);
 
         btnMessage.setOnClickListener(v -> {
             Toast.makeText(this, "Messaging feature is not implemented yet!",
                     Toast.LENGTH_SHORT).show();
         });
 
-//        Chuyen qua trang hen lich
         btnScheduleVisit.setOnClickListener(v -> {
             String roomAddress = tvAddress.getText().toString();
             String roomPrice = tvRentPrice.getText().toString();
@@ -90,6 +92,24 @@ public class RoomDetails extends AppCompatActivity {
             intent.putExtra("ownerId", ownerId);
             intent.putExtra("roomAddress", roomAddress);
             intent.putExtra("roomRentPrice", roomPrice);
+            startActivity(intent);
+        });
+    }
+
+    private void setupActionButtons() {
+
+        // Set up Rate Room button
+        btnRateRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(RoomDetails.this, ReviewsAndRatings.class);
+            intent.putExtra("roomId", roomId);
+            startActivity(intent);
+        });
+
+        // Set up Rent Room button
+        btnRentRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(RoomDetails.this, DepositSystem.class);
+            intent.putExtra("roomId", roomId);
+            intent.putExtra("ownerId", ownerId); // Passing ownerId to the renting page
             startActivity(intent);
         });
     }

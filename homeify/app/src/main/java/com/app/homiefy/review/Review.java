@@ -1,32 +1,40 @@
 package com.app.homiefy.review;
 
 public class Review {
+    private String userId;
+    private String review;
     private float rating;
-    private String comment;
+    private String reviewerName; // Add this field for the reviewer's name
 
-    // Constructor
     public Review() {
+        // Default constructor required for Firestore
     }
 
-    public Review(float rating, String comment) {
+    public Review(String userId, String review, float rating) {
+        this.userId = userId;
+        this.review = review;
         this.rating = rating;
-        this.comment = comment;
     }
 
-    // Getters and Setters
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
     public float getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
-        this.rating = rating;
+    public String getReviewerName() {
+        return reviewerName;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setReviewerName(String reviewerName) {
+        this.reviewerName = reviewerName;
     }
 }
+
+
