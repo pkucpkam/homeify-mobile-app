@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -33,11 +34,14 @@ import java.util.Map;
 public class DepositSystem extends AppCompatActivity {
     private static final String TAG = "DepositSystem";
 
-    private String roomId;
+    private String roomId, owner;
     private String selectedPaymentMethod;
     private FirebaseFirestore db;
 
     private TextView tvNameRoomDetail, tvPriceDetail, tvAmenitiesDetail, tvDepositAmountDetail;
+    private EditText etRenterName, etRenterPhone;
+    private FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +59,13 @@ public class DepositSystem extends AppCompatActivity {
             return;
         }
 
+        // Get owner
+        owner = getIntent().getStringExtra("ownerId");
+
         setupBackButton();
         setupPaymentMethodSpinner();
         fetchRoomDetailsFromDatabase();
+        fetchUserInformation();
     }
 
     private void initializeViews() {
@@ -65,6 +73,9 @@ public class DepositSystem extends AppCompatActivity {
         tvPriceDetail = findViewById(R.id.tvPriceDetail);
         tvAmenitiesDetail = findViewById(R.id.tvAmenitiesDetail);
         tvDepositAmountDetail = findViewById(R.id.tvDepositAmountDetail);
+
+        etRenterName = findViewById(R.id.etRenterName);
+        etRenterPhone = findViewById(R.id.etRenterPhone);
     }
 
     private void setupPaymentMethodSpinner() {
@@ -108,6 +119,35 @@ public class DepositSystem extends AppCompatActivity {
                 });
     }
 
+    private void fetchUserInformation() {
+        db.collection("users").document(currentUser.getUid())
+                .get()
+                .addOnSuccessListener(document -> {
+                    if (document.exists()) {
+                        // Get username and phone from document
+                        String username = document.getString("username");
+                        String phone = document.getString("phone");
+
+                        etRenterName.setText(username);
+                        etRenterPhone.setText(phone);
+
+                        // Check if fields exist
+                        if (username != null && phone != null) {
+
+                        } else {
+                            Toast.makeText(this, "User information incomplete", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, "User not found.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to fetch user info: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Error fetching user information", e);
+                    finish();
+                });
+    }
 
     private void updateRoomDetails(DocumentSnapshot document) {
         // Room name
@@ -150,11 +190,26 @@ public class DepositSystem extends AppCompatActivity {
 
 
     private void confirmDeposit() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
             Toast.makeText(this, "Please log in to confirm the deposit.", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // Validate renter information
+        String renterName = etRenterName.getText().toString().trim();
+        String renterPhone = etRenterPhone.getText().toString().trim();
+
+        // Check if all fields are filled
+        if (TextUtils.isEmpty(renterName)) {
+            etRenterName.setError("Please enter your full name");
+            return;
+        }
+
+        if (TextUtils.isEmpty(renterPhone)) {
+            etRenterPhone.setError("Please enter your phone number");
+            return;
+        }
+
 
         if (TextUtils.isEmpty(selectedPaymentMethod)) {
             Toast.makeText(this, "Please select a payment method.", Toast.LENGTH_SHORT).show();
@@ -164,9 +219,15 @@ public class DepositSystem extends AppCompatActivity {
         Map<String, Object> deposit = new HashMap<>();
         deposit.put("roomId", roomId);
         deposit.put("userId", currentUser.getUid());
+        deposit.put("renterName", renterName);
+        deposit.put("renterPhone", renterPhone);
+        deposit.put("owner",owner);
         deposit.put("paymentMethod", selectedPaymentMethod);
         deposit.put("depositAmount", tvDepositAmountDetail.getText().toString());
         deposit.put("createdAt", System.currentTimeMillis());
+        deposit.put("renterConfirmed", false); // Người thuê đã xác nhận
+        deposit.put("ownerConfirmed", false); // Chờ chủ nhà xác nhận
+        deposit.put("status", "pending");
 
         db.collection("deposits")
                 .add(deposit)

@@ -29,5 +29,39 @@
     <string name="submit_request">Submit Request</string>
     <string name="send_message">Send</string>
 
+    <string name="contract_terms">
+        ĐIỀU 1: ĐỐI TƯỢNG VÀ THỜI HẠN THUÊ\n
+- Bên A đồng ý cho Bên B thuê phòng trọ và Bên B đồng ý thuê phòng trọ theo thông tin đã nêu trên.\n
+- Thời hạn thuê: 06 tháng kể từ ngày ký hợp đồng.\n\n
+
+ĐIỀU 2: GIÁ THUÊ VÀ PHƯƠNG THỨC THANH TOÁN\n
+- Tiền thuê phòng được thanh toán vào ngày 05 hàng tháng.\n
+- Tiền điện: Tính theo công tơ riêng, đơn giá theo quy định của điện lực.\n
+- Tiền nước: Tính theo đồng hồ riêng hoặc định mức thỏa thuận.\n
+- Tiền cọc sẽ được hoàn trả khi kết thúc hợp đồng nếu không có hư hỏng tài sản.\n\n
+
+ĐIỀU 3: TRÁCH NHIỆM CỦA BÊN A\n
+- Đảm bảo quyền sử dụng phòng trọ hợp pháp cho Bên B.\n
+- Sửa chữa những hư hỏng không do lỗi của Bên B.\n
+- Thông báo trước ít nhất 30 ngày nếu có thay đổi về giá thuê.\n\n
+
+ĐIỀU 4: TRÁCH NHIỆM CỦA BÊN B\n
+- Sử dụng phòng trọ đúng mục đích, giữ gìn vệ sinh sạch sẽ.\n
+- Thanh toán đầy đủ, đúng hạn các khoản tiền thuê và phí dịch vụ.\n
+- Không được tự ý sửa chữa, cải tạo phòng khi chưa có sự đồng ý của Bên A.\n
+- Báo trước 30 ngày nếu muốn chấm dứt hợp đồng trước thời hạn.\n\n
+
+ĐIỀU 5: CHẤM DỨT HỢP ĐỒNG\n
+- Hợp đồng chấm dứt trong các trường hợp:\n
+  + Hết thời hạn thuê\n
+  + Hai bên thỏa thuận chấm dứt hợp đồng\n
+  + Vi phạm nghiêm trọng các điều khoản đã thỏa thuận\n\n
+
+ĐIỀU 6: ĐIỀU KHOẢN CHUNG\n
+- Hai bên cam kết thực hiện đúng các điều khoản của hợp đồng.\n
+- Mọi tranh chấp sẽ được giải quyết trên tinh thần hòa giải.\n
+- Hợp đồng có hiệu lực kể từ ngày được xác nhận bởi cả hai bên.\n
+    </string>
+
 
 </resources>

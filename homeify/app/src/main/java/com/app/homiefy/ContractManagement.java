@@ -2,59 +2,140 @@ package com.app.homiefy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.app.homiefy.contract.Contract;
+import com.app.homiefy.contract.ContractAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContractManagement extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private ContractAdapter adapter;
+    private List<Contract> contractList;
+    private FirebaseFirestore db;
+    private String currentUserId;
+    private ProgressBar progressBar;
+    private TextView tvEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_contract_management);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        setupMenuListeners();
+        initViews();
+        setupRecyclerView();
+        loadContracts();
+        loadOwnerContracts();
     }
 
-    private void setupMenuListeners() {
-        ImageView ivChat = findViewById(R.id.ivChat);
-        ivChat.setOnClickListener(v -> {
-            Intent intent = new Intent(ContractManagement.this, ChatListActivity.class);
-            startActivity(intent);
-        });
+    private void initViews() {
+        recyclerView = findViewById(R.id.recyclerView);
+        progressBar = findViewById(R.id.progressBar);
+        tvEmpty = findViewById(R.id.tvEmpty);
 
-        ImageView ivNotification = findViewById(R.id.ivNotification);
-        ivNotification.setOnClickListener(v -> {
-            Intent intent = new Intent(ContractManagement.this, NotificationsActivity.class);
-            startActivity(intent);
-        });
+        db = FirebaseFirestore.getInstance("homeify");
+        currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        contractList = new ArrayList<>();
+    }
 
-        ImageView ivLogo = findViewById(R.id.ivLogo);
-        ivLogo.setOnClickListener(v -> {
-            Intent intent = new Intent(ContractManagement.this, MainActivity.class);
-            startActivity(intent);
-        });
+    private void setupRecyclerView() {
+        adapter = new ContractAdapter(contractList, currentUserId);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+    }
 
-        ImageView ivPostRoom = findViewById(R.id.ivPostRoom);
-        ivPostRoom.setOnClickListener(v -> {
-            Intent intent = new Intent(ContractManagement.this, PostingRoom.class);
-            startActivity(intent);
-        });
+    private void loadContracts() {
+        showLoading(true);
+        contractList.clear();
 
-        ImageView ivProfile = findViewById(R.id.ivProfile);
-        ivProfile.setOnClickListener(v -> {
-            Intent intent = new Intent(ContractManagement.this, ProfileActivity.class);
-            startActivity(intent);
-        });
+        db.collection("deposits")
+                .whereEqualTo("userId", currentUserId)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    contractList.clear();
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                        Contract contract = doc.toObject(Contract.class);
+                        if (contract != null) {
+                            contract.setDepositId(doc.getId());
+                            contractList.add(contract);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                    showLoading(false);
+                    updateEmptyView();
+                })
+                .addOnFailureListener(e -> {
+                    showLoading(false);
+                    showError("Không thể tải danh sách hợp đồng: " + e.getMessage());
+                });
+    }
+
+    private void loadOwnerContracts() {
+        // Query cho chủ nhà (ownerId)
+        db.collection("deposits")
+                .whereEqualTo("owner", currentUserId)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                        Contract contract = doc.toObject(Contract.class);
+                        if (contract != null) {
+                            contract.setDepositId(doc.getId());
+                            contractList.add(contract);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                    showLoading(false);
+                    updateEmptyView();
+                })
+                .addOnFailureListener(e -> {
+                    showLoading(false);
+                    showError("Không thể tải danh sách hợp đồng chủ nhà: " + e.getMessage());
+                });
+    }
+
+    private void showLoading(boolean isLoading) {
+        progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+    }
+
+    private void updateEmptyView() {
+        if (contractList.isEmpty()) {
+            tvEmpty.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            tvEmpty.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

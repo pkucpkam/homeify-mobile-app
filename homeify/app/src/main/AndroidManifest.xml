@@ -17,6 +17,15 @@
         android:theme="@style/Theme.Homiefy"
         tools:targetApi="31">
         <activity
+            android:name=".ConfirmContractActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateContractActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateContract"
+            android:exported="false" />
+        <activity
             android:name=".AppointmentScheduleActivity"
             android:exported="false" />
         <activity
