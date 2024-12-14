@@ -57,11 +57,13 @@
             android:padding="16dp">
 
             <!-- Bản đồ -->
-            <FrameLayout
-                android:id="@+id/mapContainer"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginBottom="16dp" />
+            <ImageView
+                android:id="@+id/ivRoomImage"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:contentDescription="Room Image"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/ggmap" />
 
             <!-- Danh sách tiện ích -->
             <TextView
@@ -72,7 +74,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <LinearLayout
-                android:id="@+id/amenitiesList"
+                android:id="@+id/surroundingInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -82,4 +84,10 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <include
+        android:id="@+id/navBar"
+        layout="@layout/menu_user"
+        android:layout_width="match_parent"
+        android:layout_height="56dp" />
 </LinearLayout>

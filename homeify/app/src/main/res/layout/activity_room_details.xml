@@ -34,14 +34,24 @@
             android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/btnFavorite"
+            android:id="@+id/ivReport"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="end"
             android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_report"
+            app:tint="@color/white" />
+
+        <ImageButton
+            android:id="@+id/btnFavorite"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_favorite_outline"
             app:tint="@color/white" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
@@ -269,6 +279,48 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <!-- Section Title -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Nearby Information"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="8dp" />
+
+                    <!-- Info Button -->
+                    <Button
+                        android:id="@+id/btnNearbyInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Details"
+                        android:backgroundTint="?attr/colorPrimary"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:drawableStart="@drawable/ic_location"
+                        android:drawablePadding="8dp"
+                        android:paddingVertical="8dp"
+                        android:paddingHorizontal="12dp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
             <!-- Thông tin thanh toán -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -358,20 +410,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnRentRoom"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:backgroundTint="#30CF52"
-                android:padding="12dp"
-                android:text="RENT ROOM"
-                android:textSize="16sp"
-                app:cornerRadius="8dp"
-                app:icon="@drawable/ic_rent"
-                app:iconGravity="textStart" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -381,35 +419,33 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnRateRoom"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#0866FF"
                     android:padding="12dp"
                     android:text="RATE ROOM"
                     android:textSize="16sp"
                     app:cornerRadius="8dp"
+                    android:backgroundTint="#30CF52"
                     app:icon="@drawable/ic_rate_star"
                     app:iconGravity="textStart" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnReport"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/btnRentRoom"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
                     android:layout_weight="1"
                     android:padding="12dp"
-                    android:text="REPORT"
-                    android:textColor="@android:color/white"
+                    android:text="RENT ROOM"
+                    android:backgroundTint="#0866FF"
                     android:textSize="16sp"
-                    app:backgroundTint="@color/colorError"
                     app:cornerRadius="8dp"
-                    app:icon="@drawable/ic_report"
+                    app:icon="@drawable/ic_rent"
                     app:iconGravity="textStart" />
-
             </LinearLayout>
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnScheduleVisit"

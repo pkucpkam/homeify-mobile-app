@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class AreaInformation extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private LinearLayout amenitiesList;
+    private LinearLayout surroundingInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +31,8 @@ public class AreaInformation extends AppCompatActivity implements OnMapReadyCall
 
         setupMenuListeners();
 
-        amenitiesList = findViewById(R.id.amenitiesList);
+        surroundingInfo = findViewById(R.id.surroundingInfo);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapContainer);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
 
         String[] amenities = {"Hospital", "Supermarket", "School", "Public Transport", "Park"};
 
@@ -45,7 +41,7 @@ public class AreaInformation extends AppCompatActivity implements OnMapReadyCall
             amenityTextView.setText(amenity);
             amenityTextView.setTextSize(18);
             amenityTextView.setPadding(0, 8, 0, 8);
-            amenitiesList.addView(amenityTextView);
+            surroundingInfo.addView(amenityTextView);
         }
     }
 

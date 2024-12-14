@@ -2,6 +2,7 @@ package com.app.homiefy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,8 +26,8 @@ public class RoomDetails extends AppCompatActivity {
 
     private TextView tvRoomName, tvRentPrice, tvRoomDescription, tvHouseRules,
             tvDeposit, tvOtherFees, tvContactInfo, tvArea, tvAddress;
-    private ImageView ivRoomImage;
-    private MaterialButton btnMessage, btnScheduleVisit, btnRateRoom, btnRentRoom, btnReport;
+    private ImageView ivRoomImage, ivReport;
+    private MaterialButton btnMessage, btnScheduleVisit, btnRateRoom, btnRentRoom;
     private ChipGroup chipGroupAmenities;
     private SessionManager sessionManager; // Declare the instance
 
@@ -73,13 +74,13 @@ public class RoomDetails extends AppCompatActivity {
         tvArea = findViewById(R.id.tvArea);
         tvAddress = findViewById(R.id.tvAddress); // Address TextView
         ivRoomImage = findViewById(R.id.ivRoomImage);
+        ivReport = findViewById(R.id.ivReport);
         chipGroupAmenities = findViewById(R.id.chipGroupAmenities); // For amenities
 
         btnMessage = findViewById(R.id.btnMessage);
         btnScheduleVisit = findViewById(R.id.btnScheduleVisit);
         btnRateRoom = findViewById(R.id.btnRateRoom);
         btnRentRoom = findViewById(R.id.btnRentRoom);
-        btnReport = findViewById(R.id.btnReport);
 
         btnMessage.setOnClickListener(v -> {
             Toast.makeText(this, "Messaging feature is not implemented yet!",
@@ -100,7 +101,17 @@ public class RoomDetails extends AppCompatActivity {
         });
     }
 
+
+
+
     private void setupActionButtons() {
+
+        Button btnNearbyInfo = findViewById(R.id.btnNearbyInfo);
+        btnNearbyInfo.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AreaInformation.class);
+            intent.putExtra("roomId", roomId); // Pass roomId if needed
+            startActivity(intent);
+        });
 
         // Set up Rate Room button
         btnRateRoom.setOnClickListener(v -> {
@@ -117,12 +128,6 @@ public class RoomDetails extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btnReport.setOnClickListener(v -> {
-            Intent intent = new Intent(RoomDetails.this, RoomReport.class);
-            intent.putExtra("roomId", roomId);
-            intent.putExtra("ownerId", ownerId); // Passing ownerId to the renting page
-            startActivity(intent);
-        });
     }
 
     private void setupFavoriteButton() {
@@ -318,6 +323,13 @@ public class RoomDetails extends AppCompatActivity {
         ImageView ivProfile = findViewById(R.id.ivProfile);
         ivProfile.setOnClickListener(v -> {
             Intent intent = new Intent(RoomDetails.this, ProfileActivity.class);
+            startActivity(intent);
+        });
+
+        ivReport.setOnClickListener(v -> {
+            Intent intent = new Intent(RoomDetails.this, RoomReport.class);
+            intent.putExtra("roomId", roomId);
+            intent.putExtra("ownerId", ownerId);
             startActivity(intent);
         });
     }

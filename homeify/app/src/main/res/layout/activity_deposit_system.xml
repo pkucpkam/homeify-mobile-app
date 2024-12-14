@@ -63,13 +63,76 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
 
-            <TextView
-                android:id="@+id/tvRoomDetails"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Room 1: 5,000,000 VND/month\nUtilities: Wifi, Air Conditioner, Washing Machine"
-                android:textSize="18sp"
-                android:layout_marginBottom="16dp"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvNameRoom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name Room: "
+                    android:textSize="18sp"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:id="@+id/tvNameRoomDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Room 1"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="16dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Price: "
+                    android:textSize="18sp"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:id="@+id/tvPriceDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="5,000,000 VND/month"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="16dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvAmenities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Amenities: "
+                    android:textSize="18sp"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:id="@+id/tvAmenitiesDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Wifi, Fridge,..."
+                    android:textSize="18sp"
+                    android:layout_marginBottom="16dp"/>
+
+            </LinearLayout>
+
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -79,13 +142,30 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
 
-            <TextView
-                android:id="@+id/tvDepositAmount"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Deposit: 1,000,000 VND"
-                android:textSize="18sp"
-                android:layout_marginBottom="16dp"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvDepositAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Deposit: "
+                    android:textSize="18sp"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:id="@+id/tvDepositAmountDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1,000,000 VND"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="16dp"/>
+
+            </LinearLayout>
+
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -123,8 +203,8 @@
                 android:text="Deposit Confirmation"
                 android:textAllCaps="true"
                 android:textSize="20sp"
+                android:backgroundTint="#30CF52"
                 android:textColor="@android:color/white"
-                android:backgroundTint="@color/colorPrimary"
                 android:layout_marginBottom="16dp"/>
 
         </LinearLayout>

@@ -39,7 +39,9 @@ public class PostingRoom extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int STORAGE_PERMISSION_CODE = 2;
 
-    private TextInputEditText etRoomName, etRentPrice, etArea, etAddress, etRules, etStartDate, etEndDate, etContactInfo;
+    private TextInputEditText etRoomName, etRentPrice, etArea, etAddress,
+            etRules, etStartDate, etEndDate, etContactInfo,
+            etSupermarket, etHospital, etTransport, etEducation;;
     private TextInputEditText etDeposit, etOtherFees, etDescription;
     private MaterialButton btnUploadImages, btnPostListing;
     private ChipGroup chipGroupAmenities;
@@ -76,6 +78,10 @@ public class PostingRoom extends AppCompatActivity {
         chipGroupAmenities = findViewById(R.id.chipGroupAmenities);
         btnUploadImages = findViewById(R.id.btnUploadImages);
         btnPostListing = findViewById(R.id.btnPostListing);
+        etSupermarket = findViewById(R.id.etSupermarket);
+        etHospital = findViewById(R.id.etHospital);
+        etTransport = findViewById(R.id.etTransport);
+        etEducation = findViewById(R.id.etEducation);
 
         // Set click listeners
         btnUploadImages.setOnClickListener(v -> checkPermissionAndOpenChooser());
@@ -147,10 +153,17 @@ public class PostingRoom extends AppCompatActivity {
         String deposit = etDeposit.getText().toString().trim();
         String otherFees = etOtherFees.getText().toString().trim();
         String description = etDescription.getText().toString().trim();
+
+        // Extract surrounding information
+        String supermarket = etSupermarket.getText().toString().trim();
+        String hospital = etHospital.getText().toString().trim();
+        String transport = etTransport.getText().toString().trim();
+        String education = etEducation.getText().toString().trim();
+
         List<String> amenities = getSelectedAmenities();
 
         if (roomName.isEmpty() || rentPrice.isEmpty() || area.isEmpty() || address.isEmpty() || contactInfo.isEmpty() ||
-                deposit.isEmpty() || otherFees.isEmpty() || description.isEmpty() || imageUri == null || amenities.isEmpty()) {
+                deposit.isEmpty() || description.isEmpty() || imageUri == null || amenities.isEmpty()) {
             Toast.makeText(this, "Please fill all fields and upload an image", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -180,9 +193,18 @@ public class PostingRoom extends AppCompatActivity {
                 roomData.put("deposit", deposit);
                 roomData.put("otherFees", otherFees);
                 roomData.put("description", description);
-                roomData.put("amenities", amenities); // Add amenities here
+                roomData.put("amenities", amenities);
                 roomData.put("imageUrl", imageUrl);
                 roomData.put("createdAt", System.currentTimeMillis());
+
+                // Add surrounding information
+                Map<String, Object> surroundingInfo = new HashMap<>();
+                surroundingInfo.put("supermarket", supermarket);
+                surroundingInfo.put("hospital", hospital);
+                surroundingInfo.put("transport", transport);
+                surroundingInfo.put("education", education);
+
+                roomData.put("surroundingInfo", surroundingInfo);
 
                 String roomId = UUID.randomUUID().toString();
 
@@ -197,6 +219,7 @@ public class PostingRoom extends AppCompatActivity {
             Toast.makeText(this, "Failed to process image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void setupMenuListeners() {
         ImageView ivChat = findViewById(R.id.ivChat);
