@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,10 +8,11 @@
     android:background="@color/white"
     tools:context=".RoomViewingAppointment">
 
-    <!-- AppBarLayout giữ nguyên -->
+    <!-- Fixed Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -41,10 +41,12 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- Scrollable Content Section -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,8 +54,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Time Selection Section -->
-
+            <!-- Room Information -->
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
@@ -65,15 +66,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:id="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Address" />
+                    android:text="Address:"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tvAddress"
@@ -81,20 +83,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Location" />
+                    android:text="Location"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp">
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/textView10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Price" />
+                    android:text="Price:"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tvPrice"
@@ -102,10 +106,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Price" />
-
+                    android:text="Price"
+                    android:textSize="18sp" />
             </LinearLayout>
 
+            <!-- Date and Time Picker -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -114,7 +119,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- Time Selection Button -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -128,10 +132,8 @@
                     android:drawableEnd="@drawable/ic_calendar"
                     android:focusable="false"
                     android:hint="Select date and time" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Date and Time Picker Container -->
             <LinearLayout
                 android:id="@+id/dateTimePickerContainer"
                 android:layout_width="match_parent"
@@ -153,7 +155,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:timePickerMode="spinner" />
-
             </LinearLayout>
 
             <!-- Contact Information -->
@@ -177,7 +178,6 @@
                     android:layout_height="wrap_content"
                     android:hint="Full name"
                     android:inputType="textPersonName" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -192,7 +192,6 @@
                     android:layout_height="wrap_content"
                     android:hint="Phone number"
                     android:inputType="phone" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -207,7 +206,6 @@
                     android:layout_height="wrap_content"
                     android:hint="Email"
                     android:inputType="textEmailAddress" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -220,9 +218,7 @@
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
-
         </LinearLayout>
-
     </ScrollView>
 
     <include
@@ -230,5 +226,4 @@
         layout="@layout/menu_user"
         android:layout_width="match_parent"
         android:layout_height="56dp" />
-
 </LinearLayout>

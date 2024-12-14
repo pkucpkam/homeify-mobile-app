@@ -173,6 +173,8 @@ public class RoomViewingAppointment extends AppCompatActivity {
         appointment.put("phone", phone);
         appointment.put("email", email);
         appointment.put("dateTime", dateTime);
+        appointment.put("roomId", roomId);
+        appointment.put("ownerId", ownerId);
         appointment.put("userId", mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : "guest");
         appointment.put("createdAt", System.currentTimeMillis());
 
@@ -199,6 +201,7 @@ public class RoomViewingAppointment extends AppCompatActivity {
                     Log.e(TAG, "Error booking appointment", e);
                 });
     }
+
 
     private void setupMenuListeners() {
         ImageView ivChat = findViewById(R.id.ivChat);

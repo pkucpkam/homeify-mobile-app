@@ -55,16 +55,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- TextView hiển thị thông báo -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Favorites List"
-                android:textSize="24sp"
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_marginBottom="16dp"/>
 
             <!-- RecyclerView hiển thị danh sách các phòng yêu thích -->
             <androidx.recyclerview.widget.RecyclerView

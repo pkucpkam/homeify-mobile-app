@@ -57,6 +57,7 @@ public class RoomDetails extends AppCompatActivity {
         getRoomOwner();
         fetchRoomDetails();
         setupBackButton();
+        setupMenuListeners();
         setupFavoriteButton();
     }
 

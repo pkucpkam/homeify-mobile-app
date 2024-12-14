@@ -2,6 +2,9 @@ package com.app.homiefy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,6 +55,8 @@ public class ChatListActivity extends AppCompatActivity {
         recyclerView.setAdapter(chatAdapter);
 
         loadChats();
+        setupMenuListeners();
+        setupBackButton();
     }
 
     private void loadChats() {
@@ -98,6 +103,43 @@ public class ChatListActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error here
             }
+        });
+    }
+
+    private void setupBackButton() {
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
+    }
+
+    private void setupMenuListeners() {
+        ImageView ivChat = findViewById(R.id.ivChat);
+        ivChat.setOnClickListener(v -> {
+            Intent intent = new Intent(ChatListActivity.this, ChatListActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivNotification = findViewById(R.id.ivNotification);
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(ChatListActivity.this, NotificationsActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivLogo = findViewById(R.id.ivLogo);
+        ivLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(ChatListActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivPostRoom = findViewById(R.id.ivPostRoom);
+        ivPostRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(ChatListActivity.this, PostingRoom.class);
+            startActivity(intent);
+        });
+
+        ImageView ivProfile = findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(ChatListActivity.this, ProfileActivity.class);
+            startActivity(intent);
         });
     }
 }

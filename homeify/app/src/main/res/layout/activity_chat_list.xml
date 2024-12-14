@@ -42,12 +42,42 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- List of Chats -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chatListRecyclerView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        tools:listitem="@layout/item_chat" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chatListRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                tools:listitem="@layout/item_chat" />
+
+            <TextView
+                android:id="@+id/tvEmptyList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You have no chat yet."
+                android:textSize="18sp"
+                android:textColor="@android:color/darker_gray"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include
+        android:id="@+id/navBar"
+        layout="@layout/menu_user"
+        android:layout_width="match_parent"
+        android:layout_height="56dp" />
 
 </LinearLayout>
