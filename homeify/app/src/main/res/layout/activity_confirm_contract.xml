@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,16 +17,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="HỢP ĐỒNG THUÊ PHÒNG"
+            android:text="ROOM RENTAL AGREEMENT"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Thông tin phòng -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="THÔNG TIN PHÒNG"
+            android:text="ROOM INFORMATION"
             android:textStyle="bold"
             android:layout_marginTop="8dp"/>
 
@@ -52,11 +53,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"/>
 
-        <!-- Thông tin chủ nhà -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="BÊN CHO THUÊ (BÊN A)"
+            android:text="LESSOR (PARTY A)"
             android:textStyle="bold"
             android:layout_marginTop="16dp"/>
 
@@ -85,11 +85,10 @@
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
 
-        <!-- Thông tin người thuê -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="BÊN THUÊ (BÊN B)"
+            android:text="LESSEE (PARTY B)"
             android:textStyle="bold"
             android:layout_marginTop="16dp"/>
 
@@ -118,11 +117,10 @@
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
 
-        <!-- Điều khoản -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ĐIỀU KHOẢN CHUNG"
+            android:text="GENERAL TERMS"
             android:textStyle="bold"
             android:layout_marginTop="16dp"/>
 
@@ -138,7 +136,7 @@
             android:id="@+id/btnConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Xác nhận hợp đồng"
+            android:text="Confirm contract"
             android:layout_marginTop="24dp"/>
 
     </LinearLayout>
