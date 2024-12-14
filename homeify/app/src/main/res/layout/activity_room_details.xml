@@ -64,6 +64,21 @@
                 android:layout_marginBottom="8dp"
                 android:src="@drawable/placeholder_image" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:padding="12dp"
+                android:text="REPORT"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                app:icon="@drawable/ic_report"
+                app:iconGravity="textStart"
+                app:cornerRadius="8dp"
+                app:backgroundTint="@color/colorError" />
+
             <TextView
                 android:id="@+id/tvRentPrice"
                 android:layout_width="match_parent"
@@ -364,6 +379,7 @@
                     android:text="RATE ROOM"
                     android:textSize="16sp"
                     app:cornerRadius="8dp"
+                    android:backgroundTint="#0866FF"
                     app:icon="@drawable/ic_rate_star"
                     app:iconGravity="textStart" />
 
@@ -377,6 +393,7 @@
                     android:text="RENT ROOM"
                     android:textSize="16sp"
                     app:cornerRadius="8dp"
+                    android:backgroundTint="#30CF52"
                     app:icon="@drawable/ic_rent"
                     app:iconGravity="textStart" />
             </LinearLayout>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ public class DepositSystem extends AppCompatActivity {
         setContentView(R.layout.activity_deposit_system);
 
         setupMenuListeners();
+        setupBackButton();
 
         Spinner spinnerPaymentMethod = findViewById(R.id.spinnerPaymentMethod);
 
@@ -53,6 +55,11 @@ public class DepositSystem extends AppCompatActivity {
 
             return insets;
         });
+    }
+
+    private void setupBackButton() {
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
     }
 
     private void setupMenuListeners() {

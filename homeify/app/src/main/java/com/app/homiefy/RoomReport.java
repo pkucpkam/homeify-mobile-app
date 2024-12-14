@@ -85,6 +85,15 @@ public class RoomReport extends AppCompatActivity {
             return;
         }
 
+        // Get room ID from the Intent
+        String roomId = getIntent().getStringExtra("roomId");
+
+        if (roomId == null || roomId.isEmpty()) {
+            Toast.makeText(this, "Room ID is missing.", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "Room ID not provided.");
+            return;
+        }
+
         // Get input values
         String issueType = spinnerReportReason.getSelectedItem().toString();
         String issueDescription = edtReportDetail.getText().toString().trim();
@@ -99,6 +108,7 @@ public class RoomReport extends AppCompatActivity {
         // Prepare issue report data
         Map<String, Object> issueReport = new HashMap<>();
         issueReport.put("userId", userId);
+        issueReport.put("roomId", roomId); // Add room ID
         issueReport.put("issueType", issueType);
         issueReport.put("description", issueDescription);
         issueReport.put("status", "OPEN");

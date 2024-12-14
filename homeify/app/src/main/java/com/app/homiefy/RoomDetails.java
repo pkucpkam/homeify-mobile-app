@@ -26,7 +26,7 @@ public class RoomDetails extends AppCompatActivity {
     private TextView tvRentPrice, tvRoomDescription, tvHouseRules,
             tvDeposit, tvOtherFees, tvContactInfo, tvArea, tvAddress;
     private ImageView ivRoomImage;
-    private MaterialButton btnMessage, btnScheduleVisit, btnRateRoom, btnRentRoom;
+    private MaterialButton btnMessage, btnScheduleVisit, btnRateRoom, btnRentRoom, btnReport;
     private ChipGroup chipGroupAmenities;
     private SessionManager sessionManager; // Declare the instance
 
@@ -78,6 +78,7 @@ public class RoomDetails extends AppCompatActivity {
         btnScheduleVisit = findViewById(R.id.btnScheduleVisit);
         btnRateRoom = findViewById(R.id.btnRateRoom);
         btnRentRoom = findViewById(R.id.btnRentRoom);
+        btnReport = findViewById(R.id.btnReport);
 
         btnMessage.setOnClickListener(v -> {
             Toast.makeText(this, "Messaging feature is not implemented yet!",
@@ -108,6 +109,13 @@ public class RoomDetails extends AppCompatActivity {
         // Set up Rent Room button
         btnRentRoom.setOnClickListener(v -> {
             Intent intent = new Intent(RoomDetails.this, DepositSystem.class);
+            intent.putExtra("roomId", roomId);
+            intent.putExtra("ownerId", ownerId); // Passing ownerId to the renting page
+            startActivity(intent);
+        });
+
+        btnReport.setOnClickListener(v -> {
+            Intent intent = new Intent(RoomDetails.this, RoomReport.class);
             intent.putExtra("roomId", roomId);
             intent.putExtra("ownerId", ownerId); // Passing ownerId to the renting page
             startActivity(intent);
