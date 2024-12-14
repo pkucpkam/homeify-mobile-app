@@ -31,7 +31,7 @@ public class RoomDetails extends AppCompatActivity {
     private SessionManager sessionManager; // Declare the instance
 
     private FirebaseFirestore db;
-    private String roomId;
+    private String roomId, ownerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class RoomDetails extends AppCompatActivity {
         }
         sessionManager = new SessionManager(this);
 
+        getRoomOwner();
         fetchRoomDetails();
         setupBackButton();
         setupFavoriteButton();
@@ -79,9 +80,16 @@ public class RoomDetails extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         });
 
+//        Chuyen qua trang hen lich
         btnScheduleVisit.setOnClickListener(v -> {
-            Toast.makeText(this, "Schedule visit feature is not implemented yet!",
-                    Toast.LENGTH_SHORT).show();
+            String roomAddress = tvAddress.getText().toString();
+            String roomPrice = tvRentPrice.getText().toString();
+            Intent intent = new Intent(RoomDetails.this, RoomViewingAppointment.class);
+            intent.putExtra("roomId", roomId);
+            intent.putExtra("ownerId", ownerId);
+            intent.putExtra("roomAddress", roomAddress);
+            intent.putExtra("roomRentPrice", roomPrice);
+            startActivity(intent);
         });
     }
 
@@ -232,6 +240,17 @@ public class RoomDetails extends AppCompatActivity {
             return price + " VND";
         }
     }
+
+    private void getRoomOwner() {
+        db.collection("rooms").document(roomId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    ownerId = documentSnapshot.getString("userId");
+                })
+                .addOnFailureListener(e -> Toast.makeText(this,
+                        "Failed to fetch room owner: " + e.getMessage(),
+                        Toast.LENGTH_SHORT).show());
+    }
+
 
     private void setupBackButton() {
         ImageButton btnBack = findViewById(R.id.btnBack);

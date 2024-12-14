@@ -9,7 +9,7 @@
     android:background="@color/white"
     tools:context=".RoomViewingAppointment">
 
-    <!-- AppBarLayout containing the Toolbar -->
+    <!-- AppBarLayout giữ nguyên -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -21,7 +21,6 @@
             android:background="?attr/colorPrimary"
             android:elevation="4dp">
 
-            <!-- Back Button in Toolbar -->
             <ImageButton
                 android:id="@+id/btnBack"
                 android:layout_width="48dp"
@@ -30,7 +29,6 @@
                 android:src="@drawable/ic_arrow_back"
                 app:tint="@color/white" />
 
-            <!-- Title in Toolbar -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +41,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- ScrollView containing the content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -55,70 +52,174 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Time Selection Section -->
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Room Information:"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address" />
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Location" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price" />
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Price" />
+
+            </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="Select date and time:"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold" />
 
-            <DatePicker
-                android:id="@+id/datePicker"
+            <!-- Time Selection Button -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp">
 
-            <TimePicker
-                android:id="@+id/timePicker"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtDateTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_calendar"
+                    android:focusable="false"
+                    android:hint="Select date and time" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Date and Time Picker Container -->
+            <LinearLayout
+                android:id="@+id/dateTimePickerContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"/>
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <DatePicker
+                    android:id="@+id/datePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner" />
+
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:timePickerMode="spinner" />
+
+            </LinearLayout>
 
             <!-- Contact Information -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="Contact information:"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/edtName"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Full name"
-                android:inputType="textPersonName"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp">
 
-            <EditText
-                android:id="@+id/edtPhone"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Full name"
+                    android:inputType="textPersonName" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone number"
-                android:inputType="phone"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp">
 
-            <EditText
-                android:id="@+id/edtEmail"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone number"
+                    android:inputType="phone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp">
 
-            <!-- Confirm Appointment Button -->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/btnConfirmAppointment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorPrimary"
                 android:text="Confirm appointment"
                 android:textAllCaps="true"
-                android:textSize="20sp"
                 android:textColor="@android:color/white"
-                android:backgroundTint="@color/colorPrimary"
-                android:layout_marginTop="16dp"/>
+                android:textSize="20sp" />
 
         </LinearLayout>
 

@@ -3,11 +3,14 @@ package com.app.homiefy;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -17,10 +20,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -30,11 +37,15 @@ public class RoomViewingAppointment extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-
+    private TextView tvAddress, tvPrice;
     private DatePicker datePicker;
     private TimePicker timePicker;
+    private TextInputEditText edtDateTime;
     private EditText edtName, edtPhone, edtEmail;
     private Button btnConfirmAppointment;
+    private LinearLayout dateTimePickerContainer;
+    private Calendar selectedDateTime;
+    private String roomId, ownerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +57,31 @@ public class RoomViewingAppointment extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance("homeify");
 
+        // Initialize Calendar
+        selectedDateTime = Calendar.getInstance();
+
+        // Get roomId
+        roomId = getIntent().getStringExtra("roomId");
+        ownerId = getIntent().getStringExtra("ownerId");
+
         // Find views
         datePicker = findViewById(R.id.datePicker);
         timePicker = findViewById(R.id.timePicker);
+        edtDateTime = findViewById(R.id.edtDateTime);
+        dateTimePickerContainer = findViewById(R.id.dateTimePickerContainer);
         edtName = findViewById(R.id.edtName);
         edtPhone = findViewById(R.id.edtPhone);
         edtEmail = findViewById(R.id.edtEmail);
         btnConfirmAppointment = findViewById(R.id.btnConfirmAppointment);
+        tvAddress = findViewById(R.id.tvAddress);
+        tvPrice = findViewById(R.id.tvPrice);
+
+        // Set room information
+        tvAddress.setText(getIntent().getStringExtra("roomAddress"));
+        tvPrice.setText(getIntent().getStringExtra("roomRentPrice"));
+
+        // Setup DateTime picker
+        setupDateTimePicker();
 
         // Set up Confirm Appointment button
         btnConfirmAppointment.setOnClickListener(v -> submitAppointment());
@@ -65,8 +94,59 @@ public class RoomViewingAppointment extends AppCompatActivity {
         });
 
         setupMenuListeners();
-
         setupBackButton();
+    }
+
+    private void setupDateTimePicker() {
+        // Set minimum date to today
+        datePicker.setMinDate(System.currentTimeMillis() - 1000);
+
+        // Use 24 hour view for TimePicker
+        timePicker.setIs24HourView(true);
+
+        // Initialize with current date and time
+        updateDateTimeDisplay();
+
+        // Add listeners for date and time changes
+        datePicker.init(selectedDateTime.get(Calendar.YEAR),
+                selectedDateTime.get(Calendar.MONTH),
+                selectedDateTime.get(Calendar.DAY_OF_MONTH),
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    selectedDateTime.set(Calendar.YEAR, year);
+                    selectedDateTime.set(Calendar.MONTH, monthOfYear);
+                    selectedDateTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    updateDateTimeDisplay();
+                });
+
+        timePicker.setOnTimeChangedListener((view, hourOfDay, minute) -> {
+            selectedDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            selectedDateTime.set(Calendar.MINUTE, minute);
+            updateDateTimeDisplay();
+        });
+
+        // Setup click listener for datetime field
+        edtDateTime.setOnClickListener(v -> {
+            if (dateTimePickerContainer.getVisibility() == View.VISIBLE) {
+                dateTimePickerContainer.setVisibility(View.GONE);
+            } else {
+                dateTimePickerContainer.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void saveSelectedDateTime() {
+        selectedDateTime.set(Calendar.YEAR, datePicker.getYear());
+        selectedDateTime.set(Calendar.MONTH, datePicker.getMonth());
+        selectedDateTime.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+        selectedDateTime.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+        selectedDateTime.set(Calendar.MINUTE, timePicker.getMinute());
+
+        updateDateTimeDisplay();
+    }
+
+    private void updateDateTimeDisplay() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        edtDateTime.setText(sdf.format(selectedDateTime.getTime()));
     }
 
     private void setupBackButton() {
@@ -79,28 +159,20 @@ public class RoomViewingAppointment extends AppCompatActivity {
         String name = edtName.getText().toString().trim();
         String phone = edtPhone.getText().toString().trim();
         String email = edtEmail.getText().toString().trim();
-        int day = datePicker.getDayOfMonth();
-        int month = datePicker.getMonth() + 1; // Month is 0-indexed
-        int year = datePicker.getYear();
-        int hour = timePicker.getHour();
-        int minute = timePicker.getMinute();
+        String dateTime = edtDateTime.getText().toString().trim();
 
         // Validate input
-        if (name.isEmpty() || phone.isEmpty() || email.isEmpty()) {
+        if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || dateTime.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Prepare appointment data
-        String date = day + "/" + month + "/" + year;
-        String time = String.format("%02d:%02d", hour, minute);
-
         Map<String, Object> appointment = new HashMap<>();
         appointment.put("name", name);
         appointment.put("phone", phone);
         appointment.put("email", email);
-        appointment.put("date", date);
-        appointment.put("time", time);
+        appointment.put("dateTime", dateTime);
         appointment.put("userId", mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : "guest");
         appointment.put("createdAt", System.currentTimeMillis());
 
@@ -118,8 +190,9 @@ public class RoomViewingAppointment extends AppCompatActivity {
                     edtName.setText("");
                     edtPhone.setText("");
                     edtEmail.setText("");
-                    timePicker.setHour(0);
-                    timePicker.setMinute(0);
+                    edtDateTime.setText("");
+                    selectedDateTime = Calendar.getInstance();
+                    updateDateTimeDisplay();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(RoomViewingAppointment.this, "Failed to book appointment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
