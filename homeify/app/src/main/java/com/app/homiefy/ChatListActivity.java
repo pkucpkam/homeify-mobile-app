@@ -34,8 +34,7 @@ public class ChatListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
 
-        currentUserId = "userId1";
-//        currentUserId = sessionManager.getUserId();
+        currentUserId = sessionManager.getUserId();
 
         recyclerView = findViewById(R.id.chatListRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

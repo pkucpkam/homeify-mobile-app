@@ -13,16 +13,14 @@
         android:background="?attr/selectableItemBackground"
         android:padding="16dp">
 
-        <!-- Ảnh thông báo -->
         <ImageView
             android:id="@+id/ivNotification"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="8dp"
-            android:src="@drawable/ic_notification"
+            android:src="@drawable/ic_noti"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/white" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Chấm đỏ hiển thị trạng thái chưa đọc -->
         <View
@@ -78,18 +76,6 @@
             app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
         <!-- Nút đánh dấu đã đọc -->
-        <Button
-            android:id="@+id/btnMarkRead"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:text="Mark as read"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvContent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

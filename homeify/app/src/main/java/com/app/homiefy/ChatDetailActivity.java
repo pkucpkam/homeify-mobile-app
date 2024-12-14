@@ -48,10 +48,8 @@ public class ChatDetailActivity extends AppCompatActivity {
         btnSend = findViewById(R.id.btnSend); // Changed from btnSend to sendButton to match layout
 
         // Get chatId from intent
-//        chatId = getIntent().getStringExtra("chatId");
-        chatId = "chatId2";
-        currentUserId = "userId1";
-//        currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        chatId = getIntent().getStringExtra("chatId");
+        currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Log.d("ChatDetail", "Current User ID: " + currentUserId); // Thêm log này
 
@@ -129,7 +127,6 @@ public class ChatDetailActivity extends AppCompatActivity {
         String messageId = chatRef.child("messages").push().getKey();
         String timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
                 .format(new Date());
-
         Map<String, Object> messageData = new HashMap<>();
         messageData.put("senderId", currentUserId);
         messageData.put("text", messageText);
