@@ -14,66 +14,68 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.homiefy.appointment.Appointment;
 import com.app.homiefy.appointment.AppointmentAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AppointmentListActivity extends AppCompatActivity {
-
-    private static final String TAG = "AppointmentListActivity";
-
-    private FirebaseFirestore db;
-    private RecyclerView rvAppointments;
+    private RecyclerView recyclerView;
     private AppointmentAdapter adapter;
-    private List<Appointment> appointmentList;
+    private List<Appointment> appointments;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private boolean isOwner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_list);
 
-        // Initialize Firestore
-        db = FirebaseFirestore.getInstance("homeify");
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        appointments = new ArrayList<>();
 
-        // Initialize RecyclerView
-        rvAppointments = findViewById(R.id.rvAppointments);
-        rvAppointments.setLayoutManager(new LinearLayoutManager(this));
-        appointmentList = new ArrayList<>();
-        adapter = new AppointmentAdapter(appointmentList);
-        rvAppointments.setAdapter(adapter);
+        // Determine if current user is owner
+        isOwner = getIntent().getBooleanExtra("isOwner", false);
 
-        // Fetch appointments from Firestore
-        fetchAppointments();
+        recyclerView = findViewById(R.id.rvAppointments);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new AppointmentAdapter(this, appointments, isOwner);
+        recyclerView.setAdapter(adapter);
+
+        loadAppointments();
     }
 
-    private void fetchAppointments() {
-        db.collection("room_appointments")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        appointmentList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String name = document.getString("name");
-                            String phone = document.getString("phone");
-                            String email = document.getString("email");
-                            String date = document.getString("date");
-                            String time = document.getString("time");
+    private void loadAppointments() {
+        String userId = mAuth.getCurrentUser().getUid();
+        Query query;
 
-                            Appointment appointment = new Appointment(name, phone, email, date, time);
-                            appointmentList.add(appointment);
-                        }
-                        adapter.notifyDataSetChanged();
-                        Log.d(TAG, "Appointments fetched successfully.");
-                    } else {
-                        Log.e(TAG, "Error fetching appointments", task.getException());
-                        Toast.makeText(this, "Failed to fetch appointments.", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Error fetching appointments", e);
-                    Toast.makeText(this, "Failed to fetch appointments.", Toast.LENGTH_SHORT).show();
-                });
+        if (isOwner) {
+            query = db.collection("room_appointments")
+                    .whereEqualTo("ownerId", userId);
+        } else {
+            query = db.collection("room_appointments")
+                    .whereEqualTo("userId", userId);
+        }
+
+        query.addSnapshotListener((value, error) -> {
+            if (error != null) {
+                Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            appointments.clear();
+            for (DocumentSnapshot doc : value.getDocuments()) {
+                Appointment appointment = doc.toObject(Appointment.class);
+                appointment.setId(doc.getId());
+                appointments.add(appointment);
+            }
+            adapter.notifyDataSetChanged();
+        });
     }
 }
