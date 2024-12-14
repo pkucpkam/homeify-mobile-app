@@ -1,7 +1,10 @@
 package com.app.homiefy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +53,13 @@ public class NotificationsActivity extends AppCompatActivity {
 
         // Load notifications
         loadNotifications();
+        setupMenuListeners();
+        setupBackButton();
+    }
+
+    private void setupBackButton() {
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
     }
 
     private void loadNotifications() {
@@ -71,7 +81,7 @@ public class NotificationsActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
 
                         // Show/hide empty view
-                        findViewById(R.id.emptyView).setVisibility(
+                        findViewById(R.id.tvEmptyList).setVisibility(
                                 notificationList.isEmpty() ? View.VISIBLE : View.GONE
                         );
                     }
@@ -109,5 +119,37 @@ public class NotificationsActivity extends AppCompatActivity {
         }
         startActivity(intent);
         */
+    }
+
+    private void setupMenuListeners() {
+        ImageView ivChat = findViewById(R.id.ivChat);
+        ivChat.setOnClickListener(v -> {
+            Intent intent = new Intent(NotificationsActivity.this, ChatListActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivNotification = findViewById(R.id.ivNotification);
+        ivNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(NotificationsActivity.this, NotificationsActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivLogo = findViewById(R.id.ivLogo);
+        ivLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(NotificationsActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        ImageView ivPostRoom = findViewById(R.id.ivPostRoom);
+        ivPostRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(NotificationsActivity.this, PostingRoom.class);
+            startActivity(intent);
+        });
+
+        ImageView ivProfile = findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(NotificationsActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        });
     }
 }
