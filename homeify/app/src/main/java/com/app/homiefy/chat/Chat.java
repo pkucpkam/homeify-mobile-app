@@ -19,6 +19,18 @@ public class Chat {
         this.isRead = isRead;
     }
 
+    public Chat(String chatId, String userName, String lastMessage, String lastMessageSenderId, String lastMessageTimestamp, boolean isRead) {
+        this.chatId = chatId;
+        this.userName = userName;
+        this.lastMessage = lastMessage;
+        this.lastMessageSenderId = lastMessageSenderId;
+        this.lastMessageTimestamp = lastMessageTimestamp;
+        this.isRead = isRead;
+    }
+
+    public Chat() {
+    }
+
     // Getters
     public String getChatId() { return chatId; }
     public String getUserName() { return userName; }

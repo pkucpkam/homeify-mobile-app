@@ -71,24 +71,75 @@ public class ChatListActivity extends AppCompatActivity {
                     chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot chatDataSnapshot) {
-                            String lastMessage = chatDataSnapshot.child("lastMessage/text").getValue(String.class);
-                            String lastMessageSenderId = chatDataSnapshot.child("lastMessage/senderId").getValue(String.class);
-                            String lastMessageTimestamp = chatDataSnapshot.child("lastMessage/timestamp").getValue(String.class);
-                            boolean isRead = chatDataSnapshot.child("lastMessage/read").getValue(Boolean.class);
+                            if (!chatDataSnapshot.exists()) {
+                                return;
+                            }
 
-                            DataSnapshot usersSnapshot = chatDataSnapshot.child("users");
+                            // Lấy thông tin tin nhắn cuối cùng
+                            String lastMessage = "";
+                            String lastMessageSenderId = "";
+                            String lastMessageTimestamp = "";
+                            boolean isRead = true;
+
+                            DataSnapshot lastMessageSnapshot = chatDataSnapshot.child("lastMessage");
+                            if (lastMessageSnapshot.exists()) {
+                                lastMessage = lastMessageSnapshot.child("text").getValue(String.class);
+                                lastMessageSenderId = lastMessageSnapshot.child("senderId").getValue(String.class);
+                                lastMessageTimestamp = lastMessageSnapshot.child("timestamp").getValue(String.class);
+                                Boolean readValue = lastMessageSnapshot.child("read").getValue(Boolean.class);
+                                isRead = readValue != null ? readValue : true;
+                            }
+
+                            // Lấy thông tin người dùng khác
                             String otherUserName = "";
+                            DataSnapshot usersSnapshot = chatDataSnapshot.child("users");
                             for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
                                 String userId = userSnapshot.getKey();
-                                if (!userId.equals(currentUserId)) {
-                                    otherUserName = userSnapshot.child("userName").getValue(String.class);
-                                    break;
+                                if (userId != null && !userId.equals(currentUserId)) {
+                                    // Lấy userName từ node users trong chat
+                                    String userName = userSnapshot.child("userName").getValue(String.class);
+                                    if (userName != null && !userName.isEmpty()) {
+                                        otherUserName = userName;
+                                        break;
+                                    } else {
+                                        // Nếu không có userName trong chat, lấy từ node users gốc
+                                        DatabaseReference userRef = FirebaseDatabase.getInstance()
+                                                .getReference("users").child(userId);
+                                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot userDataSnapshot) {
+                                                String userName = userDataSnapshot.child("userName").getValue(String.class);
+                                                if (userName != null) {
+                                                    Chat chat = new Chat();
+                                                    chatList.add(chat);
+                                                    chatAdapter.notifyDataSetChanged();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                // Handle error
+                                            }
+                                        });
+                                        return;
+                                    }
                                 }
                             }
-                            // Tạo chat object
-                            Chat chat = new Chat(chatId, "", otherUserName ,lastMessage, lastMessageSenderId, lastMessageTimestamp, isRead);
-                            chatList.add(chat);
-                            chatAdapter.notifyDataSetChanged();
+
+                            // Nếu tìm thấy otherUserName trực tiếp từ chat
+                            if (!otherUserName.isEmpty()) {
+                                Chat chat = new Chat(
+                                        chatId,
+                                        "",
+                                        otherUserName,
+                                        lastMessage,
+                                        lastMessageSenderId,
+                                        lastMessageTimestamp,
+                                        isRead
+                                );
+                                chatList.add(chat);
+                                chatAdapter.notifyDataSetChanged();
+                            }
                         }
 
                         @Override

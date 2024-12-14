@@ -83,8 +83,9 @@ public class RoomDetails extends AppCompatActivity {
         btnRentRoom = findViewById(R.id.btnRentRoom);
 
         btnMessage.setOnClickListener(v -> {
-            Toast.makeText(this, "Messaging feature is not implemented yet!",
-                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, ChatDetailActivity.class);
+            intent.putExtra("otherUserId", ownerId); // Pass roomId if needed
+            startActivity(intent);
         });
 
         btnScheduleVisit.setOnClickListener(v -> {
@@ -100,8 +101,6 @@ public class RoomDetails extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
-
 
 
     private void setupActionButtons() {
