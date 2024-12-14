@@ -47,7 +47,6 @@ public class ChatListActivity extends AppCompatActivity {
 
     private void loadChats() {
         DatabaseReference userChatsRef = FirebaseDatabase.getInstance().getReference("users").child(currentUserId).child("chats");
-
         userChatsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -63,10 +62,19 @@ public class ChatListActivity extends AppCompatActivity {
                             String lastMessageTimestamp = chatDataSnapshot.child("lastMessage/timestamp").getValue(String.class);
                             boolean isRead = chatDataSnapshot.child("lastMessage/read").getValue(Boolean.class);
 
+                            DataSnapshot usersSnapshot = chatDataSnapshot.child("users");
+                            String otherUserName = "";
+                            for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                                String userId = userSnapshot.getKey();
+                                if (!userId.equals(currentUserId)) {
+                                    otherUserName = userSnapshot.child("userName").getValue(String.class);
+                                    break;
+                                }
+                            }
                             // Tạo chat object
-                            Chat chat = new Chat(chatId, "", lastMessage, lastMessageSenderId, lastMessageTimestamp, isRead);
+                            Chat chat = new Chat(chatId, "", otherUserName ,lastMessage, lastMessageSenderId, lastMessageTimestamp, isRead);
                             chatList.add(chat);
-                            chatAdapter.notifyDataSetChanged(); // Cập nhật Adapter sau khi thêm từng chat
+                            chatAdapter.notifyDataSetChanged();
                         }
 
                         @Override

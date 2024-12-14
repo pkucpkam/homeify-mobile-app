@@ -33,15 +33,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         Chat chat = chatList.get(position);
-        holder.chatUserName.setText(chat.getUserName());
+        holder.chatUserName.setText(chat.getOtherUser());
 
         String lastMessage;
         if (chat.getLastMessageSenderId().equals(currentUserId)) {
             lastMessage = chat.getLastMessage();
         } else {
-            lastMessage = chat.isRead() ? chat.getLastMessage() : chat.getLastMessage().toUpperCase(); // In hoa nếu chưa đọc
+            lastMessage = chat.isRead() ? chat.getLastMessage() : chat.getLastMessage().toUpperCase();
         }
-
         holder.chatLastMessage.setText(lastMessage);
         holder.chatTimestamp.setText(chat.getLastMessageTimestamp());
     }
