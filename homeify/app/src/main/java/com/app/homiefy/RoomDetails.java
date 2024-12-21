@@ -25,7 +25,7 @@ import java.util.Locale;
 public class RoomDetails extends AppCompatActivity {
 
     private TextView tvRoomName, tvRentPrice, tvRoomDescription, tvHouseRules,
-            tvDeposit, tvOtherFees, tvContactInfo, tvArea, tvAddress;
+            tvDeposit, tvOtherFees, tvContactInfo, tvArea, tvAddress, tvStartDate, tvEndDate;;
     private ImageView ivRoomImage, ivReport;
     private MaterialButton btnMessage, btnScheduleVisit, btnRateRoom, btnRentRoom;
     private ChipGroup chipGroupAmenities;
@@ -71,10 +71,12 @@ public class RoomDetails extends AppCompatActivity {
         tvOtherFees = findViewById(R.id.tvOtherFees);
         tvContactInfo = findViewById(R.id.tvContactInfo);
         tvArea = findViewById(R.id.tvArea);
-        tvAddress = findViewById(R.id.tvAddress); // Address TextView
+        tvAddress = findViewById(R.id.tvAddress);
+        tvStartDate = findViewById(R.id.tvStartDate);
+        tvEndDate = findViewById(R.id.tvEndDate);
         ivRoomImage = findViewById(R.id.ivRoomImage);
         ivReport = findViewById(R.id.ivReport);
-        chipGroupAmenities = findViewById(R.id.chipGroupAmenities); // For amenities
+        chipGroupAmenities = findViewById(R.id.chipGroupAmenities);
 
         btnMessage = findViewById(R.id.btnMessage);
         btnScheduleVisit = findViewById(R.id.btnScheduleVisit);
@@ -210,6 +212,9 @@ public class RoomDetails extends AppCompatActivity {
                             tvContactInfo.setText("Contact: " + room.getContactInfo());
                             tvArea.setText(room.getArea() != null ? room.getArea() + " m²" : "Area not specified");
                             tvAddress.setText(room.getAddress() != null ? room.getAddress() : "Address not specified");
+                            tvStartDate.setText("Start Date: " + (room.getStartDate() != null ? room.getStartDate() : "--/--/----"));
+                            tvEndDate.setText("End Date: " + (room.getEndDate() != null ? room.getEndDate() : "--/--/----"));
+
 
                             if (room.getImageUrl() != null && !room.getImageUrl().isEmpty()) {
                                 Glide.with(this)

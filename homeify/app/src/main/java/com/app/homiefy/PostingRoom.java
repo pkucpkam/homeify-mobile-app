@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.app.homiefy.room.Room;
+import com.app.homiefy.utils.DateValidator;
 import com.app.homiefy.utils.SessionManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -89,6 +89,7 @@ public class PostingRoom extends AppCompatActivity {
 
         setupBackButton();
         setupMenuListeners();
+        setupDateInputs();
     }
 
     private void setupBackButton() {
@@ -160,6 +161,12 @@ public class PostingRoom extends AppCompatActivity {
         String transport = etTransport.getText().toString().trim();
         String education = etEducation.getText().toString().trim();
 
+        DateValidator.ValidationResult dateValidation = DateValidator.validateDates(startDate, endDate);
+        if (!dateValidation.isValid) {
+            Toast.makeText(this, dateValidation.errorMessage, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         List<String> amenities = getSelectedAmenities();
 
         if (roomName.isEmpty() || rentPrice.isEmpty() || area.isEmpty() || address.isEmpty() || contactInfo.isEmpty() ||
@@ -220,6 +227,18 @@ public class PostingRoom extends AppCompatActivity {
         }
     }
 
+    private void setupDateInputs() {
+        TextInputEditText[] dateInputs = {etStartDate, etEndDate};
+
+        for (TextInputEditText dateInput : dateInputs) {
+            dateInput.setOnFocusChangeListener((v, hasFocus) -> {
+                if (hasFocus) {
+                    // Show message about date format
+                    Toast.makeText(this, "Please enter date in format dd/MM/yyyy", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 
     private void setupMenuListeners() {
         ImageView ivChat = findViewById(R.id.ivChat);
