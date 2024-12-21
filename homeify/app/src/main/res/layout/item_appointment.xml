@@ -28,7 +28,7 @@
             android:layout_marginTop="4dp" />
 
         <TextView
-            android:id="@+id/tvStatus"
+            android:id="@+id/tvRoomStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Status"

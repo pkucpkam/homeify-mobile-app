@@ -114,7 +114,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             super(view);
             tvName = view.findViewById(R.id.tvName);
             tvDateTime = view.findViewById(R.id.tvDateTime);
-            tvStatus = view.findViewById(R.id.tvStatus);
+            tvStatus = view.findViewById(R.id.tvRoomStatus);
             actionButtons = view.findViewById(R.id.actionButtons);
             btnAccept = view.findViewById(R.id.btnAccept);
             btnReject = view.findViewById(R.id.btnReject);

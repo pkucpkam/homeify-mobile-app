@@ -182,11 +182,33 @@ public class ConfirmContractActivity extends AppCompatActivity {
                 .document(contractId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
+                    if (contract.isOwnerConfirmed() && contract.isRenterConfirmed()) {
+                        // Cập nhật trạng thái 'rented' của phòng
+                        updateRoomStatusToRented();
+                    }
                     Toast.makeText(this, "Contract confirmed successfully", Toast.LENGTH_SHORT).show();
                     loadContractDetails();
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error while confirming contract", Toast.LENGTH_SHORT).show()
                 );
+    }
+
+    private void updateRoomStatusToRented() {
+        // Lấy ID của phòng từ hợp đồng
+        String roomId = contract.getRoomId();
+
+        if (roomId != null) {
+            // Cập nhật phòng với trạng thái rented = true
+            db.collection("rooms")
+                    .document(roomId)
+                    .update("rented", true)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(this, "Room status updated to 'rented'", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Error updating room status", Toast.LENGTH_SHORT).show();
+                    });
+        }
     }
 }

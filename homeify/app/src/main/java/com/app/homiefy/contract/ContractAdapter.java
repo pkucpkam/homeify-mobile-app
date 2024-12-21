@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.homiefy.ConfirmContractActivity;
-import com.app.homiefy.ContractDetailsActivity;
 import com.app.homiefy.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -107,7 +106,7 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.Contra
             super(itemView);
             tvRoomName = itemView.findViewById(R.id.tvRoomName);
             tvAddress = itemView.findViewById(R.id.tvAddress);
-            tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvStatus = itemView.findViewById(R.id.tvRoomStatus);
         }
     }
 }

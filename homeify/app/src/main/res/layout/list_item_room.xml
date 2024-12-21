@@ -17,6 +17,7 @@
         android:src="@drawable/placeholder_image" />
 
     <!-- Room Name -->
+
     <TextView
         android:id="@+id/tvRoomName"
         android:layout_width="match_parent"
@@ -27,6 +28,7 @@
         android:layout_marginBottom="4dp" />
 
     <!-- Room Price -->
+
     <TextView
         android:id="@+id/tvRoomPrice"
         android:layout_width="match_parent"
@@ -36,7 +38,17 @@
         android:textStyle="bold"
         android:layout_marginBottom="4dp" />
 
+
+
+    <TextView
+        android:id="@+id/tvRoomStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp" />
     <!-- Room Area -->
+
     <TextView
         android:id="@+id/tvRoomArea"
         android:layout_width="match_parent"

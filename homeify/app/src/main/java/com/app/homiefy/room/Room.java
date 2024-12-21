@@ -19,6 +19,7 @@ public class Room {
     private long createdAt;
     private String description;
     private List<String> amenities;
+    private boolean rented; // Thêm thuộc tính rented
 
     public Room() {}
 
@@ -71,4 +72,8 @@ public class Room {
 
     public List<String> getAmenities() { return amenities; }
     public void setAmenities(List<String> amenities) { this.amenities = amenities; }
+
+    // Getter và Setter cho rented
+    public boolean isRented() { return rented; }
+    public void setRented(boolean rented) { this.rented = rented; }
 }

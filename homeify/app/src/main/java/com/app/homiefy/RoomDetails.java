@@ -2,6 +2,7 @@ package com.app.homiefy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,7 +26,7 @@ import java.util.Locale;
 public class RoomDetails extends AppCompatActivity {
 
     private TextView tvRoomName, tvRentPrice, tvRoomDescription, tvHouseRules,
-            tvDeposit, tvOtherFees, tvContactInfo, tvArea, tvAddress, tvStartDate, tvEndDate;;
+            tvDeposit, tvOtherFees, tvContactInfo, tvArea, tvAddress, tvStartDate, tvEndDate, tvRoomStatus;
     private ImageView ivRoomImage, ivReport;
     private MaterialButton btnMessage, btnScheduleVisit, btnRateRoom, btnRentRoom;
     private ChipGroup chipGroupAmenities;
@@ -65,6 +66,7 @@ public class RoomDetails extends AppCompatActivity {
     private void initializeUI() {
         tvRoomName = findViewById(R.id.tvRoomName);
         tvRentPrice = findViewById(R.id.tvRentPrice);
+        tvRoomStatus = findViewById(R.id.tvRoomStatus);
         tvRoomDescription = findViewById(R.id.tvRoomDescription);
         tvHouseRules = findViewById(R.id.tvHouseRules);
         tvDeposit = findViewById(R.id.tvDeposit);
@@ -214,6 +216,18 @@ public class RoomDetails extends AppCompatActivity {
                             tvAddress.setText(room.getAddress() != null ? room.getAddress() : "Address not specified");
                             tvStartDate.setText("Start Date: " + (room.getStartDate() != null ? room.getStartDate() : "--/--/----"));
                             tvEndDate.setText("End Date: " + (room.getEndDate() != null ? room.getEndDate() : "--/--/----"));
+
+                            // Check room rental status
+                            if (room.isRented()) {
+                                tvRoomStatus.setText("Not Available");
+                                btnScheduleVisit.setVisibility(View.GONE);  // Ẩn nút Book Viewing
+                                btnRentRoom.setVisibility(View.GONE);  // Ẩn nút Rent// Room is rented
+                            } else {
+                                tvRoomStatus.setText("Available");  // Room is available
+                                btnScheduleVisit.setVisibility(View.VISIBLE);  // Ẩn nút Book Viewing
+                                btnRentRoom.setVisibility(View.VISIBLE);  // Ẩn nút Rent
+                            }
+
 
 
                             if (room.getImageUrl() != null && !room.getImageUrl().isEmpty()) {

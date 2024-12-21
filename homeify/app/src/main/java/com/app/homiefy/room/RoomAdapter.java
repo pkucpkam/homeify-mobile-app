@@ -60,6 +60,15 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         // Set address
         holder.tvRoomAddress.setText("Address: " + room.getAddress());
 
+        // Set room status based on rented value
+        if (room.isRented()) {
+            holder.tvRoomStatus.setText("Status: Not Available");
+            holder.tvRoomStatus.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            holder.tvRoomStatus.setText("Status: Available");
+            holder.tvRoomStatus.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
+        }
+
         // Load room image
         if (room.getImageUrl() != null && !room.getImageUrl().isEmpty()) {
             Glide.with(holder.itemView.getContext())
@@ -88,7 +97,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
 
     static class RoomViewHolder extends RecyclerView.ViewHolder {
         ImageView ivRoomImage;
-        TextView tvRoomName, tvRoomPrice, tvRoomArea, tvRoomAddress;
+        TextView tvRoomName, tvRoomPrice, tvRoomArea, tvRoomAddress, tvRoomStatus;
         Button btnViewDetails; // Button for viewing room details
 
         public RoomViewHolder(@NonNull View itemView) {
@@ -99,6 +108,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
             tvRoomArea = itemView.findViewById(R.id.tvRoomArea);
             tvRoomAddress = itemView.findViewById(R.id.tvRoomAddress);
             btnViewDetails = itemView.findViewById(R.id.btnViewDetails); // Initialize button
+            tvRoomStatus = itemView.findViewById(R.id.tvRoomStatus);
         }
     }
 }
