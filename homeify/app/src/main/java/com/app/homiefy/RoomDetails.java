@@ -42,9 +42,6 @@ public class RoomDetails extends AppCompatActivity {
         // Initialize Firestore
         db = FirebaseFirestore.getInstance("homeify");
 
-        // Initialize UI components
-        initializeUI();
-
         // Get roomId from intent
         roomId = getIntent().getStringExtra("roomId");
 
@@ -55,6 +52,8 @@ public class RoomDetails extends AppCompatActivity {
         }
         sessionManager = new SessionManager(this);
 
+        // Initialize UI components
+        initializeUI();
         getRoomOwner();
         fetchRoomDetails();
         setupBackButton();

@@ -106,118 +106,121 @@ public class SearchRoom extends AppCompatActivity {
         if (cbWashingMachine.isChecked()) selectedAmenities.add("washingMachine");
 
         // Start base query
-        db.collection("rooms")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Room room = document.toObject(Room.class);
-                            boolean matchesCriteria = true;
+        db.collection("rooms").get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Room room = document.toObject(Room.class);
+                        if (room != null) {
+                            room.setId(document.getId()); // Gán Firestore document ID vào Room
+                            roomList.add(room);
+                        }
+                        boolean matchesCriteria = true;
 
-                            // Location filter
-                            if (!TextUtils.isEmpty(location)) {
-                                if (room.getAddress() == null ||
-                                        !room.getAddress().toLowerCase().contains(location)) {
-                                    matchesCriteria = false;
-                                    continue;
-                                }
-                            }
-
-                            // Price range filter
-                            if (minPrice != null) {
-                                try {
-                                    double roomPrice = Double.parseDouble(room.getRentPrice());
-                                    if (roomPrice < minPrice) {
-                                        matchesCriteria = false;
-                                        continue;
-                                    }
-                                } catch (NumberFormatException e) {
-                                    matchesCriteria = false;
-                                    continue;
-                                }
-                            }
-                            if (maxPrice != null) {
-                                try {
-                                    double roomPrice = Double.parseDouble(room.getRentPrice());
-                                    if (roomPrice > maxPrice) {
-                                        matchesCriteria = false;
-                                        continue;
-                                    }
-                                } catch (NumberFormatException e) {
-                                    matchesCriteria = false;
-                                    continue;
-                                }
-                            }
-
-                            // Area range filter
-                            if (minArea != null) {
-                                try {
-                                    double roomArea = Double.parseDouble(room.getArea());
-                                    if (roomArea < minArea) {
-                                        matchesCriteria = false;
-                                        continue;
-                                    }
-                                } catch (NumberFormatException e) {
-                                    matchesCriteria = false;
-                                    continue;
-                                }
-                            }
-                            if (maxArea != null) {
-                                try {
-                                    double roomArea = Double.parseDouble(room.getArea());
-                                    if (roomArea > maxArea) {
-                                        matchesCriteria = false;
-                                        continue;
-                                    }
-                                } catch (NumberFormatException e) {
-                                    matchesCriteria = false;
-                                    continue;
-                                }
-                            }
-
-                            // Amenities filter
-                            if (!selectedAmenities.isEmpty()) {
-                                List<String> roomAmenities = room.getAmenities();
-                                if (roomAmenities == null || !roomAmenities.containsAll(selectedAmenities)) {
-                                    matchesCriteria = false;
-                                    continue;
-                                }
-                            }
-
-                            // Other requirements filter
-                            if (!TextUtils.isEmpty(otherRequirements)) {
-                                if (room.getDescription() == null ||
-                                        !room.getDescription().toLowerCase().contains(otherRequirements)) {
-                                    matchesCriteria = false;
-                                    continue;
-                                }
-                            }
-
-                            // Add room if it matches all criteria
-                            if (matchesCriteria) {
-                                roomList.add(room);
+                        // Location filter
+                        if (!TextUtils.isEmpty(location)) {
+                            if (room.getAddress() == null ||
+                                    !room.getAddress().toLowerCase().contains(location)) {
+                                matchesCriteria = false;
+                                continue;
                             }
                         }
 
-                        // Update UI
-                        roomAdapter.notifyDataSetChanged();
-
-                        // Show appropriate message
-                        if (roomList.isEmpty()) {
-                            Toast.makeText(SearchRoom.this,
-                                    "No rooms found matching your criteria.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(SearchRoom.this,
-                                    roomList.size() + " rooms found.",
-                                    Toast.LENGTH_SHORT).show();
+                        // Price range filter
+                        if (minPrice != null) {
+                            try {
+                                double roomPrice = Double.parseDouble(room.getRentPrice());
+                                if (roomPrice < minPrice) {
+                                    matchesCriteria = false;
+                                    continue;
+                                }
+                            } catch (NumberFormatException e) {
+                                matchesCriteria = false;
+                                continue;
+                            }
                         }
+                        if (maxPrice != null) {
+                            try {
+                                double roomPrice = Double.parseDouble(room.getRentPrice());
+                                if (roomPrice > maxPrice) {
+                                    matchesCriteria = false;
+                                    continue;
+                                }
+                            } catch (NumberFormatException e) {
+                                matchesCriteria = false;
+                                continue;
+                            }
+                        }
+
+                        // Area range filter
+                        if (minArea != null) {
+                            try {
+                                double roomArea = Double.parseDouble(room.getArea());
+                                if (roomArea < minArea) {
+                                    matchesCriteria = false;
+                                    continue;
+                                }
+                            } catch (NumberFormatException e) {
+                                matchesCriteria = false;
+                                continue;
+                            }
+                        }
+                        if (maxArea != null) {
+                            try {
+                                double roomArea = Double.parseDouble(room.getArea());
+                                if (roomArea > maxArea) {
+                                    matchesCriteria = false;
+                                    continue;
+                                }
+                            } catch (NumberFormatException e) {
+                                matchesCriteria = false;
+                                continue;
+                            }
+                        }
+
+                        // Amenities filter
+                        if (!selectedAmenities.isEmpty()) {
+                            List<String> roomAmenities = room.getAmenities();
+                            if (roomAmenities == null || !roomAmenities.containsAll(selectedAmenities)) {
+                                matchesCriteria = false;
+                                continue;
+                            }
+                        }
+
+                        // Other requirements filter
+                        if (!TextUtils.isEmpty(otherRequirements)) {
+                            if (room.getDescription() == null ||
+                                    !room.getDescription().toLowerCase().contains(otherRequirements)) {
+                                matchesCriteria = false;
+                                continue;
+                            }
+                        }
+
+                        // Add room if it matches all criteria
+                        if (matchesCriteria) {
+                            roomList.add(room);
+                        }
+                    }
+
+                    // Update UI
+                    roomAdapter.notifyDataSetChanged();
+
+                    // Show appropriate message
+                    if (roomList.isEmpty()) {
+                        Toast.makeText(SearchRoom.this,
+                                "No rooms found matching your criteria.",
+                                Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(SearchRoom.this,
-                                "Search failed: " + task.getException().getMessage(),
+                                roomList.size() + " rooms found.",
                                 Toast.LENGTH_SHORT).show();
                     }
-                });
+                } else {
+                    Toast.makeText(SearchRoom.this,
+                            "Search failed: " + task.getException().getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 
     private void setupBackButton() {
