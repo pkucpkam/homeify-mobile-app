@@ -2,6 +2,7 @@ package com.app.homiefy;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -46,6 +47,7 @@ public class AppointmentListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.rvAppointments);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         loadAppointments();
+        setupBackButton();
     }
 
     private void loadAppointments() {
@@ -92,5 +94,10 @@ public class AppointmentListActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private void setupBackButton() {
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
     }
 }
