@@ -2,6 +2,7 @@ package com.app.homiefy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -46,10 +47,24 @@ public class ChatListActivity extends AppCompatActivity {
 
         // Tạo interface để xử lý click event
         ChatAdapter.OnItemClickListener listener = chatId -> {
-            Intent intent = new Intent(ChatListActivity.this, ChatDetailActivity.class);
-            intent.putExtra("chatId", chatId);
-            startActivity(intent);
+            // Lấy Chat từ chatList dựa trên chatId
+            Chat selectedChat = null;
+            for (Chat chat : chatList) {
+                if (chat.getChatId().equals(chatId)) {
+                    selectedChat = chat;
+                    break;
+                }
+            }
+
+            if (selectedChat != null) {
+                Intent intent = new Intent(ChatListActivity.this, ChatDetailActivity.class);
+                intent.putExtra("chatId", selectedChat.getChatId());
+                intent.putExtra("otherUserId", selectedChat.getOtherUserId());
+                intent.putExtra("otherUserName", selectedChat.getOtherUser());
+                startActivity(intent);
+            }
         };
+
 
         chatAdapter = new ChatAdapter(chatList, currentUserId, listener);
         recyclerView.setAdapter(chatAdapter);
@@ -60,20 +75,30 @@ public class ChatListActivity extends AppCompatActivity {
     }
 
     private void loadChats() {
-        DatabaseReference userChatsRef = FirebaseDatabase.getInstance().getReference("users").child(currentUserId).child("chats");
-        userChatsRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference userChatsRef = FirebaseDatabase.getInstance().getReference("users")
+                .child(currentUserId).child("chats");
+
+        userChatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("ChatListActivity", "DataSnapshot (userChatsRef): " + dataSnapshot.toString());
                 chatList.clear();
+
+                if (!dataSnapshot.exists()) {
+                    chatAdapter.notifyDataSetChanged();
+                    return;
+                }
+
                 for (DataSnapshot chatSnapshot : dataSnapshot.getChildren()) {
                     String chatId = chatSnapshot.getKey();
+
+                    if (chatId == null) continue;
+
                     DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("chats").child(chatId);
                     chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot chatDataSnapshot) {
-                            if (!chatDataSnapshot.exists()) {
-                                return;
-                            }
+                            if (!chatDataSnapshot.exists()) return;
 
                             // Lấy thông tin tin nhắn cuối cùng
                             String lastMessage = "";
@@ -90,47 +115,25 @@ public class ChatListActivity extends AppCompatActivity {
                                 isRead = readValue != null ? readValue : true;
                             }
 
-                            // Lấy thông tin người dùng khác
+                            // Lấy tên người dùng khác
+                            String otherUserId = "";
                             String otherUserName = "";
                             DataSnapshot usersSnapshot = chatDataSnapshot.child("users");
                             for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
                                 String userId = userSnapshot.getKey();
                                 if (userId != null && !userId.equals(currentUserId)) {
-                                    // Lấy userName từ node users trong chat
-                                    String userName = userSnapshot.child("userName").getValue(String.class);
-                                    if (userName != null && !userName.isEmpty()) {
-                                        otherUserName = userName;
-                                        break;
-                                    } else {
-                                        // Nếu không có userName trong chat, lấy từ node users gốc
-                                        DatabaseReference userRef = FirebaseDatabase.getInstance()
-                                                .getReference("users").child(userId);
-                                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot userDataSnapshot) {
-                                                String userName = userDataSnapshot.child("userName").getValue(String.class);
-                                                if (userName != null) {
-                                                    Chat chat = new Chat();
-                                                    chatList.add(chat);
-                                                    chatAdapter.notifyDataSetChanged();
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                // Handle error
-                                            }
-                                        });
-                                        return;
-                                    }
+                                    otherUserId = userId;
+                                    otherUserName = userSnapshot.child("username").getValue(String.class);
+                                    break;
                                 }
                             }
 
-                            // Nếu tìm thấy otherUserName trực tiếp từ chat
+                            // Thêm chat vào danh sách
                             if (!otherUserName.isEmpty()) {
                                 Chat chat = new Chat(
                                         chatId,
-                                        "",
+                                        otherUserName,
+                                        otherUserId,
                                         otherUserName,
                                         lastMessage,
                                         lastMessageSenderId,
@@ -144,7 +147,7 @@ public class ChatListActivity extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            // Handle error here
+                            Log.e("ChatListActivity", "Database error: " + databaseError.getMessage());
                         }
                     });
                 }
@@ -152,10 +155,12 @@ public class ChatListActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error here
+                Log.e("ChatListActivity", "Database error: " + databaseError.getMessage());
             }
         });
     }
+
+
 
     private void setupBackButton() {
         ImageButton btnBack = findViewById(R.id.btnBack);

@@ -55,6 +55,8 @@ public class ChatDetailActivity extends AppCompatActivity {
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         otherUserId = getIntent().getStringExtra("otherUserId");
 
+        Log.d("AAA", otherUserId);
+
         firestore = FirebaseFirestore.getInstance("homeify");
         fetchUserNames();
 
@@ -139,9 +141,22 @@ public class ChatDetailActivity extends AppCompatActivity {
                             text,
                             timestamp
                     );
-                    messageList.add(message);
-                    messageAdapter.notifyItemInserted(messageList.size() - 1);
-                    recyclerView.scrollToPosition(messageList.size() - 1);
+
+                    // Kiểm tra xem tin nhắn này đã tồn tại trong messageList chưa
+                    boolean isMessageExists = false;
+                    for (Message m : messageList) {
+                        if (m.getMessageId().equals(message.getMessageId())) {
+                            isMessageExists = true;
+                            break;
+                        }
+                    }
+
+                    // Nếu tin nhắn chưa tồn tại, thêm vào messageList
+                    if (!isMessageExists) {
+                        messageList.add(message);
+                        messageAdapter.notifyItemInserted(messageList.size() - 1);
+                        recyclerView.scrollToPosition(messageList.size() - 1);
+                    }
                 }
             }
 
@@ -158,6 +173,7 @@ public class ChatDetailActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
+
 
     private void setupSendButton() {
         btnSend.setOnClickListener(v -> {
