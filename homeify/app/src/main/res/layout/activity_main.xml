@@ -83,15 +83,32 @@
                         android:layout_marginTop="4dp"
                         android:text="Find the home that fits your needs" />
 
-                    <Button
-                        android:id="@+id/btnGoToSearch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:drawableEnd="@drawable/ic_search"
-                        android:drawablePadding="8dp"
-                        android:text="Search now"
-                        android:textColor="#070707" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnGoToSearch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:drawableEnd="@drawable/ic_search"
+                            android:drawablePadding="8dp"
+                            android:text="Search now"
+                            android:textColor="#070707" />
+
+                        <Button
+                            android:id="@+id/btnRegisterNoti"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="8dp"
+                            android:drawableEnd="@drawable/ic_register_noti"
+                            android:drawablePadding="8dp"
+                            android:text="Room Alert"
+                            android:textColor="#070707" />
+                    </LinearLayout>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

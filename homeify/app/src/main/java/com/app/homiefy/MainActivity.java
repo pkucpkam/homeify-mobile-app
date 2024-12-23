@@ -189,5 +189,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, SearchRoom.class);
             startActivity(intent);
         });
+
+        Button btnRegisterNoti = findViewById(R.id.btnRegisterNoti);
+        btnRegisterNoti.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, NotificationCriteriaActivity.class);
+            startActivity(intent);
+        });
     }
 }

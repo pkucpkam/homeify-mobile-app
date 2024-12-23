@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.app.homiefy.notification.Notification;
+import com.app.homiefy.notification_criteria.NotificationCriteria;
 import com.app.homiefy.utils.DateValidator;
 import com.app.homiefy.utils.SessionManager;
 import com.google.android.material.button.MaterialButton;
@@ -24,6 +26,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -239,6 +242,7 @@ public class PostingRoom extends AppCompatActivity {
                     progressDialog.dismiss();
                     Toast.makeText(this, "Room posted successfully!",
                             Toast.LENGTH_SHORT).show();
+                            checkNotificationCriteria(roomData);
                     finish();
                 }).addOnFailureListener(e -> {
                     progressDialog.dismiss();
@@ -303,4 +307,95 @@ public class PostingRoom extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+    private void checkNotificationCriteria(Map<String, Object> roomData) {
+        // Lấy các tiêu chí tìm kiếm đã lưu trong Firestore
+        db.collection("notification_criteria").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            NotificationCriteria criteria = document.toObject(NotificationCriteria.class);
+
+                            // So sánh các tiêu chí tìm kiếm với thông tin phòng
+                            if (criteria != null && isRoomMatchCriteria(roomData, criteria)) {
+                                // Get the userId from the notification criteria (if saved in Firestore as part of the criteria)
+                                String receiverId = criteria.getUserId();  // Assuming criteria contains userId of the person who set the notification criteria
+
+                                // Send notification to the user who set the criteria
+                                sendNotificationToUser(receiverId, criteria);
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to check notification criteria: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void sendNotificationToUser(String receiverId, NotificationCriteria criteria) {
+        // Create the notification object
+        String notificationId = UUID.randomUUID().toString();  // Generate a unique ID for the notification
+        String title = "Room matches your criteria!";
+        String content = "A new room listing matches your search criteria: " + criteria.getLocation();
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        boolean isRead = false;  // Initially, the notification is unread
+
+        // Create the Notification object
+        Notification notification = new Notification(notificationId, title, content, timestamp, isRead, receiverId);
+
+        // Save the notification to Firestore
+        db.collection("notifications").document(notificationId).set(notification)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Notification sent successfully!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to send notification: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
+    private boolean isRoomMatchCriteria(Map<String, Object> roomData, NotificationCriteria criteria) {
+        // Ban đầu giả định không có sự phù hợp
+        boolean matches = false;
+
+        // Kiểm tra vị trí (Location)
+        String roomAddress = (String) roomData.get("address");
+        if (roomAddress != null && roomAddress.toLowerCase().contains(criteria.getLocation().toLowerCase())) {
+            matches = true;  // Nếu vị trí thỏa mãn, coi như phù hợp
+        }
+
+        // Kiểm tra giá thuê (Rent Price)
+        Double roomPrice = Double.parseDouble((String) roomData.get("rentPrice"));
+        if (criteria.getMinPrice() != null && roomPrice >= criteria.getMinPrice()) {
+            matches = true;  // Nếu giá thuê lớn hơn hoặc bằng mức giá tối thiểu, coi như phù hợp
+        }
+        if (criteria.getMaxPrice() != null && roomPrice <= criteria.getMaxPrice()) {
+            matches = true;  // Nếu giá thuê nhỏ hơn hoặc bằng mức giá tối đa, coi như phù hợp
+        }
+
+        // Kiểm tra diện tích (Area)
+        Double roomArea = Double.parseDouble((String) roomData.get("area"));
+        if (criteria.getMinArea() != null && roomArea >= criteria.getMinArea()) {
+            matches = true;  // Nếu diện tích lớn hơn hoặc bằng diện tích tối thiểu, coi như phù hợp
+        }
+        if (criteria.getMaxArea() != null && roomArea <= criteria.getMaxArea()) {
+            matches = true;  // Nếu diện tích nhỏ hơn hoặc bằng diện tích tối đa, coi như phù hợp
+        }
+
+        // Kiểm tra tiện ích (Amenities)
+        List<String> roomAmenities = (List<String>) roomData.get("amenities");
+        if (roomAmenities != null && !roomAmenities.isEmpty() && roomAmenities.containsAll(criteria.getAmenities())) {
+            matches = true;  // Nếu tiện ích phòng phù hợp, coi như phòng thỏa mãn
+        }
+
+        // Kiểm tra mô tả (Description)
+        String roomDescription = (String) roomData.get("description");
+        if (roomDescription != null && roomDescription.toLowerCase().contains(criteria.getOtherRequirements().toLowerCase())) {
+            matches = true;  // Nếu mô tả phòng thỏa mãn, coi như phòng phù hợp
+        }
+
+        return matches;  // Trả về true nếu có điều kiện nào thỏa mãn
+    }
+
+
 }

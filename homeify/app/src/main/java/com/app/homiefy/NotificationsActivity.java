@@ -63,14 +63,15 @@ public class NotificationsActivity extends AppCompatActivity {
     }
 
     private void loadNotifications() {
+        // Lọc các thông báo chỉ cho người nhận có receiverId = currentUserId
         db.collection("notifications")
+                .whereEqualTo("receiverId", currentUserId)  // Thêm điều kiện này để chỉ lấy thông báo của người nhận là currentUserId
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
                         Toast.makeText(this, "Error loading notifications", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     if (value != null) {
                         notificationList.clear();
                         for (QueryDocumentSnapshot document : value) {
@@ -80,13 +81,14 @@ public class NotificationsActivity extends AppCompatActivity {
                         }
                         adapter.notifyDataSetChanged();
 
-                        // Show/hide empty view
+                        // Hiển thị hoặc ẩn thông báo không có dữ liệu
                         findViewById(R.id.tvEmptyList).setVisibility(
                                 notificationList.isEmpty() ? View.VISIBLE : View.GONE
                         );
                     }
                 });
     }
+
 
     private void markAsRead(Notification notification) {
         if (!notification.isRead()) {
