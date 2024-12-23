@@ -13,7 +13,20 @@
           "package_name": "com.app.homiefy"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "92431922154-qku5k62f4ekcmaamd8h9n5h8oduph3bv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.homiefy",
+            "certificate_hash": "4caeffac5a357bc45642f31d8b958afe4d187471"
+          }
+        },
+        {
+          "client_id": "92431922154-vraiphkepcpi6gbk2b4u584eu8a1fd6l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDzWqz-YASe-93FAcHGSug5jlo4EOFZruc"
@@ -21,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "92431922154-vraiphkepcpi6gbk2b4u584eu8a1fd6l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

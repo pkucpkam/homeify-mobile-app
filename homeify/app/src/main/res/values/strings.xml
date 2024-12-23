@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Homiefy</string>
+    <string name="default_web_client_id">92431922154-vraiphkepcpi6gbk2b4u584eu8a1fd6l.apps.googleusercontent.com</string>
+
 
     <string-array name="report_reasons">
         <item>Select issue type</item>
