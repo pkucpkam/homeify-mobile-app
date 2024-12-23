@@ -12,7 +12,7 @@
     <string-array name="payment_methods">
         <item>Select method</item>
         <item>Credit card</item>
-        <item>E-wallet</item>
+        <item>Momo</item>
         <item>Bank transfer</item>
     </string-array>
 

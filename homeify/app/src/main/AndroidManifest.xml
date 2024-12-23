@@ -17,9 +17,17 @@
         android:theme="@style/Theme.Homiefy"
         tools:targetApi="31">
         <activity
+            android:name=".Payment.BankPaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Payment.MomoPaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Payment.CreditCardPaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".ConfirmContractActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="false" />
