@@ -65,6 +65,14 @@ public class ContractManagement extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadContracts();
+        loadOwnerContracts();
+    }
+
+
     private void loadContracts() {
         showLoading(true);
         contractList.clear();

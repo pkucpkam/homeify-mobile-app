@@ -1,6 +1,7 @@
 package com.app.homiefy;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -184,35 +185,42 @@ public class ConfirmContractActivity extends AppCompatActivity {
                 .document(contractId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
-                    updateRoomStatusToRented();
+                    // Kiểm tra trạng thái xác nhận sau khi cập nhật
+                    db.collection("deposits")
+                            .document(contractId)
+                            .get()
+                            .addOnSuccessListener(documentSnapshot -> {
+                                Contract updatedContract = documentSnapshot.toObject(Contract.class);
+                                if (updatedContract != null) {
+                                    boolean bothConfirmed = updatedContract.isOwnerConfirmed() && updatedContract.isRenterConfirmed();
 
-                    Toast.makeText(this, "Contract confirmed successfully", Toast.LENGTH_SHORT).show();
-                    loadContractDetails();
+                                    if (bothConfirmed) {
+                                        // Nếu cả hai đã xác nhận, cập nhật trạng thái phòng
+                                        updateRoomStatusToRented();
+                                    }
+
+                                    Toast.makeText(this, "Contract confirmed successfully", Toast.LENGTH_SHORT).show();
+                                    loadContractDetails();
+                                }
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(this, "Error fetching contract details after confirmation", Toast.LENGTH_SHORT).show();
+                            });
                 })
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "Error while confirming contract", Toast.LENGTH_SHORT).show()
-                );
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error while confirming contract", Toast.LENGTH_SHORT).show();
+                });
     }
+
 
     private void updateRoomStatusToRented() {
         String roomId = contract.getRoomId();
-
         if (roomId != null) {
             db.collection("rooms")
                     .document(roomId)
                     .update("rented", true)
                     .addOnSuccessListener(aVoid -> {
-                        db.collection("rooms")
-                                .document(roomId)
-                                .get()
-                                .addOnSuccessListener(documentSnapshot -> {
-                                    boolean rented = documentSnapshot.getBoolean("rented");
-                                    if (rented) {
-                                        Toast.makeText(this, "Room status successfully updated to 'rented'", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(this, "Room status still 'not rented'", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+
                     })
                     .addOnFailureListener(e ->
                             Toast.makeText(this, "Error updating room status", Toast.LENGTH_SHORT).show()

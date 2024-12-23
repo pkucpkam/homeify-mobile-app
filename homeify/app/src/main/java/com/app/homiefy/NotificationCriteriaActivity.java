@@ -117,6 +117,10 @@ public class NotificationCriteriaActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(NotificationCriteriaActivity.this,
                             "Search criteria saved successfully.", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(NotificationCriteriaActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(NotificationCriteriaActivity.this,

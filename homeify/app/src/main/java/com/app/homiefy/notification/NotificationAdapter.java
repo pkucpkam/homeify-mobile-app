@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.homiefy.R;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -62,17 +61,20 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     private String formatTime(String timestamp) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
-            Date date = sdf.parse(timestamp);
+            // Convert the string timestamp to long
+            long timeInMillis = Long.parseLong(timestamp);
+
+            // Create Date object from timestamp
+            Date date = new Date(timeInMillis);
 
             // Format relative time
-            long diff = System.currentTimeMillis() - date.getTime();
+            long diff = System.currentTimeMillis() - timeInMillis;
             if (diff < 24 * 60 * 60 * 1000) {
                 return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
             } else {
                 return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date);
             }
-        } catch (ParseException e) {
+        } catch (NumberFormatException e) {
             return timestamp;
         }
     }

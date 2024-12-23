@@ -74,15 +74,25 @@ public class ChatListActivity extends AppCompatActivity {
         setupBackButton();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadChats();
+    }
+
+
     private void loadChats() {
         DatabaseReference userChatsRef = FirebaseDatabase.getInstance().getReference("users")
                 .child(currentUserId).child("chats");
+
+        // Làm sạch danh sách trước khi tải dữ liệu
+        chatList.clear();
+        chatAdapter.notifyDataSetChanged();
 
         userChatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("ChatListActivity", "DataSnapshot (userChatsRef): " + dataSnapshot.toString());
-                chatList.clear();
 
                 if (!dataSnapshot.exists()) {
                     chatAdapter.notifyDataSetChanged();
@@ -128,8 +138,17 @@ public class ChatListActivity extends AppCompatActivity {
                                 }
                             }
 
-                            // Thêm chat vào danh sách
-                            if (!otherUserName.isEmpty()) {
+                            // Kiểm tra trùng lặp trước khi thêm vào danh sách
+                            boolean isChatExists = false;
+                            for (Chat existingChat : chatList) {
+                                if (existingChat.getChatId().equals(chatId)) {
+                                    isChatExists = true;
+                                    break;
+                                }
+                            }
+
+                            // Chỉ thêm chat mới nếu chưa tồn tại
+                            if (!isChatExists && !otherUserName.isEmpty()) {
                                 Chat chat = new Chat(
                                         chatId,
                                         otherUserName,
@@ -141,8 +160,10 @@ public class ChatListActivity extends AppCompatActivity {
                                         isRead
                                 );
                                 chatList.add(chat);
-                                chatAdapter.notifyDataSetChanged();
                             }
+
+                            // Cập nhật adapter sau khi thêm tất cả dữ liệu
+                            chatAdapter.notifyDataSetChanged();
                         }
 
                         @Override
@@ -159,6 +180,7 @@ public class ChatListActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
 

@@ -120,6 +120,9 @@ public class ReportIssue extends AppCompatActivity {
                     // Reset form
                     etIssueDescription.setText("");
                     spinnerIssueType.setSelection(0);
+                    Intent intent = new Intent(ReportIssue.this, ProfileActivity.class);
+                    startActivity(intent);
+                    finish();
                 })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Failed to submit issue report.", e);
