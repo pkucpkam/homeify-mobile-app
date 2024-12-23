@@ -1,6 +1,7 @@
 package com.app.homiefy.room;
 
 import java.util.List;
+import java.util.Map;
 
 public class Room {
     private String id;
@@ -19,7 +20,8 @@ public class Room {
     private long createdAt;
     private String description;
     private List<String> amenities;
-    private boolean rented; // Thêm thuộc tính rented
+    private boolean rented;
+    private Map<String, String> surroundingInfo; // Thêm trường này
 
     public Room() {}
 
@@ -73,7 +75,15 @@ public class Room {
     public List<String> getAmenities() { return amenities; }
     public void setAmenities(List<String> amenities) { this.amenities = amenities; }
 
-    // Getter và Setter cho rented
     public boolean isRented() { return rented; }
     public void setRented(boolean rented) { this.rented = rented; }
+
+    // Getters và Setters cho surroundingInfo
+    public Map<String, String> getSurroundingInfo() {
+        return surroundingInfo;
+    }
+
+    public void setSurroundingInfo(Map<String, String> surroundingInfo) {
+        this.surroundingInfo = surroundingInfo;
+    }
 }

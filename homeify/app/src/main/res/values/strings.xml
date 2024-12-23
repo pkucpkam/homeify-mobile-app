@@ -11,9 +11,9 @@
 
     <string-array name="payment_methods">
         <item>Select method</item>
-        <item>Credit card</item>
-        <item>Momo</item>
-        <item>Bank transfer</item>
+        <item>Credit Card</item>
+        <item>MoMo</item>
+        <item>Bank Transfer</item>
     </string-array>
 
     <string-array name="issue_types">

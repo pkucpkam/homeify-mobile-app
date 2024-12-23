@@ -164,5 +164,11 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        LinearLayout layoutManageRoom = findViewById(R.id.layoutManageRoom);
+        layoutManageRoom.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, ManageRoomsActivity.class);
+            startActivity(intent);
+        });
+
     }
 }

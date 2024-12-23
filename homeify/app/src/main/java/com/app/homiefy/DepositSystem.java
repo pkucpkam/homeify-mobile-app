@@ -85,20 +85,55 @@ public class DepositSystem extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPaymentMethod.setAdapter(adapter);
 
+        // Các View thanh toán
+        final View cardPaymentViews = findViewById(R.id.cardPaymentViews);
+        final View momoPaymentViews = findViewById(R.id.momoImg);
+        final View bankPaymentViews = findViewById(R.id.bankImg);
+
+        // Ẩn tất cả các View thanh toán ban đầu
+        cardPaymentViews.setVisibility(View.GONE);
+        momoPaymentViews.setVisibility(View.GONE);
+        bankPaymentViews.setVisibility(View.GONE);
+
         spinnerPaymentMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedPaymentMethod = position > 0 ? parent.getItemAtPosition(position).toString() : null;
+
+                // Ẩn tất cả các View thanh toán
+                cardPaymentViews.setVisibility(View.GONE);
+                momoPaymentViews.setVisibility(View.GONE);
+                bankPaymentViews.setVisibility(View.GONE);
+
+                // Hiển thị View tương ứng với phương thức thanh toán đã chọn
+                if (selectedPaymentMethod != null) {
+                    switch (selectedPaymentMethod) {
+                        case "Credit Card":
+                            cardPaymentViews.setVisibility(View.VISIBLE);
+                            break;
+                        case "MoMo":
+                            momoPaymentViews.setVisibility(View.VISIBLE);
+                            break;
+                        case "Bank Transfer":
+                            bankPaymentViews.setVisibility(View.VISIBLE);
+                            break;
+                        default:
+                            // Nếu không có phương thức phù hợp
+                            break;
+                    }
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                // Đảm bảo không có phương thức thanh toán nào được chọn
                 selectedPaymentMethod = null;
             }
         });
 
         findViewById(R.id.btnConfirmDeposit).setOnClickListener(v -> confirmDeposit());
     }
+
 
     private void fetchRoomDetailsFromDatabase() {
         db.collection("rooms").document(roomId)

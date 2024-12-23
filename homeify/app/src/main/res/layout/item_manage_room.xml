@@ -1,0 +1,101 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/room_item_background"
+    android:layout_marginBottom="8dp">
+
+    <ImageView
+        android:id="@+id/ivRoomImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="Room Image"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/placeholder_image" />
+
+    <TextView
+        android:id="@+id/tvRoomName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Room Name"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/tvRoomPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Room Price"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/tvRoomStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/tvRoomArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Room Area"
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/tvRoomAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Room Address"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:textSize="16sp"
+            android:textAllCaps="true"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@android:color/white"
+            android:padding="8dp"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:textSize="16sp"
+            android:textAllCaps="true"
+            android:backgroundTint="@color/colorError"
+            android:textColor="@android:color/white"
+            android:padding="8dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnViewDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Details"
+        android:textSize="18dp"
+        android:textAllCaps="true"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:padding="12dp"
+        android:layout_marginTop="8dp" />
+</LinearLayout>
