@@ -61,15 +61,6 @@
                 android:padding="8dp"
                 tools:listitem="@layout/item_chat" />
 
-            <TextView
-                android:id="@+id/tvEmptyList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="You have no chat yet."
-                android:textSize="18sp"
-                android:textColor="@android:color/darker_gray"
-                android:gravity="center"/>
-
         </LinearLayout>
 
     </ScrollView>

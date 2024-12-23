@@ -10,7 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.homiefy.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 // ChatAdapter.java
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
@@ -49,7 +53,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             lastMessage = chat.isRead() ? chat.getLastMessage() : chat.getLastMessage().toUpperCase();
         }
         holder.chatLastMessage.setText(lastMessage);
-        holder.chatTimestamp.setText(chat.getLastMessageTimestamp());
+
+        String formattedTime = formatTimestamp(chat.getLastMessageTimestamp());
+        holder.chatTimestamp.setText(formattedTime);
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
@@ -73,4 +79,23 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             chatTimestamp = itemView.findViewById(R.id.chatTimestamp);
         }
     }
+
+    private String formatTimestamp(String rawTimestamp) {
+        try {
+            // Định dạng ban đầu của timestamp (giả sử từ server là ISO 8601)
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+            inputFormat.setLenient(false);
+
+            // Định dạng mong muốn
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+
+            // Parse và format lại thời gian
+            Date date = inputFormat.parse(rawTimestamp);
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return rawTimestamp; // Trả về thời gian gốc nếu lỗi
+        }
+    }
+
 }

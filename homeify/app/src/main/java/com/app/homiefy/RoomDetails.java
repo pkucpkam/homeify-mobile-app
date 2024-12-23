@@ -107,18 +107,10 @@ public class RoomDetails extends AppCompatActivity {
 
 
     private void setupActionButtons() {
-
         Button btnNearbyInfo = findViewById(R.id.btnNearbyInfo);
         btnNearbyInfo.setOnClickListener(v -> {
             Intent intent = new Intent(this, AreaInformation.class);
             intent.putExtra("roomId", roomId); // Pass roomId if needed
-            startActivity(intent);
-        });
-
-        // Set up Rate Room button
-        btnRateRoom.setOnClickListener(v -> {
-            Intent intent = new Intent(RoomDetails.this, ReviewsAndRatings.class);
-            intent.putExtra("roomId", roomId);
             startActivity(intent);
         });
 
@@ -130,7 +122,37 @@ public class RoomDetails extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // Kiểm tra nếu người dùng đã thuê phòng này thì hiện nút Rate Room
+        String userId = sessionManager.getUserId(); // Lấy userId từ SessionManager
+        if (userId != null) {
+            db.collection("deposit")
+                    .whereEqualTo("userId", userId)
+                    .whereEqualTo("roomId", roomId)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            // User đã thuê phòng này -> hiện nút Rate Room
+                            btnRateRoom.setVisibility(View.VISIBLE);
+                            btnRateRoom.setOnClickListener(v -> {
+                                Intent intent = new Intent(RoomDetails.this, ReviewsAndRatings.class);
+                                intent.putExtra("roomId", roomId);
+                                startActivity(intent);
+                            });
+                        } else {
+                            // User chưa thuê phòng này -> ẩn nút Rate Room
+                            btnRateRoom.setVisibility(View.GONE);
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Lỗi kiểm tra trạng thái thuê phòng: " + e.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            // Nếu user chưa đăng nhập, ẩn nút Rate Room
+            btnRateRoom.setVisibility(View.GONE);
+        }
     }
+
 
     private void setupFavoriteButton() {
         ImageButton btnFavorite = findViewById(R.id.btnFavorite);
@@ -227,7 +249,6 @@ public class RoomDetails extends AppCompatActivity {
                                 btnScheduleVisit.setVisibility(View.VISIBLE);  // Ẩn nút Book Viewing
                                 btnRentRoom.setVisibility(View.VISIBLE);  // Ẩn nút Rent
                             }
-
 
 
                             if (room.getImageUrl() != null && !room.getImageUrl().isEmpty()) {

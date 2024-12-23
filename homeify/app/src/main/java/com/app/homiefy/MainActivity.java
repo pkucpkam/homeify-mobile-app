@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void handleFeaturedRooms(QuerySnapshot querySnapshot) {
+        String currentUserId = sessionManager.getUserId();
         if (querySnapshot != null) {
             // Clear the current list before adding new rooms
             roomList.clear();
@@ -93,7 +94,10 @@ public class MainActivity extends AppCompatActivity {
                 Room room = document.toObject(Room.class);
                 if (room != null) {
                     room.setId(document.getId()); // Set Firestore document ID
-                    roomList.add(room);
+                    // Kiểm tra nếu phòng không phải do người dùng hiện tại thuê
+                    if (!currentUserId.equals(room.getUserId())) {
+                        roomList.add(room);
+                    }
                 }
             }
 
