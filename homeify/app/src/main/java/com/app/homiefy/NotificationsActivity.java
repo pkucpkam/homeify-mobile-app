@@ -2,6 +2,7 @@ package com.app.homiefy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -63,31 +64,37 @@ public class NotificationsActivity extends AppCompatActivity {
     }
 
     private void loadNotifications() {
-        // Lọc các thông báo chỉ cho người nhận có receiverId = currentUserId
         db.collection("notifications")
-                .whereEqualTo("receiverId", currentUserId)  // Thêm điều kiện này để chỉ lấy thông báo của người nhận là currentUserId
-                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .orderBy("timestamp", Query.Direction.DESCENDING) // Sắp xếp theo thời gian
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
-                        Toast.makeText(this, "Error loading notifications", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Error loading notifications: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                         return;
                     }
+
                     if (value != null) {
                         notificationList.clear();
                         for (QueryDocumentSnapshot document : value) {
                             Notification notification = document.toObject(Notification.class);
-                            notification.setId(document.getId());
-                            notificationList.add(notification);
+                            notification.setId(document.getId()); // Lấy Document ID
+
+                            // Lọc dữ liệu theo receiverId
+                            if (notification.getReceiverId().equals(currentUserId)) {
+                                notificationList.add(notification);
+                            }
                         }
+
                         adapter.notifyDataSetChanged();
 
-                        // Hiển thị hoặc ẩn thông báo không có dữ liệu
+                        // Hiển thị hoặc ẩn thông báo khi danh sách trống
                         findViewById(R.id.tvEmptyList).setVisibility(
                                 notificationList.isEmpty() ? View.VISIBLE : View.GONE
                         );
                     }
                 });
     }
+
+
 
 
     private void markAsRead(Notification notification) {
