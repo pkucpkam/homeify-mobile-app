@@ -53,8 +53,6 @@ public class AppointmentListActivity extends AppCompatActivity {
     private void loadAppointments() {
         String currentUserId = mAuth.getCurrentUser().getUid();
 
-
-
         db.collection("room_appointments")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {

@@ -1,10 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".NotificationCriteriaActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Room Alert"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/mainScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location:"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Trường nhập tìm kiếm và biểu tượng kính lúp -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical">
+
+                <!-- Trường nhập tìm kiếm -->
+                <EditText
+                    android:id="@+id/etLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Search for accommodation..."
+                    android:textSize="18sp"
+                    android:inputType="text"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/search_edittext_background"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Price:"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+                <EditText
+                    android:id="@+id/etMinPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="From (VND)"
+                    android:textSize="18sp"
+                    android:padding="10dp"
+                    android:background="@drawable/search_edittext_background"
+                    android:inputType="numberDecimal"
+                    android:layout_marginEnd="8dp"/>
+                <EditText
+                    android:id="@+id/etMaxPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="To (VND)"
+                    android:padding="10dp"
+                    android:background="@drawable/search_edittext_background"
+                    android:textSize="18sp"
+                    android:inputType="numberDecimal"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Area:"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+                <EditText
+                    android:id="@+id/etMinArea"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="From (m²)"
+                    android:padding="10dp"
+                    android:background="@drawable/search_edittext_background"
+                    android:textSize="18sp"
+                    android:inputType="numberDecimal"
+                    android:layout_marginEnd="8dp"/>
+                <EditText
+                    android:id="@+id/etMaxArea"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="To (m²)"
+                    android:padding="10dp"
+                    android:background="@drawable/search_edittext_background"
+                    android:textSize="18sp"
+                    android:inputType="numberDecimal"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Amenities:"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical"
+                android:weightSum="1">
+                <CheckBox
+                    android:id="@+id/cbWifi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wi-Fi"
+                    android:layout_marginEnd="16dp"/>
+                <CheckBox
+                    android:id="@+id/cbAC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Air conditioner"
+                    android:layout_marginEnd="16dp"/>
+                <CheckBox
+                    android:id="@+id/cbWashingMachine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Washing machine"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical"
+                android:weightSum="1">
+
+                <CheckBox
+                    android:id="@+id/cbFridge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fridge"
+                    android:layout_marginEnd="16dp"/>
+
+                <CheckBox
+                    android:id="@+id/cbParking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Parking"
+                    android:layout_marginEnd="16dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Other requirements:"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"/>
+            <!-- Other Requirements -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Other requirements"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOtherRequirements"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Confirm"
+                android:textSize="16sp"
+                app:cornerRadius="8dp"
+                android:padding="12dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include
+        android:id="@+id/navBar"
+        layout="@layout/menu_user"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"/>
+
+
+</LinearLayout>

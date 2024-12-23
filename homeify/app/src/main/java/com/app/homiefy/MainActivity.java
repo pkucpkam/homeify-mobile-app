@@ -39,18 +39,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupRecyclerViews() {
         rvFeatured = findViewById(R.id.rvFeatured);
-        rvFavorites = findViewById(R.id.rvFavorites);
 
         rvFeatured.setLayoutManager(new LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false));
-        rvFavorites.setLayoutManager(new LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false));
+                LinearLayoutManager.VERTICAL, false));
 
         roomList = new ArrayList<>();
         roomAdapter = new RoomAdapter(roomList);
 
         rvFeatured.setAdapter(roomAdapter);
-        rvFavorites.setAdapter(roomAdapter);
     }
 
     private void fetchRoomsFromFirestore() {
@@ -64,18 +60,6 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         handleFeaturedRooms(task.getResult());
-                    } else {
-                        handleFirestoreError(task.getException());
-                    }
-                });
-
-        // Query to fetch rooms for favorites (e.g., user-specific rooms)
-        db.collection("rooms")
-                .whereEqualTo("userId", sessionManager.getUserId()) // Filter by user ID
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        handleFavoritesRooms(task.getResult());
                     } else {
                         handleFirestoreError(task.getException());
                     }
@@ -120,32 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleFirestoreError(Exception e) {
         Log.e("FirestoreError", "Error fetching rooms: ", e);
-    }
-
-    private void handleFavoritesRooms(QuerySnapshot querySnapshot) {
-        if (querySnapshot != null) {
-            // Làm mới danh sách phòng yêu thích
-            List<Room> favoriteRooms = new ArrayList<>();
-            for (DocumentSnapshot document : querySnapshot) {
-                Room room = document.toObject(Room.class);
-                if (room != null) {
-                    // Đảm bảo set ID của document
-                    room.setId(document.getId());
-
-                    Boolean isDeleted = document.getBoolean("deleted");
-                    if (isDeleted != null && isDeleted) {
-                        continue; // Skip this room if it's deleted
-                    }
-
-                    favoriteRooms.add(room);
-                }
-            }
-
-            // Cập nhật adapter cho RecyclerView yêu thích
-            RoomAdapter favoritesAdapter = new RoomAdapter(favoriteRooms);
-            rvFavorites.setAdapter(favoritesAdapter);
-            favoritesAdapter.notifyDataSetChanged();
-        }
     }
 
     private void setupMenuListeners() {

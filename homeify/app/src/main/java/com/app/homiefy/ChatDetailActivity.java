@@ -73,6 +73,7 @@ public class ChatDetailActivity extends AppCompatActivity {
         // Tìm chatId hiện có hoặc để null
         findExistingChat();
         setupSendButton();
+        setupBackButton();
     }
 
     private void fetchUserNames() {
@@ -251,5 +252,10 @@ public class ChatDetailActivity extends AppCompatActivity {
         Map<String, Object> lastMessageData = new HashMap<>(messageData);
         lastMessageData.put("read", false);
         chatRef.child("lastMessage").setValue(lastMessageData);
+    }
+
+    private void setupBackButton() {
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
     }
 }

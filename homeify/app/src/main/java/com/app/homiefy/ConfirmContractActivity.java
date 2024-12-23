@@ -2,6 +2,7 @@ package com.app.homiefy;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class ConfirmContractActivity extends AppCompatActivity {
 
         initViews();
         loadContractDetails();
+        setupBackButton();
     }
 
     private void initViews() {
@@ -210,5 +212,10 @@ public class ConfirmContractActivity extends AppCompatActivity {
                         Toast.makeText(this, "Error updating room status", Toast.LENGTH_SHORT).show();
                     });
         }
+    }
+
+    private void setupBackButton() {
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
     }
 }

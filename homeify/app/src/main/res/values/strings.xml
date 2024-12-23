@@ -11,6 +11,8 @@
         <item>Other</item>
     </string-array>
 
+
+
     <string-array name="payment_methods">
         <item>Select method</item>
         <item>Credit Card</item>
@@ -20,9 +22,10 @@
 
     <string-array name="issue_types">
         <item>Select issue type</item>
-        <item>Broken appliance</item>
-        <item>Problem with landlord</item>
-        <item>Maintenance request</item>
+        <item>App crashes</item>
+        <item>Feature not working</item>
+        <item>UI/UX issue</item>
+        <item>Performance problem</item>
         <item>Other</item>
     </string-array>
 

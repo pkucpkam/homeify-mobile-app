@@ -125,7 +125,7 @@ public class RoomDetails extends AppCompatActivity {
         // Kiểm tra nếu người dùng đã thuê phòng này thì hiện nút Rate Room
         String userId = sessionManager.getUserId(); // Lấy userId từ SessionManager
         if (userId != null) {
-            db.collection("deposit")
+            db.collection("deposits")
                     .whereEqualTo("userId", userId)
                     .whereEqualTo("roomId", roomId)
                     .get()

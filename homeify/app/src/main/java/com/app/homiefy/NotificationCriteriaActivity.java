@@ -28,7 +28,7 @@ import java.util.List;
 public class NotificationCriteriaActivity extends AppCompatActivity {
     private EditText etLocation, etMinPrice, etMaxPrice, etMinArea, etMaxArea, etOtherRequirements;
     private CheckBox cbWifi, cbAC, cbWashingMachine, cbFridge, cbParking;
-    private Button btnSearch;
+    private Button btnConfirm;
     private RecyclerView recyclerViewRooms;
     private RoomAdapter roomAdapter;
     private List<Room> roomList;
@@ -38,7 +38,7 @@ public class NotificationCriteriaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_room);
+        setContentView(R.layout.activity_notification_criteria);
 
         // Initialize Firebase instances
         db = FirebaseFirestore.getInstance("homeify");
@@ -70,7 +70,7 @@ public class NotificationCriteriaActivity extends AppCompatActivity {
         cbParking = findViewById(R.id.cbParking);
 
         // Search button
-        btnSearch = findViewById(R.id.btnSearch);
+        btnConfirm = findViewById(R.id.btnConfirm);
 
         // RecyclerView for search results
         recyclerViewRooms = findViewById(R.id.recyclerViewRooms);
@@ -83,7 +83,7 @@ public class NotificationCriteriaActivity extends AppCompatActivity {
     }
 
     private void setupSearchButton() {
-        btnSearch.setOnClickListener(v -> performSearch());
+        btnConfirm.setOnClickListener(v -> performSearch());
     }
 
     private void performSearch() {
@@ -113,7 +113,8 @@ public class NotificationCriteriaActivity extends AppCompatActivity {
         String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : null;
 
         if (userId == null) {
-            Toast.makeText(this, "You must be logged in to set up notifications.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You must be logged in to set up notifications.",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -126,10 +127,12 @@ public class NotificationCriteriaActivity extends AppCompatActivity {
         db.collection("notification_criteria")
                 .add(criteria)
                 .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(NotificationCriteriaActivity.this, "Search criteria saved successfully.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NotificationCriteriaActivity.this,
+                            "Search criteria saved successfully.", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(NotificationCriteriaActivity.this, "Failed to save criteria: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NotificationCriteriaActivity.this,
+                            "Failed to save criteria: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 

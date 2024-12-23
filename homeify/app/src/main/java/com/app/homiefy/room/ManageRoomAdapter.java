@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.homiefy.EditRoomActivity;
 import com.app.homiefy.R;
+import com.app.homiefy.RoomDetails;
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -141,6 +142,13 @@ public class ManageRoomAdapter extends RecyclerView.Adapter<ManageRoomAdapter.Ma
                     .show();
         });
 
+        holder.btnViewDetails.setOnClickListener(v -> {
+            Context context = holder.itemView.getContext();
+            Intent intent = new Intent(context, RoomDetails.class);
+            intent.putExtra("roomId", room.getId());
+            context.startActivity(intent);
+        });
+
     }
 
     @Override
@@ -151,7 +159,7 @@ public class ManageRoomAdapter extends RecyclerView.Adapter<ManageRoomAdapter.Ma
     public static class ManageRoomViewHolder extends RecyclerView.ViewHolder {
         ImageView ivRoomImage;
         TextView tvRoomName, tvRoomPrice, tvRoomArea, tvRoomAddress, tvRoomStatus;
-        Button btnEdit, btnDelete;
+        Button btnEdit, btnDelete, btnViewDetails;
 
         public ManageRoomViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -163,6 +171,7 @@ public class ManageRoomAdapter extends RecyclerView.Adapter<ManageRoomAdapter.Ma
             tvRoomStatus = itemView.findViewById(R.id.tvRoomStatus);
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
+            btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
         }
     }
 }
