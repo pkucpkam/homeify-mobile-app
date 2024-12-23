@@ -230,6 +230,7 @@ public class PostingRoom extends AppCompatActivity {
 
                 roomData.put("surroundingInfo", surroundingInfo);
                 roomData.put("rented", false);
+                roomData.put("deleted", false);
 
                 String roomId = UUID.randomUUID().toString();
 

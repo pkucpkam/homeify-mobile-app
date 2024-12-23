@@ -94,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
                 Room room = document.toObject(Room.class);
                 if (room != null) {
                     room.setId(document.getId()); // Set Firestore document ID
+
+                    Boolean isDeleted = document.getBoolean("deleted");
+                    if (isDeleted != null && isDeleted) {
+                        continue; // Skip this room if it's deleted
+                    }
+
                     // Kiểm tra nếu phòng không phải do người dùng hiện tại thuê
                     if (!currentUserId.equals(room.getUserId())) {
                         roomList.add(room);
@@ -125,6 +131,12 @@ public class MainActivity extends AppCompatActivity {
                 if (room != null) {
                     // Đảm bảo set ID của document
                     room.setId(document.getId());
+
+                    Boolean isDeleted = document.getBoolean("deleted");
+                    if (isDeleted != null && isDeleted) {
+                        continue; // Skip this room if it's deleted
+                    }
+
                     favoriteRooms.add(room);
                 }
             }

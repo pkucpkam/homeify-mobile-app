@@ -19,6 +19,7 @@ public class Room {
     private String imageUrl;
     private long createdAt;
     private String description;
+    private boolean deleted;
     private List<String> amenities;
     private boolean rented;
     private Map<String, String> surroundingInfo; // Thêm trường này
@@ -85,5 +86,13 @@ public class Room {
 
     public void setSurroundingInfo(Map<String, String> surroundingInfo) {
         this.surroundingInfo = surroundingInfo;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }
