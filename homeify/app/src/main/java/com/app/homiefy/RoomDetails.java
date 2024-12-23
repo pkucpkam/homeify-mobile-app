@@ -6,11 +6,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.homiefy.review.Review;
+import com.app.homiefy.review.ReviewAdapter;
 import com.app.homiefy.room.Room;
 import com.app.homiefy.utils.SessionManager;
 import com.bumptech.glide.Glide;
@@ -19,7 +24,9 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,6 +38,10 @@ public class RoomDetails extends AppCompatActivity {
     private MaterialButton btnMessage, btnScheduleVisit, btnRateRoom, btnRentRoom;
     private ChipGroup chipGroupAmenities;
     private SessionManager sessionManager; // Declare the instance
+    private RecyclerView rvReviews;
+    private ReviewAdapter reviewAdapter;
+    private List<Review> reviewList;
+
 
     private FirebaseFirestore db;
     private String roomId, ownerId;
@@ -61,6 +72,7 @@ public class RoomDetails extends AppCompatActivity {
         setupMenuListeners();
         setupFavoriteButton();
         setupActionButtons();
+        fetchReviewsAndRatings();
     }
 
     private void initializeUI() {
@@ -103,6 +115,14 @@ public class RoomDetails extends AppCompatActivity {
             intent.putExtra("roomRentPrice", roomPrice);
             startActivity(intent);
         });
+
+        rvReviews = findViewById(R.id.rvReviews);
+
+        rvReviews.setLayoutManager(new LinearLayoutManager(this));
+        reviewList = new ArrayList<>();
+        reviewAdapter = new ReviewAdapter(reviewList);
+        rvReviews.setAdapter(reviewAdapter);
+
     }
 
 
@@ -326,6 +346,64 @@ public class RoomDetails extends AppCompatActivity {
                         "Failed to fetch room owner: " + e.getMessage(),
                         Toast.LENGTH_SHORT).show());
     }
+
+    private void fetchReviewsAndRatings() {
+        db.collection("reviews")
+                .whereEqualTo("roomId", roomId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        reviewList.clear();
+                        float totalRating = 0;
+                        int reviewCount = 0;
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Review review = document.toObject(Review.class);
+                            if (review != null) {
+                                totalRating += review.getRating();
+                                reviewCount++;
+
+                                // Lấy userId của người đánh giá
+                                String userId = review.getUserId();
+                                if (userId != null && !userId.isEmpty()) {
+                                    // Truy vấn Firestore để lấy thông tin người dùng
+                                    db.collection("users").document(userId)
+                                            .get()
+                                            .addOnSuccessListener(userDocument -> {
+                                                if (userDocument.exists()) {
+                                                    String userName = userDocument.getString("name");
+                                                    review.setReviewerName(userName != null ? userName : "Anonymous");
+                                                } else {
+                                                    review.setReviewerName("Anonymous");
+                                                }
+                                                reviewList.add(review);
+                                                reviewAdapter.notifyDataSetChanged(); // Cập nhật giao diện sau khi có tên
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                review.setReviewerName("Anonymous");
+                                                reviewList.add(review);
+                                                reviewAdapter.notifyDataSetChanged(); // Cập nhật giao diện ngay cả khi lỗi
+                                            });
+                                } else {
+                                    review.setReviewerName("Anonymous");
+                                    reviewList.add(review);
+                                    reviewAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+
+                        // Cập nhật đánh giá trung bình
+                        if (reviewCount > 0) {
+                            float averageRating = totalRating / reviewCount;
+                        } else {
+                        }
+                    } else {
+                        Toast.makeText(this, "Error fetching reviews: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
 
 
     private void setupBackButton() {

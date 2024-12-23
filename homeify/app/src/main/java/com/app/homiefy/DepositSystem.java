@@ -264,6 +264,7 @@ public class DepositSystem extends AppCompatActivity {
         deposit.put("ownerConfirmed", false); // Chờ chủ nhà xác nhận
         deposit.put("status", "pending");
 
+
         db.collection("deposits")
                 .add(deposit)
                 .addOnSuccessListener(ref -> {

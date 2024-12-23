@@ -184,10 +184,8 @@ public class ConfirmContractActivity extends AppCompatActivity {
                 .document(contractId)
                 .update(updates)
                 .addOnSuccessListener(aVoid -> {
-                    if (contract.isOwnerConfirmed() && contract.isRenterConfirmed()) {
-                        // Cập nhật trạng thái 'rented' của phòng
-                        updateRoomStatusToRented();
-                    }
+                    updateRoomStatusToRented();
+
                     Toast.makeText(this, "Contract confirmed successfully", Toast.LENGTH_SHORT).show();
                     loadContractDetails();
                 })
@@ -197,22 +195,31 @@ public class ConfirmContractActivity extends AppCompatActivity {
     }
 
     private void updateRoomStatusToRented() {
-        // Lấy ID của phòng từ hợp đồng
         String roomId = contract.getRoomId();
 
         if (roomId != null) {
-            // Cập nhật phòng với trạng thái rented = true
             db.collection("rooms")
                     .document(roomId)
                     .update("rented", true)
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(this, "Room status updated to 'rented'", Toast.LENGTH_SHORT).show();
+                        db.collection("rooms")
+                                .document(roomId)
+                                .get()
+                                .addOnSuccessListener(documentSnapshot -> {
+                                    boolean rented = documentSnapshot.getBoolean("rented");
+                                    if (rented) {
+                                        Toast.makeText(this, "Room status successfully updated to 'rented'", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(this, "Room status still 'not rented'", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                     })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Error updating room status", Toast.LENGTH_SHORT).show();
-                    });
+                    .addOnFailureListener(e ->
+                            Toast.makeText(this, "Error updating room status", Toast.LENGTH_SHORT).show()
+                    );
         }
     }
+
 
     private void setupBackButton() {
         ImageButton btnBack = findViewById(R.id.btnBack);

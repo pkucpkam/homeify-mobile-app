@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
         EditText edtPassword = findViewById(R.id.edtPassword);
         EditText edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         Button registerBtn = findViewById(R.id.registerBtn);
-        TextView tvLogin = findViewById(R.id.tvRegister); // TextView for redirecting to LoginActivity
+        TextView tvLogin = findViewById(R.id.tvLogin); // TextView for redirecting to LoginActivity
 
         // Handle click event when registering
         registerBtn.setOnClickListener(v -> {
@@ -103,6 +103,8 @@ public class RegisterActivity extends AppCompatActivity {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
         });
+
+
 
         // Ensure the interface is not obstructed by system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

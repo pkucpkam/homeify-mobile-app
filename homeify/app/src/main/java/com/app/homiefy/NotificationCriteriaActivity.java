@@ -29,9 +29,6 @@ public class NotificationCriteriaActivity extends AppCompatActivity {
     private EditText etLocation, etMinPrice, etMaxPrice, etMinArea, etMaxArea, etOtherRequirements;
     private CheckBox cbWifi, cbAC, cbWashingMachine, cbFridge, cbParking;
     private Button btnConfirm;
-    private RecyclerView recyclerViewRooms;
-    private RoomAdapter roomAdapter;
-    private List<Room> roomList;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;  // FirebaseAuth để lấy userId
 
@@ -71,15 +68,6 @@ public class NotificationCriteriaActivity extends AppCompatActivity {
 
         // Search button
         btnConfirm = findViewById(R.id.btnConfirm);
-
-        // RecyclerView for search results
-        recyclerViewRooms = findViewById(R.id.recyclerViewRooms);
-        recyclerViewRooms.setLayoutManager(new LinearLayoutManager(this));
-
-        // Initialize room list and adapter
-        roomList = new ArrayList<>();
-        roomAdapter = new RoomAdapter(roomList);
-        recyclerViewRooms.setAdapter(roomAdapter);
     }
 
     private void setupSearchButton() {
