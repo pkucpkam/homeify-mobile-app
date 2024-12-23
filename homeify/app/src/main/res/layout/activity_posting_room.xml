@@ -135,6 +135,15 @@
                 android:textColor="@color/black"
                 android:layout_marginBottom="8dp"/>
 
+            <ImageView
+                android:id="@+id/ivRoomImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Room Image"
+                android:src="@drawable/placeholder_image" />
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

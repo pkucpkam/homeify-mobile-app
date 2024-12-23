@@ -1,6 +1,7 @@
 package com.app.homiefy;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -38,6 +39,7 @@ public class PostingRoom extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int STORAGE_PERMISSION_CODE = 2;
+    private ProgressDialog progressDialog;
 
     private TextInputEditText etRoomName, etRentPrice, etArea, etAddress,
             etRules, etStartDate, etEndDate, etContactInfo,
@@ -62,6 +64,10 @@ public class PostingRoom extends AppCompatActivity {
 
         // Initialize Session Manager
         sessionManager = new SessionManager(this);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Posting room...");
+        progressDialog.setCancelable(false);
 
         // Initialize UI elements
         etRoomName = findViewById(R.id.etRoomName);
@@ -119,11 +125,16 @@ public class PostingRoom extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK &&
+                data != null && data.getData() != null) {
             imageUri = data.getData();
-            Toast.makeText(this, "Image selected successfully", Toast.LENGTH_SHORT).show();
+            ImageView ivRoomImage = findViewById(R.id.ivRoomImage);
+            ivRoomImage.setImageURI(imageUri);
+            Toast.makeText(this, "Image selected successfully",
+                    Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private List<String> getSelectedAmenities() {
         List<String> selectedAmenities = new ArrayList<>();
@@ -139,7 +150,8 @@ public class PostingRoom extends AppCompatActivity {
     private void postRoom() {
         String userId = sessionManager.getUserId();
         if (userId == null) {
-            Toast.makeText(this, "Please log in to post a room", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please log in to post a room",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -169,11 +181,15 @@ public class PostingRoom extends AppCompatActivity {
 
         List<String> amenities = getSelectedAmenities();
 
-        if (roomName.isEmpty() || rentPrice.isEmpty() || area.isEmpty() || address.isEmpty() || contactInfo.isEmpty() ||
-                deposit.isEmpty() || description.isEmpty() || imageUri == null || amenities.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields and upload an image", Toast.LENGTH_SHORT).show();
+        if (roomName.isEmpty() || rentPrice.isEmpty() || area.isEmpty() || address.isEmpty() ||
+                contactInfo.isEmpty() || deposit.isEmpty() || description.isEmpty() ||
+                imageUri == null || amenities.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields and upload an image",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
+
+        progressDialog.show();
 
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
@@ -184,7 +200,8 @@ public class PostingRoom extends AppCompatActivity {
             String fileName = "room_" + System.currentTimeMillis() + ".jpg";
             StorageReference fileRef = storageRef.child(fileName);
 
-            fileRef.putBytes(imageData).addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            fileRef.putBytes(imageData).addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
                 String imageUrl = uri.toString();
 
                 Map<String, Object> roomData = new HashMap<>();
@@ -216,15 +233,28 @@ public class PostingRoom extends AppCompatActivity {
 
                 String roomId = UUID.randomUUID().toString();
 
-                db.collection("rooms").document(roomId).set(roomData).addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Room posted successfully!", Toast.LENGTH_SHORT).show();
+                db.collection("rooms").document(roomId).set(roomData)
+                        .addOnSuccessListener(aVoid -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "Room posted successfully!",
+                            Toast.LENGTH_SHORT).show();
                     finish();
-                }).addOnFailureListener(e -> Toast.makeText(this, "Failed to post room: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-            })).addOnFailureListener(e -> Toast.makeText(this, "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                }).addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "Failed to post room: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                });
+            })).addOnFailureListener(e -> {
+                progressDialog.dismiss();
+                Toast.makeText(this, "Image upload failed: " + e.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            });
 
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Failed to process image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            Toast.makeText(this, "Failed to process image: " + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -234,8 +264,8 @@ public class PostingRoom extends AppCompatActivity {
         for (TextInputEditText dateInput : dateInputs) {
             dateInput.setOnFocusChangeListener((v, hasFocus) -> {
                 if (hasFocus) {
-                    // Show message about date format
-                    Toast.makeText(this, "Please enter date in format dd/MM/yyyy", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please enter date in format dd/MM/yyyy",
+                            Toast.LENGTH_SHORT).show();
                 }
             });
         }

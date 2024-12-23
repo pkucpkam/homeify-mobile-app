@@ -43,11 +43,6 @@ public class ManageRoomsActivity extends AppCompatActivity {
 
         recyclerViewRooms = findViewById(R.id.rvViewRooms);
         tvEmptyList = findViewById(R.id.tvEmptyList);
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            fetchRoomsFromFirestore();
-        });
 
 
         // Setup RecyclerView
@@ -73,7 +68,6 @@ public class ManageRoomsActivity extends AppCompatActivity {
 
         if (userId == null || userId.isEmpty()) {
             Toast.makeText(this, "User ID is not available!", Toast.LENGTH_SHORT).show();
-            swipeRefreshLayout.setRefreshing(false);
             return;
         }
 
@@ -81,7 +75,6 @@ public class ManageRoomsActivity extends AppCompatActivity {
                 .whereEqualTo("userId", userId)
                 .get()
                 .addOnCompleteListener(task -> {
-                    swipeRefreshLayout.setRefreshing(false);
                     if (task.isSuccessful()) {
                         handleRoomFetchSuccess(task.getResult());
                     } else {
@@ -89,7 +82,6 @@ public class ManageRoomsActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
