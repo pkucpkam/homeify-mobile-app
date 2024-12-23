@@ -258,14 +258,14 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_settings" />
+                        android:src="@drawable/list_icon" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:text="Settings"
+                        android:text="Manage rooms for rent"
                         android:textSize="16sp" />
 
                     <ImageView
