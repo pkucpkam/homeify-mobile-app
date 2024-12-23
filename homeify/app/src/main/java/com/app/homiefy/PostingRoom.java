@@ -315,8 +315,6 @@ public class PostingRoom extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             NotificationCriteria criteria = document.toObject(NotificationCriteria.class);
-
-                            // So sánh các tiêu chí tìm kiếm với thông tin phòng
                             if (criteria != null && isRoomMatchCriteria(roomData, criteria)) {
                                 // Get the userId from the notification criteria (if saved in Firestore as part of the criteria)
                                 String receiverId = criteria.getUserId();  // Assuming criteria contains userId of the person who set the notification criteria

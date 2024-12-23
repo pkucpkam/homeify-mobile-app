@@ -27,7 +27,7 @@ public class AreaInformation extends AppCompatActivity{
     private LinearLayout surroundingInfo;
     private FirebaseFirestore db;
 
-    private String roomId = "YOUR_ROOM_ID"; // Replace with the actual room ID passed via Intent
+    private String roomId; // Replace with the actual room ID passed via Intent
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

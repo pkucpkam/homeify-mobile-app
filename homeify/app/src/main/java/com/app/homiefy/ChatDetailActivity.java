@@ -55,8 +55,6 @@ public class ChatDetailActivity extends AppCompatActivity {
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         otherUserId = getIntent().getStringExtra("otherUserId");
 
-        Log.d("AAA", otherUserId);
-
         firestore = FirebaseFirestore.getInstance("homeify");
         fetchUserNames();
 

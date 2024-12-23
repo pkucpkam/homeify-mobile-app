@@ -391,20 +391,11 @@ public class RoomDetails extends AppCompatActivity {
                                 }
                             }
                         }
-
-                        // Cập nhật đánh giá trung bình
-                        if (reviewCount > 0) {
-                            float averageRating = totalRating / reviewCount;
-                        } else {
-                        }
                     } else {
                         Toast.makeText(this, "Error fetching reviews: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
-
-
-
 
     private void setupBackButton() {
         ImageButton btnBack = findViewById(R.id.btnBack);

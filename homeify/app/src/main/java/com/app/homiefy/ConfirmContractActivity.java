@@ -94,7 +94,7 @@ public class ConfirmContractActivity extends AppCompatActivity {
                         String roomName = documentSnapshot.getString("roomName");
                         String address = documentSnapshot.getString("address");
                         String depositStr = documentSnapshot.getString("deposit");
-                        String priceStr = documentSnapshot.getString("price");
+                        String priceStr = documentSnapshot.getString("rentPrice");
 
                         // Chuyển đổi string sang long an toàn
                         long deposit = 0;
@@ -118,7 +118,7 @@ public class ConfirmContractActivity extends AppCompatActivity {
                         tvRoomName.setText("Room name: " + (roomName != null ? roomName : ""));
                         tvRoomAddress.setText("Address: " + (address != null ? address : ""));
                         tvRoomDeposit.setText("Deposit: " + currencyFormat.format(deposit));
-                        tvRoomPrice.setText("Giá thuê: " + currencyFormat.format(price));
+                        tvRoomPrice.setText("Rent Price: " + currencyFormat.format(price));
 
                     } catch (Exception e) {
                         Toast.makeText(ConfirmContractActivity.this,

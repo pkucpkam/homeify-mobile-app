@@ -20,6 +20,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.app.homiefy.room.Room;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -135,15 +136,6 @@ public class RoomViewingAppointment extends AppCompatActivity {
         });
     }
 
-    private void saveSelectedDateTime() {
-        selectedDateTime.set(Calendar.YEAR, datePicker.getYear());
-        selectedDateTime.set(Calendar.MONTH, datePicker.getMonth());
-        selectedDateTime.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
-        selectedDateTime.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
-        selectedDateTime.set(Calendar.MINUTE, timePicker.getMinute());
-
-        updateDateTimeDisplay();
-    }
 
     private void updateDateTimeDisplay() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
@@ -198,6 +190,10 @@ public class RoomViewingAppointment extends AppCompatActivity {
                     edtDateTime.setText("");
                     selectedDateTime = Calendar.getInstance();
                     updateDateTimeDisplay();
+
+                    Intent intent = new Intent(RoomViewingAppointment.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(RoomViewingAppointment.this, "Failed to book appointment: " + e.getMessage(), Toast.LENGTH_SHORT).show();

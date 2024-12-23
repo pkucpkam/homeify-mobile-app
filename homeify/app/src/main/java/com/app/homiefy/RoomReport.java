@@ -54,7 +54,7 @@ public class RoomReport extends AppCompatActivity {
 
         // Set up Spinner with issue types from resources
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.issue_types,
+                R.array.report_reasons,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerReportReason.setAdapter(adapter);

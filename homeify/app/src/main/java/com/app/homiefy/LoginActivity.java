@@ -34,11 +34,12 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final int RC_SIGN_IN = 9001;
+
+    private static final int RC_SIGN_IN = 9001; // Ma nhan dang GG
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private SessionManager sessionManager;
-    private GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInClient mGoogleSignInClient;  // Doi tuong dang nhap cua gg
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         // Find views in the layout
@@ -79,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
                                 String uid = user.getUid();
-
                                 db.collection("users").document(uid)
                                         .get()
                                         .addOnCompleteListener(task1 -> {
@@ -87,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
                                                 DocumentSnapshot document = task1.getResult();
                                                 if (document.exists()) {
                                                     String role = document.getString("role");
-
                                                     // Save UID and role to session
                                                     sessionManager.createLoginSession(uid, role);
 
@@ -174,6 +174,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 newUser.put("name", name);
                                                 newUser.put("role", "USER"); // Vai trò mặc định
                                                 newUser.put("createdAt", System.currentTimeMillis());
+                                                newUser.put("username", name);
 
                                                 db.collection("users").document(uid)
                                                         .set(newUser)

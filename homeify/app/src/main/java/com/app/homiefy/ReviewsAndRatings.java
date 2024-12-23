@@ -31,9 +31,6 @@ import java.util.Map;
 
 public class ReviewsAndRatings extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private ReviewAdapter reviewAdapter;
-    private List<Review> reviewList;
     private RatingBar ratingBar;
     private EditText edtReview;
     private Button btnSubmitReview;
@@ -71,81 +68,13 @@ public class ReviewsAndRatings extends AppCompatActivity {
         btnSubmitReview.setOnClickListener(v -> submitReview());
 
         setupMenuListeners();
-        setupRecyclerView();
         setupBackButton();
 
-        // Fetch reviews from Firestore
-        fetchReviewsFromFirestore();
-    }
-
-    private void setupRecyclerView() {
-        recyclerView = findViewById(R.id.rvFeatured);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        reviewList = new ArrayList<>();
-        reviewAdapter = new ReviewAdapter(reviewList);
-        recyclerView.setAdapter(reviewAdapter);
     }
 
     private void setupBackButton() {
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
-    }
-
-    private void fetchReviewsFromFirestore() {
-        db.collection("reviews")
-                .whereEqualTo("roomId", roomId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        reviewList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Review review = document.toObject(Review.class);
-                            if (review != null) {
-                                String userId = review.getUserId();
-
-                                // Fetch reviewer name based on userId
-                                db.collection("users").document(userId)
-                                        .get()
-                                        .addOnSuccessListener(userDocument -> {
-                                            if (userDocument.exists()) {
-                                                String userName = userDocument.getString("name");
-                                                review.setReviewerName(userName != null ? userName : "Anonymous");
-                                            } else {
-                                                review.setReviewerName("Anonymous");
-                                            }
-                                            reviewList.add(review);
-
-                                            // Notify adapter after adding each review
-                                            reviewAdapter.notifyDataSetChanged();
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            review.setReviewerName("Anonymous");
-                                            reviewList.add(review);
-                                            reviewAdapter.notifyDataSetChanged();
-                                        });
-                            }
-                        }
-                    } else {
-                        Toast.makeText(this, "Error fetching reviews: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-
-
-
-    private void handleFirestoreData(QuerySnapshot querySnapshot) {
-        if (querySnapshot != null) {
-            reviewList.clear();
-            for (QueryDocumentSnapshot document : querySnapshot) {
-                Review review = document.toObject(Review.class);
-                if (review != null) {
-                    reviewList.add(review);
-                }
-            }
-            reviewAdapter.notifyDataSetChanged();
-        }
     }
 
     private void handleFirestoreError(Exception e) {
@@ -181,7 +110,10 @@ public class ReviewsAndRatings extends AppCompatActivity {
                     Toast.makeText(this, "Review submitted successfully!", Toast.LENGTH_SHORT).show();
                     ratingBar.setRating(0);
                     edtReview.setText("");
-                    fetchReviewsFromFirestore(); // Refresh the reviews list
+                    Intent intent = new Intent(ReviewsAndRatings.this, RoomDetails.class);
+                    intent.putExtra("roomId", roomId);
+                    startActivity(intent);
+                    finish();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Failed to submit review: " + e.getMessage(), Toast.LENGTH_SHORT).show();
