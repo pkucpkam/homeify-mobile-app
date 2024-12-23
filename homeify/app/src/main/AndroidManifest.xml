@@ -17,9 +17,14 @@
         android:theme="@style/Theme.Homiefy"
         tools:targetApi="31">
         <activity
+            android:name=".EditRoomActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ManageRoomsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ConfirmContractActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="false" />
