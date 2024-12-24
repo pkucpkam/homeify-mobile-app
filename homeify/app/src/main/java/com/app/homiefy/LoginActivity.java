@@ -175,6 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 newUser.put("role", "USER"); // Vai trò mặc định
                                                 newUser.put("createdAt", System.currentTimeMillis());
                                                 newUser.put("username", name);
+                                                newUser.put("phone", "0");
 
                                                 db.collection("users").document(uid)
                                                         .set(newUser)

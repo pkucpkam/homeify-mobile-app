@@ -18,11 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.homiefy.EditRoomActivity;
 import com.app.homiefy.R;
 import com.app.homiefy.RoomDetails;
+import com.app.homiefy.notification.Notification;
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ManageRoomAdapter extends RecyclerView.Adapter<ManageRoomAdapter.ManageRoomViewHolder> {
 
@@ -61,9 +63,11 @@ public class ManageRoomAdapter extends RecyclerView.Adapter<ManageRoomAdapter.Ma
         if (room.isRented()) {
             holder.tvRoomStatus.setText("Status: Not Available");
             holder.tvRoomStatus.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_red_dark));
+            holder.btnRemind.setVisibility(View.VISIBLE);
         } else {
             holder.tvRoomStatus.setText("Status: Available");
             holder.tvRoomStatus.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.holo_green_dark));
+            holder.btnRemind.setVisibility(View.GONE);
         }
 
         // Load image with null check
@@ -149,7 +153,53 @@ public class ManageRoomAdapter extends RecyclerView.Adapter<ManageRoomAdapter.Ma
             context.startActivity(intent);
         });
 
+        //Remind button
+        holder.btnRemind.setOnClickListener(v -> {
+            Context context = holder.itemView.getContext();
+            FirebaseFirestore db = FirebaseFirestore.getInstance("homeify");
+
+            // Truy vấn collection "deposits" để tìm tài liệu có roomId trùng khớp
+            db.collection("deposits")
+                    .whereEqualTo("roomId", room.getId())
+                    .get()
+                    .addOnSuccessListener(querySnapshot -> {
+                        if (!querySnapshot.isEmpty()) {
+                            // Lấy userId từ tài liệu đầu tiên trùng khớp
+                            String receiverId = querySnapshot.getDocuments().get(0).getString("userId");
+                            if (receiverId != null) {
+                                // Tạo thông báo
+                                String notificationId = UUID.randomUUID().toString(); // ID thông báo duy nhất
+                                String title = "Reminder: Rent and Utility Payment";
+                                String content = "This is a reminder to pay the rent and utility bills for the room: " + room.getRoomName();
+                                String timestamp = String.valueOf(System.currentTimeMillis());
+                                boolean isRead = false; // Mặc định là chưa đọc
+
+                                // Tạo đối tượng Notification
+                                Notification notification = new Notification(notificationId, title, content, timestamp, isRead, receiverId);
+
+                                // Lưu thông báo vào Firestore
+                                db.collection("notifications").document(notificationId).set(notification)
+                                        .addOnSuccessListener(aVoid ->
+                                                Toast.makeText(context, "Reminder notification sent successfully!", Toast.LENGTH_SHORT).show()
+                                        )
+                                        .addOnFailureListener(e ->
+                                                Toast.makeText(context, "Failed to send reminder notification: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                                        );
+                            } else {
+                                Toast.makeText(context, "No user associated with this room!", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(context, "No deposit found for this room!", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Failed to fetch deposit information: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        });
+
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -159,7 +209,7 @@ public class ManageRoomAdapter extends RecyclerView.Adapter<ManageRoomAdapter.Ma
     public static class ManageRoomViewHolder extends RecyclerView.ViewHolder {
         ImageView ivRoomImage;
         TextView tvRoomName, tvRoomPrice, tvRoomArea, tvRoomAddress, tvRoomStatus;
-        Button btnEdit, btnDelete, btnViewDetails;
+        Button btnEdit, btnDelete, btnViewDetails, btnRemind;
 
         public ManageRoomViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -172,6 +222,7 @@ public class ManageRoomAdapter extends RecyclerView.Adapter<ManageRoomAdapter.Ma
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
             btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
+            btnRemind = itemView.findViewById(R.id.btnRemind);
         }
     }
 }
