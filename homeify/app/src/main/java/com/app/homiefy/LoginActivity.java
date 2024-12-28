@@ -3,6 +3,7 @@ package com.app.homiefy;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -65,13 +66,16 @@ public class LoginActivity extends AppCompatActivity {
         Button loginBtn = findViewById(R.id.loginBtn);
         TextView tvRegister = findViewById(R.id.tvRegister);
         Button googleSignInBtn = findViewById(R.id.googleSignInBtn);
+        TextView errorTxt = findViewById(R.id.errorTxt);
 
         loginBtn.setOnClickListener(v -> {
-            String email = edtEmail.getText().toString();
-            String password = edtPassword.getText().toString();
+            String email = edtEmail.getText().toString().trim();
+            String password = edtPassword.getText().toString().trim();
+            errorTxt.setVisibility(View.GONE);
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Email and password cannot be empty", Toast.LENGTH_SHORT).show();
+                errorTxt.setVisibility(View.VISIBLE);
+                errorTxt.setText("Email and password cannot be empty");
                 return;
             }
 
@@ -90,13 +94,13 @@ public class LoginActivity extends AppCompatActivity {
                                                     String role = document.getString("role");
                                                     // Save UID and role to session
                                                     sessionManager.createLoginSession(uid, role);
-
-                                                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(LoginActivity.this, "Welcome to Homeify", Toast.LENGTH_SHORT).show();
                                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                     startActivity(intent);
                                                     finish();
                                                 } else {
-                                                    Toast.makeText(LoginActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
+                                                    errorTxt.setVisibility(View.VISIBLE);
+                                                    errorTxt.setText("User data not found");
                                                 }
                                             } else {
                                                 Toast.makeText(LoginActivity.this, "Error getting user data: " + task1.getException().getMessage(),
@@ -105,12 +109,12 @@ public class LoginActivity extends AppCompatActivity {
                                         });
                             }
                         } else {
-                            Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
+                            errorTxt.setVisibility(View.VISIBLE);
+                            errorTxt.setText("Email or password is incorrect");
                         }
                     });
-
         });
+
 
         tvRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);

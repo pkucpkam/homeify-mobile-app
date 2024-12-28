@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChatListActivity extends AppCompatActivity {
+public class
+ChatListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ChatAdapter chatAdapter;

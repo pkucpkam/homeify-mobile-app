@@ -2,10 +2,10 @@ package com.app.homiefy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,23 +42,42 @@ public class RegisterActivity extends AppCompatActivity {
         EditText edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         Button registerBtn = findViewById(R.id.registerBtn);
         TextView tvLogin = findViewById(R.id.tvLogin); // TextView for redirecting to LoginActivity
+        TextView errorTxt = findViewById(R.id.errorTxt);
+
+        errorTxt.setVisibility(View.GONE); // Hide error text initially
 
         // Handle click event when registering
         registerBtn.setOnClickListener(v -> {
-            String fullName = edtFullName.getText().toString();
-            String phoneNumber = edtPhoneNumber.getText().toString();
-            String email = edtEmail.getText().toString();
-            String password = edtPassword.getText().toString();
-            String confirmPassword = edtConfirmPassword.getText().toString();
+            String fullName = edtFullName.getText().toString().trim();
+            String phoneNumber = edtPhoneNumber.getText().toString().trim();
+            String email = edtEmail.getText().toString().trim();
+            String password = edtPassword.getText().toString().trim();
+            String confirmPassword = edtConfirmPassword.getText().toString().trim();
 
-            // Check if all fields are filled
+            errorTxt.setVisibility(View.GONE); // Hide error text before validation
+
+            // Validate input fields
             if (fullName.isEmpty() || phoneNumber.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(RegisterActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                errorTxt.setVisibility(View.VISIBLE);
+                errorTxt.setText("Please fill in all fields.");
+                return;
+            }
+
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                errorTxt.setVisibility(View.VISIBLE);
+                errorTxt.setText("Invalid email format.");
                 return;
             }
 
             if (!password.equals(confirmPassword)) {
-                Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                errorTxt.setVisibility(View.VISIBLE);
+                errorTxt.setText("Passwords do not match.");
+                return;
+            }
+
+            if (password.length() < 6) {
+                errorTxt.setVisibility(View.VISIBLE);
+                errorTxt.setText("Password must be at least 6 characters long.");
                 return;
             }
 
@@ -84,27 +103,26 @@ public class RegisterActivity extends AppCompatActivity {
                                 db.collection("users").document(userId)
                                         .set(userData)
                                         .addOnSuccessListener(aVoid -> {
-                                            Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                                            finish(); // Close RegisterActivity
+                                            errorTxt.setVisibility(View.GONE);
+                                            showSuccessDialog();
                                         })
                                         .addOnFailureListener(e -> {
-                                            Toast.makeText(RegisterActivity.this, "Error saving user information: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            errorTxt.setVisibility(View.VISIBLE);
+                                            errorTxt.setText("Error saving user information: " + e.getMessage());
                                         });
                             }
                         } else {
-                            Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            errorTxt.setVisibility(View.VISIBLE);
+                            errorTxt.setText(task.getException().getMessage());
                         }
                     });
         });
 
         // Handle event when clicking TextView to go back to LoginActivity
-
         tvLogin.setOnClickListener(v -> {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
         });
-
-
 
         // Ensure the interface is not obstructed by system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -112,5 +130,23 @@ public class RegisterActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
     }
+    private void showSuccessDialog() {
+        // Tạo dialog
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setTitle("Registration Successful")
+                .setMessage("You have successfully registered. Please log in to continue.")
+                .setCancelable(false) // Không cho phép tắt dialog bằng cách nhấn ra ngoài
+                .setPositiveButton("Go to Login", (dialog, which) -> {
+                    // Chuyển về trang đăng nhập
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                });
+
+        // Hiển thị dialog
+        builder.create().show();
+    }
+
 }
