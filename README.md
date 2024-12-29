@@ -119,7 +119,7 @@ Thank you for visiting this repository! Your contributions, feedback, and sugges
 ---
 
 ## ⚖️ License
-This project is licensed under the [License](LICENSE.d).
+This project is licensed under the [License](LICENSE.md).
 
 ---
 
